@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Page CACHÉE tant qu'elle est vide (décision de Clément) : hors du circuit « Projet suivant »,
+       absente de Works, non indexée. Pour la publier : retirer cette balise robots,
+       la remettre dans le circuit (dugos-photographie/index.html) et ajouter sa case dans Projets/script.js. -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Queen, Clément Gosselin</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <script src="../../passage.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared.css">
+  <link rel="stylesheet" href="../project-style.css">
+</head>
+<!-- MODE D'EMPLOI
+     Textes : tout est dans <main>, dans l'ordre de la page (colophon, récit, phrase de fin). Le nom du projet est dans le h1 et dans <title>.
+     Case de couleur = emplacement vide : la remplacer par l'<img> écrite dans le commentaire juste au-dessus.
+     Images : dans ce dossier, sous-dossier web/ à créer, en .webp ; une phrase simple dans alt.
+     Couleur du projet : --c dans le style de <body> (--c-ink = encre lisible sur la couleur).
+     Lien en ligne : mettre l'adresse dans href du lien « Voir le site » et retirer hidden.
+     Mise en scène de cette page : le titre traverse l'écran jaune, trois images passent devant et derrière lui. -->
+<body class="projet p5" style="--c: #FFD400; --c-ink: #000">
+  <div class="cursor" id="cursor"></div>
+
+  <div class="back-nav">
+    <a href="../index.html" aria-label="Retour aux projets" data-cur="Retour">
+      <svg class="arrow-icon" viewBox="0 0 64 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M2 16H62M46 2L62 16L46 30" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  <header>
+    <nav>
+      <a href="../index.html" class="active" data-dest="works">Works</a>
+      <a href="../../About/index.html" data-dest="about">About</a>
+      <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Ouverture : le titre plus grand que l'écran glisse vers la gauche au défilement.
+         Les trois cartons montent à des vitesses différentes (data-v) : A et C devant le titre, B derrière. -->
+    <section class="traverse" data-pin="traverse" data-couleur>
+      <div class="traverse-scene">
+        <!-- IMAGE A : portrait 4:5. Remplacer l'intérieur vide par : <img src="web/nom.webp" alt="phrase qui décrit l'image" width="1000" height="1250"> -->
+        <div class="carton carton-a" data-v="1.6"></div>
+        <!-- IMAGE B : paysage 3:2, derrière le titre. Même modèle : <img src="web/nom.webp" alt="…" width="1500" height="1000"> -->
+        <div class="carton carton-b" data-v="1.4"></div>
+        <!-- IMAGE C : carré. Même modèle : <img src="web/nom.webp" alt="…" width="1000" height="1000"> -->
+        <div class="carton carton-c" data-v="2"></div>
+
+        <h1 class="titre fit"><span class="l"><span class="t">Queen</span></span></h1>
+
+        <div class="colophon" data-rv="txt">
+          <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
+          <!-- EXEMPLE à remplacer en entier : rien n'est encore écrit sur ce projet -->
+          <p>J'ai tenu la direction artistique, en binôme, pendant trois semaines. Photoshop.</p>
+          <!-- Lien en ligne : mettre l'adresse dans href et retirer hidden -->
+          <a class="site-lien" href="" target="_blank" rel="noopener" hidden>
+            Voir le site
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Récit : trois à cinq paragraphes courts, chacun commence par une attaque en gras -->
+    <section class="recit g12">
+      <h2 class="lecteur">Le projet</h2>
+      <div class="recit-col">
+        <!-- EXEMPLE : récit plausible et neutre, à remplacer en entier -->
+        <p data-rv="txt">Un exercice de cours, à deux : donner une image à un sujet imposé. Mon binôme écrivait les textes. Une seule couleur, beaucoup de noir, et des images assez fortes pour tenir sans légende.</p>
+        <p data-rv="txt">Chaque vendredi, toutes les pistes étaient posées côte à côte sur la table. On en gardait une, et la semaine suivante partait de là. Six visuels sont passés devant le jury en fin de module.</p>
+      </div>
+    </section>
+
+    <!-- Image pleine largeur, d'un bord à l'autre, en 16:9. Elle flotte doucement au défilement. -->
+    <figure class="plein">
+      <div class="px" data-speed="0.06">
+        <!-- IMAGE : 2400 px de large, 16:9. Remplacer la div par : <img src="web/nom.webp" alt="phrase qui décrit l'image" width="2400" height="1350" loading="lazy"> -->
+        <div class="empty"></div>
+      </div>
+    </figure>
+
+    <!-- Ce que j'en retiens : une seule phrase -->
+    <section class="retiens g12">
+      <p data-rv="txt">Le vendredi, on jetait quatre pistes sur cinq.</p>
+    </section>
+  </main>
+
+  <footer class="fin">
+    <!-- Projet suivant : tout le bloc est le lien. --next = couleur du projet suivant, --next-ink = encre lisible dessus -->
+    <a class="suivant" href="../projet-6/index.html" style="--next: #AA0064; --next-ink: #fff" data-cur="Suivant">
+      <span class="suivant-label">Projet suivant</span>
+      <span class="titre fit"><span class="t">Sans titre</span></span>
+    </a>
+  </footer>
+
+  <script src="../../shared.js"></script>
+  <script src="../project.js"></script>
+</body>
+</html>

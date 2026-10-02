@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redstone, Clément Gosselin</title>
+  <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
+  <meta name="description" content="Redstone, l&#x27;affiche d&#x27;un film de super-héros inventé. Trois images générées par IA, fondues à la main sous Photoshop : détourage, lumière, fumée et titre.">
+  <link rel="canonical" href="https://clement-gosselin47.github.io/Projets/redstone/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Clément Gosselin">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Redstone, Clément Gosselin">
+  <meta property="og:description" content="Redstone, l&#x27;affiche d&#x27;un film de super-héros inventé. Trois images générées par IA, fondues à la main sous Photoshop : détourage, lumière, fumée et titre.">
+  <meta property="og:url" content="https://clement-gosselin47.github.io/Projets/redstone/">
+  <meta property="og:image" content="https://clement-gosselin47.github.io/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Les projets de Clément Gosselin sur la grille de son portfolio.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <script src="../../passage.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared.css">
+  <link rel="stylesheet" href="../project-style.css">
+</head>
+<!-- MODE D'EMPLOI
+     Textes : tout est dans <main>, dans l'ordre de la page (colophon, récit, générique, phrase de fin).
+     Case de couleur = emplacement vide : la remplacer par l'<img> écrite dans le commentaire juste au-dessus.
+     Images : dans le dossier web/ de ce projet, en .webp ; une phrase simple dans alt.
+     Couleur du projet : --c dans le style de <body> (--c-ink = encre lisible sur la couleur).
+     Lien en ligne : mettre l'adresse dans href du lien « Voir le site » et retirer hidden.
+     Mise en scène de cette page : la salle s'éteint, l'affiche s'ouvre en quatre calques puis se referme. -->
+<body class="projet p2" style="--c: #C6302F; --c-ink: #fff">
+  <div class="cursor" id="cursor"></div>
+
+  <div class="back-nav">
+    <a href="../index.html" aria-label="Retour aux projets" data-cur="Retour">
+      <svg class="arrow-icon" viewBox="0 0 64 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M2 16H62M46 2L62 16L46 30" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  <header>
+    <nav>
+      <a href="../index.html" class="active" data-dest="works">Works</a>
+      <a href="../../About/index.html" data-dest="about">About</a>
+      <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Ouverture sur blanc : le titre posé à gauche, l'affiche en portrait à droite -->
+    <section class="ouv g12">
+      <div class="ouv-gauche">
+        <h1 class="titre fit"><span class="l"><span class="t">Redstone</span></span></h1>
+        <div data-rv="txt">
+          <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
+          <p class="colophon">Un cours d'Ynov, Photoshop, et trois images à fondre en une.</p>
+          <!-- Lien en ligne : mettre l'adresse dans href et retirer hidden -->
+          <a class="site-lien" href="" target="_blank" rel="noopener" hidden>
+            Voir le site
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <!-- À CONFIRMER PAR CLÉMENT : le logo Marvel Studios sur l'affiche, on le garde (exercice d'école) ou une version sans ? -->
+      <img class="ouv-img" src="web/redstone-vitrine.webp" alt="L'affiche Redstone accrochée sur un mur de béton." width="1600" height="1200" fetchpriority="high" data-ov>
+    </section>
+
+    <!-- Récit : trois à cinq paragraphes courts, chacun commence par une attaque en gras -->
+    <section class="recit g12">
+      <h2 class="lecteur">Le projet</h2>
+      <div class="recit-col">
+        <p data-rv="txt"><b class="lead">Un héros qui n'existe pas.</b> La consigne du cours de direction artistique : l'affiche d'un film de super-héros original, avec son personnage, son univers et son identité graphique.</p>
+        <!-- À CONFIRMER PAR CLÉMENT : seul ou en groupe, durée, outil d'IA. Phrase prête (seul, trois semaines et Midjourney sont des exemples) : « Un projet seul, en trois semaines. Les images viennent de Midjourney. » -->
+        <p data-rv="txt"><b class="lead">Redstone.</b> Un héros qui change ses poings en roche. Ce pouvoir a tout décidé : tenue rouge vif, ville sombre en feu, palette réduite au rouge, au noir, à l'anthracite et au blanc.</p>
+        <p data-rv="txt"><b class="lead">Trois images séparées.</b> J'ai généré par IA le personnage, le fond et le premier plan, chacun de son côté. Il a fallu plusieurs essais de prompt pour accorder la lumière, la pose et l'ambiance.</p>
+        <p data-rv="txt"><b class="lead">Le vrai travail.</b> Tout le reste s'est fait à la main sous Photoshop : détourage, ombres et lumières pour fondre le héros dans le décor, fumée, braises, puis le titre et les crédits façon cinéma.</p>
+      </div>
+    </section>
+
+    <!-- La salle : la page passe au noir, l'affiche se construit calque par calque, puis se pose en entier. -->
+    <div class="salle" data-noir>
+      <section class="salle-pin" data-pin="salle" data-rv-non aria-label="L'affiche, calque par calque">
+        <div class="salle-scene">
+          <div class="affiche">
+            <!-- Les calques se construisent par fondus, dans l'ordre du DOM : le personnage seul,
+                 puis le décor (qui le contient déjà), le premier plan, le titre, l'affiche finale.
+                 Tous sur le même canevas de 1144 × 1626, alignés au pixel. data-nom = le nom affiché à côté. -->
+            <div class="calque calque-perso" data-nom="Le personnage"><img src="web/redstone-personnage.webp" alt="Le personnage de Redstone, détouré : costume rouge, cape et poing levé en roche." width="1144" height="1626" loading="lazy"></div>
+            <div class="calque calque-fond" data-nom="Le décor"><img src="web/redstone-etape-2-calee.webp" alt="Le héros posé dans le décor : ville en feu, fumée et lave." width="1144" height="1626" loading="lazy"></div>
+            <div class="calque calque-avant" data-nom="Le premier plan"><img src="web/redstone-etape-3-calee.webp" alt="Le premier plan ajouté : créatures, braises et fumée devant le héros." width="1144" height="1626" loading="lazy"></div>
+            <div class="calque calque-titre" data-nom="Le titre"><img src="web/redstone-titre.webp" alt="Le titre Redstone, les noms et les crédits, détourés." width="1144" height="1626" loading="lazy"></div>
+            <div class="affiche-finale" data-nom="L'affiche"><img src="web/redstone-affiche.webp" alt="L'affiche Redstone terminée." width="1144" height="1626" loading="lazy"></div>
+            <!-- À CONFIRMER PAR CLÉMENT : avec les vrais calques fond seul et premier plan seul exportés du PSD de travail,
+                 remplacer redstone-etape-2-calee et redstone-etape-3-calee (même canevas, PNG transparent passé en WebP). -->
+          </div>
+          <p class="calque-nom" aria-hidden="true"></p>
+        </div>
+      </section>
+
+      <!-- Le générique : une information par ligne, sans signe entre elles -->
+      <p class="generique" data-rv="txt">
+        <span>Une affiche de Clément Gosselin</span>
+        <span>Personnage, composition et retouche</span>
+        <span>Photoshop</span>
+        <span>Images de départ générées par IA</span>
+        <span>Cours de direction artistique, Ynov Bordeaux, 2025</span>
+      </p>
+
+      <!-- Ce que j'en retiens : une seule phrase -->
+      <section class="retiens">
+        <p data-rv="txt">L'IA m'a donné trois images. L'affiche, c'est le travail qu'il a fallu pour qu'elles n'en fassent qu'une.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="fin">
+    <!-- Projet suivant : tout le bloc est le lien. --next = couleur du projet suivant, --next-ink = encre lisible dessus -->
+    <a class="suivant" href="../Unik/index.html" style="--next: #F26FD6; --next-ink: #000" data-cur="Suivant">
+      <span class="suivant-label">Projet suivant</span>
+      <span class="titre fit"><span class="t">Unik</span></span>
+    </a>
+  </footer>
+
+  <script src="../../shared.js"></script>
+  <script src="../project.js"></script>
+</body>
+</html>

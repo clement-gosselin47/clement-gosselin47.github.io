@@ -1,0 +1,18 @@
+# Système et outils
+.DS_Store
+.claude/
+memory/
+node_modules/
+
+# Travail interne de l'équipe, jamais publié
+.portfolio/
+
+# Sources lourdes et médias non utilisés par le site
+*.psd
+*.mov
+*.mp4
+/Preloader*.png
+About/Img/
+Projets/*/Img vitrine.png
+Projets/*/Image vitrine*.png
+Projets/*/Accueil.png

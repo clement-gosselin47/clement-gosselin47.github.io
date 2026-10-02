@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unik, Clément Gosselin</title>
+  <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
+  <meta name="description" content="Unik, un défilé de créateurs bordelais pendant les portes ouvertes d&#x27;Ynov. Le site, du wireframe à la maquette Figma, dans un univers rose Y2K.">
+  <link rel="canonical" href="https://clement-gosselin47.github.io/Projets/Unik/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Clément Gosselin">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Unik, Clément Gosselin">
+  <meta property="og:description" content="Unik, un défilé de créateurs bordelais pendant les portes ouvertes d&#x27;Ynov. Le site, du wireframe à la maquette Figma, dans un univers rose Y2K.">
+  <meta property="og:url" content="https://clement-gosselin47.github.io/Projets/Unik/">
+  <meta property="og:image" content="https://clement-gosselin47.github.io/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Les projets de Clément Gosselin sur la grille de son portfolio.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <script src="../../passage.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared.css">
+  <link rel="stylesheet" href="../project-style.css">
+</head>
+<!-- MODE D'EMPLOI
+     Textes : tout est dans <main>, dans l'ordre de la page (colophon, récit, notes, phrase de fin).
+     Case de couleur = emplacement vide : la remplacer par l'<img> écrite dans le commentaire juste au-dessus.
+     Images : dans le dossier web/ de ce projet, en .webp ; une phrase simple dans alt.
+     Couleur du projet : --c dans le style de <body> (--c-ink = encre lisible sur la couleur).
+     Lien en ligne : mettre l'adresse dans href du lien « Voir le site » et retirer hidden.
+     Mise en scène de cette page : le wireframe et la maquette défilent côte à côte, section en face de section. -->
+<body class="projet p3" style="--c: #F26FD6; --c-ink: #000">
+  <div class="cursor" id="cursor"></div>
+
+  <div class="back-nav">
+    <a href="../index.html" aria-label="Retour aux projets" data-cur="Retour">
+      <svg class="arrow-icon" viewBox="0 0 64 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M2 16H62M46 2L62 16L46 30" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  <header>
+    <nav>
+      <a href="../index.html" class="active" data-dest="works">Works</a>
+      <a href="../../About/index.html" data-dest="about">About</a>
+      <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Ouverture : l'aplat rose sur tout l'écran, le nom derrière la vitrine -->
+    <section class="ouv" data-couleur>
+      <h1 class="titre fit"><span class="l"><span class="t">Unik</span></span></h1>
+      <!-- La classe detoure découpe le fond gris de cette vitrine, à retirer avec une vitrine sur fond transparent -->
+      <img class="ouv-img detoure" src="web/unik-vitrine.webp" alt="La page d'accueil d'Unik affichée sur un ordinateur portable." width="1600" height="1200" fetchpriority="high" data-ov>
+    </section>
+
+    <section class="apres g12">
+      <div data-rv="txt">
+        <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
+        <p class="colophon">Wireframe et prototype sur Figma, pour un projet de groupe de première année, en 2025.</p>
+        <!-- Lien en ligne : mettre l'adresse dans href et retirer hidden -->
+        <a class="site-lien" href="" target="_blank" rel="noopener" hidden>
+          Voir le site
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Récit : trois à cinq paragraphes courts, chacun commence par une attaque en gras -->
+    <section class="recit g12">
+      <h2 class="lecteur">Le projet</h2>
+      <div class="recit-col">
+        <p data-rv="txt">Unik est un événement associatif : des créateurs et des mannequins de plusieurs écoles bordelaises défilent pendant les portes ouvertes d'Ynov, entre des stands de nail art, de tatouage et de friperie. Notre groupe devait faire le site qui donne envie de venir. J'ai dessiné le wireframe, monté le prototype sur Figma et participé aux visuels.</p>
+        <!-- À CONFIRMER PAR CLÉMENT : taille du groupe, durée, organisation, et si l'événement du 13 juin 2026 a eu lieu avec ce site. Phrase prête (200 est un exemple) : « L'événement a réuni 200 personnes, et les inscriptions passaient par ce bouton. » -->
+        <p data-rv="txt">J'ai d'abord découpé la page en blocs : présentation, créateurs et mannequins, stands, le projet, infos pratiques, inscription. Le menu n'a que quatre rubriques, pour comprendre l'événement en quelques secondes.</p>
+        <p data-rv="txt">Le rose est venu après. Rose glossy, textures liquides, métal et zones sombres : un univers Y2K qui colle au défilé. La structure tenait déjà, alors le visuel pouvait être chargé. Tout mène au bouton « Prends ta place ».</p>
+        <p data-rv="txt">Juste en dessous, la page d'accueil défile deux fois, en wireframe et en maquette finale.</p>
+      </div>
+    </section>
+
+    <!-- Les deux pages : elles défilent ensemble, au même pourcentage de leur hauteur.
+         Les deux captures doivent avoir la même largeur et les mêmes sections, dans le même ordre. -->
+    <section class="duo" data-pin="duo" data-rv-non aria-label="Le wireframe et la maquette, côte à côte">
+      <div class="duo-scene">
+        <p class="duo-legende">Le wireframe</p>
+        <p class="duo-legende">La maquette</p>
+
+        <div class="fenetre">
+          <img class="page ecran" src="web/unik-wireframe-accueil.webp" alt="Wireframe en niveaux de gris de la page d'accueil d'Unik : blocs d'images, textes et bouton d'inscription." width="1200" height="3448" loading="lazy">
+        </div>
+
+        <!-- Note au centre : top = hauteur, dans la page, de la section qu'elle commente (une seule, voulue) -->
+        <div class="fenetre notes-fenetre">
+          <div class="notes">
+            <p class="note" style="top: 12%">Quatre rubriques dans le menu.</p>
+          </div>
+        </div>
+
+        <div class="fenetre">
+          <img class="page" src="web/unik-maquette-accueil.webp" alt="Maquette de la page d'accueil d'Unik sur fond rose glossy : créateurs, stands, date du 13 juin 2026 et bouton Prends ta place." width="1200" height="3623" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <!-- Les détails : trois recadrages collés, d'un bord à l'autre. --r = largeur / hauteur de l'image (fixe la place de chacun) -->
+    <section class="details" aria-label="Détails de la maquette">
+      <img src="web/unik-detail-1-evenement.webp" alt="Le bloc d'inscription d'Unik : 13 juin 2026, Bordeaux Ynov Campus, bouton Prends ta place." width="1090" height="727" loading="lazy" style="--r: 1.5">
+      <img src="web/unik-detail-2-createur.webp" alt="Un créateur photographié pour la section Créateurs et mannequins." width="520" height="650" loading="lazy" style="--r: 0.8">
+      <img src="web/unik-detail-3-stand.webp" alt="Une photo de la section Stands : un sourire aux dents ornées de strass." width="752" height="627" loading="lazy" style="--r: 1.2">
+    </section>
+
+  </main>
+
+  <footer class="fin">
+    <!-- Projet suivant : tout le bloc est le lien. --next = couleur du projet suivant, --next-ink = encre lisible dessus -->
+    <a class="suivant" href="../dugos-photographie/index.html" style="--next: #0038B8; --next-ink: #fff" data-cur="Suivant">
+      <span class="suivant-label">Projet suivant</span>
+      <span class="titre">
+        <span class="l fit"><span class="t">Dugos</span></span>
+        <span class="l fit"><span class="t">Photographie</span></span>
+      </span>
+    </a>
+  </footer>
+
+  <script src="../../shared.js"></script>
+  <script src="../project.js"></script>
+</body>
+</html>

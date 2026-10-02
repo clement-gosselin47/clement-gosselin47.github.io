@@ -1,0 +1,80 @@
+body {
+  background: #fff;
+  overflow-x: hidden;
+}
+
+main {
+  padding-top: 140px;
+  padding-bottom: 120px;
+}
+
+/* ── Intro ── */
+.project-intro {
+  padding: 0 80px 80px;
+  border-bottom: 0.5px solid rgba(0,0,0,0.15);
+  margin-bottom: 80px;
+}
+
+.project-index {
+  font-family: monospace;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: rgba(0,0,0,0.35);
+  margin-bottom: 20px;
+}
+
+.project-title {
+  font-family: 'Archivo Black', monospace, sans-serif;
+  font-size: clamp(64px, 10vw, 140px);
+  font-weight: 900;
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: #000;
+  margin-bottom: 32px;
+}
+
+.project-meta {
+  display: flex;
+  gap: 48px;
+  font-family: monospace;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.45);
+}
+
+/* ── Images ── */
+.project-images {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 80px;
+  margin-bottom: 120px;
+}
+
+.img-block img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Footer ── */
+.project-footer {
+  padding: 0 80px;
+}
+
+.back-link {
+  font-family: monospace;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #000;
+  text-decoration: none;
+  opacity: 0.4;
+  transition: opacity 0.2s ease;
+}
+
+.back-link:hover {
+  opacity: 1;
+}

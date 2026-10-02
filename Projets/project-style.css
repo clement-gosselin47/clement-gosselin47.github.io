@@ -1,0 +1,1731 @@
+/* ═══════════════════════════════════════════════════════════════
+   Pages projet v2 (2026-10-02)
+   Socle commun (direction.md B) puis une mise en page par projet :
+   .p1 le portant, .p2 la salle s'éteint, .p3 les deux pages,
+   .p4 la planche-contact, .p5 le titre qui traverse, .p6 l'article.
+   Couleur du projet : --c sur <body>, encre lisible dessus : --c-ink.
+   Le mouvement est dans project.js (un seul fichier, effets par attributs).
+   La version précédente est gardée dans .portfolio/2026-10-02-pages-projet-v2/avant/
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --out: cubic-bezier(.16, 1, .3, 1);   /* entrées, sortie douce */
+  --io: cubic-bezier(.7, 0, .2, 1);     /* ouvertures plein écran */
+  --dep: cubic-bezier(.7, 0, .84, 0);   /* départs */
+}
+
+body.projet {
+  --c: #000;
+  --c-ink: #fff;
+  --c-15: color-mix(in srgb, var(--c) 15%, #fff);
+  --c-55: color-mix(in srgb, var(--c) 55%, #fff);
+  --next: #000;
+  --next-ink: #fff;
+  --m: 80px;                            /* marge */
+  --g: 24px;                            /* gouttière */
+  --col: calc((100vw - 2 * var(--m) - 11 * var(--g)) / 12);
+  --filet: 0.5px solid rgba(0, 0, 0, 0.15);
+  background: #fff;
+  color: #000;
+  font-family: 'Source Sans 3', sans-serif;
+  transition: background-color 1.2s var(--out);
+}
+
+body.projet.is-dark {
+  background: #000;
+}
+
+main,
+.fin {
+  overflow-x: clip;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Grille 12 colonnes alignée sur les marges */
+.g12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--g);
+  padding-left: var(--m);
+  padding-right: var(--m);
+}
+
+/* Focus clavier : noir, blanc sur fond sombre, jamais en couleur du projet */
+.projet a:focus-visible,
+.projet button:focus-visible,
+.projet [tabindex]:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 4px;
+}
+
+.is-dark a:focus-visible,
+.is-dark button:focus-visible {
+  outline-color: #fff;
+}
+
+/* ── Flèche retour (fixe en haut à gauche, inchangée) ── */
+.back-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  padding: 48px 48px 40px 60px;
+}
+
+.back-nav a {
+  display: inline-flex;
+  color: #000;
+  text-decoration: none;
+}
+
+.back-nav a:hover {
+  transform: translateX(-10px);
+}
+
+.arrow-icon {
+  display: block;
+  width: 56px;
+  height: auto;
+  overflow: visible;
+  transform: scaleX(-1);
+}
+
+/* ── Calque d'ouverture (ouverture.js puis project.js) ──
+   Sous le header et la flèche, qui restent en place pendant le passage */
+.ov {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ov img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+
+/* ═══ Socle commun ═══ */
+
+/* Titre : vrai nom, Archivo Black au cadrage (--fit posé par project.js) */
+.titre {
+  margin: 0;
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  line-height: 0.8;
+  white-space: nowrap;
+  color: #000;
+}
+
+.fit {
+  display: block;
+  font-size: var(--fit, 16vw);
+  white-space: nowrap;
+}
+
+/* Masque de ligne : le titre monte de sous sa ligne (motion B.5) */
+.l {
+  display: block;
+  clip-path: inset(-0.4em -0.2em 0 -0.2em);
+}
+
+.t {
+  display: inline-block;
+}
+
+html.js .titre .l > .t {
+  animation: monte 0.9s var(--out) 0.15s both;
+}
+
+html.js .titre .l + .l > .t {
+  animation-delay: 0.24s;
+}
+
+html.ouv .titre .l > .t {
+  animation-delay: 0.65s;
+}
+
+html.ouv .titre .l + .l > .t {
+  animation-delay: 0.74s;
+}
+
+/* Le titre du bloc « Projet suivant » ne s'anime pas */
+html.js .suivant .titre .l > .t {
+  animation: none;
+}
+
+@keyframes monte {
+  from { transform: translateY(105%); }
+  to   { transform: none; }
+}
+
+/* Colophon : une phrase à la place de la fiche */
+.colophon {
+  font-size: 20px;
+  line-height: 1.45;
+  color: #111;
+  max-width: 30ch;
+}
+
+/* Lien en ligne, masqué tant que href est vide */
+.site-lien {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #000;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+.site-lien[hidden] {
+  display: none;
+}
+
+.site-lien svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Récit : paragraphes à attaque, sans intertitre */
+.recit {
+  margin-top: 160px;
+}
+
+.recit-col {
+  grid-column: 2 / 9;
+}
+
+/* Récit : 21px sur grand écran pour qu'il pèse face au décor (corrections passe 1) */
+.recit p,
+.article p {
+  font-size: 21px;
+  line-height: 1.6;
+  color: #333;
+  max-width: 34em;
+  margin-bottom: 1.1em;
+  transition: color 1.2s var(--out);
+}
+
+/* Paragraphe décalé : colonne plus étroite, rentrée de deux colonnes (Ethikwear) */
+.recit p.decale {
+  margin-left: calc(var(--col) * 2 + var(--g) * 2);
+  max-width: 26em;
+}
+
+.lead {
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 400;
+  font-size: 19px;
+  letter-spacing: 0;
+  color: #000;
+  transition: color 1.2s var(--out);
+}
+
+/* Ce que j'en retiens : une phrase, comme une citation de fin d'article */
+.retiens {
+  margin-top: 180px;
+}
+
+.retiens p {
+  grid-column: 2 / 10;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(30px, 3.6vw, 54px);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  color: #000;
+  max-width: 17em;
+  transition: color 1.2s var(--out);
+}
+
+/* Images et emplacements vides : sans cadre, sans arrondi, sans ombre */
+.empty {
+  background: var(--c-15);
+}
+
+.empty.c55 {
+  background: var(--c-55);
+}
+
+.empty.c100 {
+  background: var(--c);
+}
+
+/* Écran clair (fond blanc) : le filet de la grille Works */
+.ecran {
+  outline: var(--filet);
+  outline-offset: -0.5px;
+}
+
+.legende {
+  margin-top: 10px;
+  max-width: 40ch;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #6b6b6b;
+}
+
+/* ── Révélations au scroll (motion B, project.js ajoute .in) ── */
+html.js [data-rv="txt"] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s var(--out), transform 0.9s var(--out);
+}
+
+html.js [data-rv="img"] {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1.1s var(--out);
+}
+
+html.js [data-rv="img"] > * {
+  transform: scale(1.12);
+  transition: transform 1.4s var(--out);
+}
+
+html.js [data-rv].in {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0);
+}
+
+html.js [data-rv].in > * {
+  transform: none;
+}
+
+html.rv-secours [data-rv],
+html.rv-secours [data-rv] > * {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+
+/* ═══ Fin de page, identique partout : le projet suivant ═══ */
+/* Projet suivant : tout le bloc est le lien, la couleur suivante monte du bas */
+.suivant {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 70vh;
+  margin-top: 120px;
+  padding: 28px var(--m) 40px;
+  color: #000;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.suivant::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--next);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.45s var(--dep);
+}
+
+.suivant:hover::before,
+.suivant:focus-visible::before {
+  transform: scaleY(1);
+  transition: transform 0.7s var(--out);
+}
+
+.suivant-label {
+  font-size: 16px;
+  color: #6b6b6b;
+  transition: color 0.4s ease;
+}
+
+.suivant .titre {
+  display: block;
+  transition: color 0.4s ease;
+}
+
+.suivant:hover .suivant-label,
+.suivant:hover .titre,
+.suivant:focus-visible .suivant-label,
+.suivant:focus-visible .titre {
+  color: var(--next-ink);
+}
+
+.projet .suivant:focus-visible {
+  outline-color: var(--next-ink);
+  outline-offset: -8px;
+}
+
+/* ═══ Projet 1, Ethikwear : le portant ═══ */
+.p1 .ouv {
+  position: relative;
+  height: 100vh;
+  min-height: 620px;
+  overflow: hidden;
+}
+
+/* Vitrine : colonnes 6 à 12 + marge droite, du haut au bas de l'écran */
+.p1 .ouv-img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: calc(var(--col) * 7 + var(--g) * 6 + var(--m));
+}
+
+.p1 .ouv-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+
+.p1 .ouv-texte {
+  position: absolute;
+  top: 150px;
+  left: var(--m);
+  width: calc(var(--col) * 5 + var(--g) * 4);
+}
+
+/* Le titre traverse tout l'écran en bas, par-dessus l'image */
+.p1 .ouv .titre {
+  position: absolute;
+  left: var(--m);
+  right: var(--m);
+  bottom: 40px;
+  z-index: 2;
+}
+
+/* Le portant : sticky, le défilement vertical fait glisser le rail.
+   --h = hauteur commune des écrans : 62 % de l'écran, mais jamais plus que la
+   place sous le header, ni trop haute pour la largeur (tablette en portrait).
+   Chaque écran a sa vraie proportion --r (largeur / hauteur du fichier), donc
+   sa largeur est connue avant le chargement de l'image : la course est juste. */
+.p1 .portant {
+  --h: min(62vh, 52vw, calc(100vh - 250px));
+  --haut: max(170px, calc((100vh - var(--h)) / 2));
+  position: relative;
+  margin-top: 160px;
+}
+
+.p1 .portant-scene {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.p1 .portant-barre {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--haut) - 4px);
+  height: 1px;
+  background: #000;
+}
+
+.p1 .rail {
+  position: absolute;
+  top: var(--haut);
+  left: 0;
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  padding: 0 var(--m);
+}
+
+.p1 .rail figure {
+  position: relative;
+  flex: none;
+  height: var(--h);
+  width: calc(var(--h) * var(--r));
+  background: var(--c-15);          /* jamais un trou blanc, même image pas encore chargée */
+  transition: transform 0.4s var(--out);
+}
+
+.p1 .rail figure:hover {
+  transform: translateY(6px);
+}
+
+.p1 .rail figure > .empty,
+.p1 .rail figure > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.p1 .rail .legende {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: max-content;
+  max-width: 100%;
+}
+
+/* ═══ Projet 2, Redstone : la salle s'éteint ═══ */
+.p2 .ouv {
+  padding-top: 190px;
+  align-items: start;
+}
+
+.p2 .ouv-gauche {
+  grid-column: 1 / 9;
+}
+
+/* Grand mais posé : pas au cadrage, plafonné et tenu dans les colonnes 1 à 8 */
+.p2 .ouv .titre {
+  font-size: min(var(--fit, 11vw), clamp(72px, 11vw, 168px));
+}
+
+.p2 .ouv .colophon {
+  margin-top: 48px;
+  max-width: min(30ch, calc(var(--col) * 4 + var(--g) * 3));
+}
+
+.p2 .ouv-img {
+  grid-column: 9 / 13;
+  width: calc(100% + var(--m));
+  max-width: none;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: 50% 45%;
+}
+
+/* Textes déjà à l'écran quand la salle s'éteint */
+.is-dark .recit p {
+  color: #aaa;
+}
+
+.is-dark .lead,
+.is-dark .retiens p {
+  color: #fff;
+}
+
+.p2 .salle-pin {
+  position: relative;
+  height: 320vh;
+  margin-top: 120px;
+}
+
+.p2 .salle-scene {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  perspective: 1400px;
+}
+
+/* L'affiche : 78vh de haut, au ratio des fichiers (1144 × 1626). Elle s'incline
+   un peu selon --k pendant que les calques se posent par fondus (project.js) */
+.p2 .affiche {
+  position: relative;
+  height: 78vh;
+  aspect-ratio: 1144 / 1626;
+  background: #000;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--k, 0) * 24deg)) rotateZ(calc(var(--k, 0) * -8deg));
+}
+
+.p2 .calque,
+.p2 .affiche-finale {
+  position: absolute;
+  inset: 0;
+  transform: translate3d(0, 0, calc(var(--k, 0) * var(--dz, 0px)));
+}
+
+.p2 .calque > img,
+.p2 .affiche-finale > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Le titre flotte devant l'image quand l'affiche s'incline */
+.p2 .calque-titre { --dz: 140px; }
+
+/* Avant le script : seul le personnage est visible, les autres calques arrivent par fondu */
+html.js .p2 .calque-fond,
+html.js .p2 .calque-avant,
+html.js .p2 .calque-titre,
+html.js .p2 .affiche-finale {
+  opacity: 0;
+}
+
+/* Nom du calque en cours, à gauche de l'affiche, aligné sur son bas */
+.p2 .calque-nom {
+  position: absolute;
+  right: calc(50% + 78vh * 0.352 + 32px);
+  bottom: 11vh;
+  font-size: 16px;
+  color: #999;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
+
+/* Le générique, comme le billing block d'une affiche de cinéma */
+.p2 .generique {
+  max-width: 520px;
+  margin: 80px auto 0;
+  padding: 0 var(--m);
+  box-sizing: content-box;
+  text-align: center;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #000;
+  transition: color 1.2s var(--out);
+}
+
+.is-dark .generique {
+  color: #fff;
+}
+
+.p2 .generique span {
+  display: block;
+}
+
+.p2 .salle .retiens {
+  margin-top: 120px;
+  padding: 0 var(--m) 40px;
+  text-align: center;
+}
+
+.p2 .salle .retiens p {
+  max-width: 16em;
+  margin: 0 auto;
+}
+
+/* ═══ Projet 3, Unik : les deux pages qui défilent ensemble ═══ */
+.p3 .ouv {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  background: var(--c);
+  overflow: hidden;
+}
+
+/* Le titre passe derrière la vitrine : le portable couvre le milieu du mot */
+.p3 .ouv .titre {
+  position: absolute;
+  left: var(--m);
+  right: var(--m);
+  bottom: 40px;
+  z-index: 1;
+}
+
+.p3 .ouv-img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  width: min(64vw, 960px);
+  transform: translate(-50%, -50%);
+}
+
+/* La vitrine est un mockup sur fond gris : on la détoure au contour du portable
+   (relevé sur web/unik-vitrine.webp) pour qu'il soit posé seul sur le rose.
+   Avec une vitrine sur fond transparent, retirer ce clip-path. */
+.p3 .ouv-img.detoure {
+  clip-path: polygon(22.9% 26%, 23.75% 25%, 25% 24.8%, 75% 24.8%, 76.25% 25%, 76.6% 26%,
+    76.6% 74.25%, 80.7% 74.25%, 80.7% 75.8%, 80.1% 76.5%, 77.6% 77%, 74.4% 77.2%,
+    25.9% 77.2%, 22.6% 77%, 19.5% 76.5%, 18.6% 75.8%, 18.6% 74.25%, 22.9% 74.25%);
+}
+
+.p3 .apres {
+  margin-top: 72px;
+}
+
+.p3 .apres > div {
+  grid-column: 1 / 6;
+}
+
+.p3 .duo {
+  position: relative;
+  margin-top: 160px;
+}
+
+.p3 .duo-scene {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  padding: 170px var(--m) 40px;
+}
+
+.p3 .duo-legende {
+  grid-row: 1;
+  padding-bottom: 14px;
+  font-size: 14px;
+  color: #6b6b6b;
+}
+
+.p3 .duo-legende + .duo-legende {
+  grid-column: 3;
+}
+
+.p3 .fenetre {
+  position: relative;
+  grid-row: 2;
+  overflow: hidden;
+}
+
+.p3 .page {
+  width: 100%;
+}
+
+/* Wireframe vide dessiné en CSS : la même structure, nue puis habillée */
+.p3 .page.vide {
+  display: grid;
+  grid-template-rows: 9fr 22fr 30fr 18fr 14fr 7fr;
+  gap: 12px;
+  aspect-ratio: 1 / 3;
+}
+
+.p3 .page.nue > i {
+  background: #fff;
+  outline: 0.5px solid rgba(0, 0, 0, 0.25);
+  outline-offset: -0.5px;
+}
+
+.p3 .page.habillee > i:nth-child(1) { background: var(--c-15); }
+.p3 .page.habillee > i:nth-child(2) { background: var(--c-55); }
+.p3 .page.habillee > i:nth-child(3) { background: var(--c); }
+.p3 .page.habillee > i:nth-child(4) { background: #222; }
+.p3 .page.habillee > i:nth-child(5) { background: var(--c-55); }
+.p3 .page.habillee > i:nth-child(6) { background: var(--c-15); }
+
+/* Notes au centre : elles suivent les pages, face aux sections qu'elles commentent */
+.p3 .notes {
+  position: relative;
+}
+
+.p3 .note {
+  position: absolute;
+  left: 0;
+  right: 0;
+  max-width: 120px;
+  margin: 0 auto;
+  font-size: 15px;
+  line-height: 1.35;
+  color: #111;
+  text-align: center;
+}
+
+/* Les détails : trois recadrages collés, d'un bord à l'autre */
+.p3 .details {
+  display: flex;
+  height: 48vh;
+  margin-top: 160px;
+}
+
+.p3 .details > * {
+  flex: var(--r) 1 0;
+  min-width: 0;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ═══ Projet 4, Dugos Photographie : la planche-contact ═══ */
+.p4 .heros {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.p4 .heros-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Le voile : la page blanche passe sur la vidéo, qui reste en place */
+.p4 .feuille {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  padding-top: 48px;
+}
+
+.p4 .ouv-titre {
+  padding: 0 var(--m);
+}
+
+.p4 .ouv-titre .l + .l {
+  margin-top: 0.06em;
+}
+
+.p4 .ouv-texte {
+  margin-top: 40px;
+}
+
+.p4 .ouv-texte > div {
+  grid-column: 8 / 13;
+}
+
+/* Le site est en ligne : le lien passe au premier plan, sous le colophon */
+.p4 .site-lien {
+  margin-top: 24px;
+  font-size: 22px;
+  gap: 8px;
+}
+
+.p4 .site-lien svg {
+  width: 18px;
+  height: 18px;
+}
+
+.p4 .planche-zone {
+  display: flex;
+  flex-direction: column;
+  margin-top: 160px;
+  padding: 0 var(--m);
+}
+
+/* Filets partagés, le même trait que la grille Works */
+.p4 .planche {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: var(--filet);
+  border-left: var(--filet);
+}
+
+.p4 .vue {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: 16px;
+  border: 0;
+  border-right: var(--filet);
+  border-bottom: var(--filet);
+  background: none;
+}
+
+.p4 .vue > .empty,
+.p4 .vue > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.p4 .vue:focus-visible {
+  outline-offset: -4px;
+}
+
+/* Le cadre tracé au marqueur : un trait SVG, pas une bordure */
+.p4 .marqueur {
+  position: absolute;
+  inset: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.p4 .marqueur path {
+  fill: none;
+  stroke: var(--c);
+  stroke-width: 3px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: var(--trait, 2000px);
+  stroke-dashoffset: var(--trait, 2000px);
+  transition: stroke-dashoffset 0.35s var(--dep);
+}
+
+.p4 .vue:hover .marqueur path,
+.p4 .vue:focus-visible .marqueur path,
+.p4 .vue.choisie .marqueur path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.6s var(--out);
+}
+
+.p4 .grande {
+  margin-top: 48px;
+}
+
+.p4 .grande-vue {
+  aspect-ratio: 16 / 10;
+  transition: opacity 0.4s ease;
+}
+
+.p4 .grande-vue > * {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.p4 .grande-vue.change {
+  opacity: 0;
+  transition-duration: 0.2s;
+}
+
+/* ═══ Projet 5, Queen : le titre qui traverse ═══ */
+.p5 .traverse {
+  position: relative;
+  height: 200vh;
+  background: var(--c);
+}
+
+.p5 .traverse-scene {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Au cadrage au repos (le mot se lit en entier), puis il glisse vers la gauche
+   et sort de l'écran au défilement */
+.p5 .traverse .titre {
+  position: absolute;
+  top: 50%;
+  left: var(--m);
+  right: var(--m);
+  z-index: 2;
+  transform: translateY(-50%);
+}
+
+/* Les cartons : deux devant le titre, un derrière. top = position de repos */
+.p5 .carton {
+  position: absolute;
+  z-index: 3;
+}
+
+.p5 .carton > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.p5 .carton-a { top: 58vh; left: 8vw;  width: 26vw; aspect-ratio: 4 / 5; background: var(--c-55); }
+.p5 .carton-b { top: 70vh; left: 44vw; width: 34vw; aspect-ratio: 3 / 2; background: #000; z-index: 1; }
+.p5 .carton-c { top: 86vh; left: 72vw; width: 20vw; aspect-ratio: 1;     background: var(--c-55); }
+
+.p5 .traverse .colophon {
+  position: absolute;
+  left: var(--m);
+  bottom: 40px;
+  z-index: 4;
+  color: #000;
+}
+
+/* Image pleine largeur, d'un bord à l'autre */
+.p5 .plein {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-top: 160px;
+  overflow: hidden;
+}
+
+/* Parallaxe douce : l'image est 12 % plus haute que son cadre */
+.px {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -6%;
+  height: 112%;
+}
+
+.px > * {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ═══ Projet 6, Sans titre : l'article ═══ */
+.p6 .ouv {
+  padding-top: 200px;
+}
+
+.p6 .ouv .titre {
+  grid-column: 1 / -1;
+}
+
+.p6 .chapeau {
+  grid-column: 1 / 9;
+  margin-top: 72px;
+  font-size: clamp(28px, 2.6vw, 38px);
+  font-weight: 300;
+  line-height: 1.3;
+  color: #111;
+}
+
+.p6 .ouv .colophon {
+  grid-column: 10 / 13;
+  margin-top: 72px;
+  font-size: 16px;
+  color: #6b6b6b;
+}
+
+.p6 .article {
+  margin-top: 160px;
+  align-items: start;
+}
+
+.p6 .article > * {
+  grid-column: 4 / 10;
+}
+
+.p6 .article .marge-g {
+  grid-column: 1 / 4;
+  grid-row: span 2;
+  margin-top: 6px;
+}
+
+.p6 .article .marge-d {
+  grid-column: 10 / 13;
+  grid-row: span 2;
+  margin-top: 6px;
+}
+
+.p6 .cadre {
+  position: relative;
+  overflow: hidden;
+}
+
+.p6 .marge-g .cadre,
+.p6 .marge-d .cadre {
+  aspect-ratio: 4 / 5;
+}
+
+.p6 .article .large {
+  grid-column: 1 / -1;
+  margin: 72px 0 88px;
+}
+
+.p6 .large .cadre {
+  aspect-ratio: 21 / 9;
+}
+
+.p6 .exergue {
+  margin: 56px 0 72px;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(32px, 4vw, 60px);
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  color: var(--c);
+}
+
+.p6 .article .exergue {
+  grid-column: 2 / 12;
+}
+
+/* Lettrine : la seule touche de couleur dans le texte du site */
+.p6 .lettrine::first-letter {
+  -webkit-initial-letter: 4;
+  initial-letter: 4;
+  font-family: 'Archivo Black', sans-serif;
+  color: var(--c);
+  margin-right: 0.1em;
+}
+
+/* Un paragraphe qui commence par une attaque en gras n'a pas de lettrine :
+   elle couperait le premier mot (« L / a demande. »). Elle revient d'elle-même
+   quand le premier paragraphe commence par du texte simple. */
+.p6 .lettrine:has(> .lead:first-child)::first-letter {
+  -webkit-initial-letter: normal;
+  initial-letter: normal;
+  font-family: inherit;
+  color: inherit;
+  margin-right: 0;
+}
+
+@supports not ((initial-letter: 4) or (-webkit-initial-letter: 4)) {
+  .p6 .lettrine::first-letter {
+    float: left;
+    font-size: 92px;
+    line-height: 0.8;
+    margin: 6px 12px 0 0;
+  }
+}
+
+.p6 .retiens p {
+  grid-column: 4 / 12;
+}
+
+/* ═══ Tablette (768 à 1099) ═══ */
+@media (max-width: 1099px) {
+  body.projet {
+    --m: 48px;
+  }
+
+  .recit-col {
+    grid-column: 1 / 9;
+  }
+
+  .recit p,
+  .article p {
+    font-size: 19px;
+  }
+
+  .lead {
+    font-size: 17px;
+  }
+
+  /* Ethikwear : la colonne de droite est trop étroite pour le portable (audit-ux 13).
+     Jusqu'à 1099px, l'ouverture passe en pile : vitrine 4:3 bord à bord, titre
+     qui chevauche son bas, colophon dessous (comme en mobile). */
+  .p1 .ouv {
+    height: auto;
+    min-height: 0;
+    padding-top: 190px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .p1 .ouv-img {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    max-height: 72vh;          /* tablette à l'horizontale : le titre reste dans l'écran */
+  }
+
+  .p1 .ouv .titre {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin: -0.42em var(--m) 0;
+  }
+
+  .p1 .ouv-texte {
+    order: 3;
+    position: static;
+    width: auto;
+    margin-top: 32px;
+    padding: 0 var(--m);
+  }
+
+  .retiens p,
+  .p6 .retiens p {
+    grid-column: 1 / -1;
+  }
+
+  .p2 .ouv-gauche {
+    grid-column: 1 / 8;
+  }
+
+  .p2 .ouv-img {
+    grid-column: 8 / 13;
+  }
+
+  .p6 .article > * {
+    grid-column: 4 / 11;
+  }
+
+  .p6 .article .marge-d {
+    grid-column: 11 / 13;
+  }
+
+  .p6 .ouv .colophon {
+    grid-column: 9 / 13;
+  }
+}
+
+/* ═══ Mobile (< 768) ═══ */
+@media (max-width: 767px) {
+  body.projet {
+    --m: 20px;
+    --g: 12px;
+  }
+
+  /* Header et flèche défilent avec la page */
+  body.projet header,
+  body.projet .back-nav {
+    position: absolute;
+  }
+
+  .back-nav {
+    padding: 32px 20px;
+  }
+
+  .arrow-icon {
+    width: 40px;
+  }
+
+  .colophon {
+    font-size: 17px;
+  }
+
+  .recit {
+    margin-top: 96px;
+  }
+
+  .recit-col,
+  .retiens p,
+  .p6 .retiens p {
+    grid-column: 1 / -1;
+  }
+
+  .recit p,
+  .article p {
+    font-size: 17px;
+  }
+
+  .recit p.decale {
+    margin-left: 0;
+  }
+
+  .lead {
+    font-size: 15px;
+  }
+
+  .retiens {
+    margin-top: 110px;
+  }
+
+  .retiens p {
+    font-size: 28px;
+  }
+
+  .suivant {
+    min-height: 52vh;
+    padding-bottom: 24px;
+  }
+
+  .suivant:active::before {
+    transform: scaleY(1);
+    transition: transform 0.7s var(--out);
+  }
+
+  .suivant:active .suivant-label,
+  .suivant:active .titre {
+    color: var(--next-ink);
+  }
+
+  /* Projet 1 : ouverture, voir la règle tablette (jusqu'à 1099px) */
+
+  .p1 .portant {
+    height: auto !important;
+    margin-top: 96px;
+  }
+
+  .p1 .portant-scene {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+
+  .p1 .portant-barre {
+    top: 0;
+  }
+
+  .p1 .rail {
+    position: relative;
+    top: 0;
+    width: 100%;
+    padding-top: 4px;
+    padding-bottom: 32px;
+    transform: none !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 20px;
+    scrollbar-width: none;
+  }
+
+  .p1 .portant {
+    --h: min(56svh, 80vw);
+  }
+
+  .p1 .rail figure {
+    scroll-snap-align: start;
+  }
+
+  .p1 .rail figure:hover {
+    transform: none;
+  }
+
+  /* Projet 2 */
+  .p2 .ouv {
+    padding-top: 190px;
+  }
+
+  .p2 .ouv-gauche,
+  .p2 .ouv-img {
+    grid-column: 1 / -1;
+  }
+
+  .p2 .ouv .titre {
+    font-size: var(--fit, 20vw);
+  }
+
+  .p2 .ouv .colophon {
+    margin-top: 32px;
+    max-width: 30ch;
+  }
+
+  .p2 .ouv-img {
+    width: 100%;
+    margin-top: 40px;
+  }
+
+  /* Projet 3 */
+  .p3 .ouv {
+    height: 100svh;
+    min-height: 560px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 190px;
+  }
+
+  .p3 .ouv .titre {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin: 0 var(--m);
+  }
+
+  /* Détourée, la vitrine peut déborder : le portable prend presque toute la largeur */
+  .p3 .ouv-img {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 140%;
+    max-width: none;
+    margin: auto 0 auto -20%;
+    transform: none;
+  }
+
+  .p3 .apres {
+    margin-top: 48px;
+  }
+
+  .p3 .apres > div {
+    grid-column: 1 / -1;
+  }
+
+  .p3 .duo {
+    margin-top: 96px;
+  }
+
+  .p3 .duo-scene {
+    height: 100svh;
+    grid-template-columns: minmax(0, 1fr) 0 minmax(0, 1fr);
+    column-gap: 6px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .p3 .notes {
+    visibility: hidden;
+  }
+
+  .p3 .details {
+    height: 48svh;
+    margin-top: 96px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .p3 .details > * {
+    flex: none;
+    width: auto;
+    aspect-ratio: var(--r);
+    scroll-snap-align: start;
+  }
+
+  /* Projet 4 */
+  /* La vitrine entière, pleine largeur, sous le header */
+  .p4 .heros {
+    height: auto;
+    aspect-ratio: 4 / 3;
+    margin-top: 190px;
+  }
+
+  .p4 .ouv-texte > div {
+    grid-column: 1 / -1;
+  }
+
+  .p4 .planche-zone {
+    margin-top: 96px;
+  }
+
+  .p4 .planche {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .p4 .vue {
+    padding: 8px;
+  }
+
+  .p4 .marqueur {
+    inset: 3px;
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
+  }
+
+  .p4 .grande {
+    order: -1;
+    margin: 0 0 32px;
+  }
+
+  /* Projet 5 */
+  .p5 .traverse {
+    height: auto;
+    padding: 190px 0 56px;
+  }
+
+  /* Le titre d'abord, dans le premier écran, puis les cartons */
+  .p5 .traverse-scene {
+    position: relative;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .p5 .traverse .titre {
+    order: -1;
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    width: max-content;
+    margin-left: var(--m);
+    font-size: 48vw;
+    transform: none;
+    /* Un aller et un retour, puis il s'arrête ; un toucher le met en pause (WCAG 2.2.2) */
+    animation: defile 14s linear 1s 2 alternate both;
+  }
+
+  .p5 .traverse .titre.en-pause {
+    animation-play-state: paused;
+  }
+
+  .p5 .carton {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: calc(100% - 2 * var(--m) - 20px);
+    margin: 40px var(--m) 0;
+    transform: none !important;
+  }
+
+  .p5 .carton-b {
+    margin-left: calc(var(--m) + 20px);
+  }
+
+  .p5 .traverse .colophon {
+    position: static;
+    margin: 40px var(--m) 0;
+  }
+
+  .p5 .plein {
+    margin-top: 96px;
+  }
+
+  /* Projet 6 */
+  .p6 .ouv {
+    padding-top: 190px;
+  }
+
+  .p6 .chapeau,
+  .p6 .ouv .colophon {
+    grid-column: 1 / -1;
+  }
+
+  .p6 .chapeau {
+    margin-top: 40px;
+    font-size: 24px;
+  }
+
+  .p6 .ouv .colophon {
+    margin-top: 24px;
+  }
+
+  .p6 .article {
+    margin-top: 96px;
+  }
+
+  .p6 .article > *,
+  .p6 .article .large,
+  .p6 .article .exergue {
+    grid-column: 1 / -1;
+  }
+
+  .p6 .article .marge-g,
+  .p6 .article .marge-d {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    width: 70%;
+    margin: 16px 0 40px;
+  }
+
+  .p6 .article .marge-d {
+    justify-self: end;
+  }
+
+  .p6 .article .large {
+    margin: 40px calc(-1 * var(--m)) 56px;
+  }
+
+  .p6 .lettrine::first-letter {
+    -webkit-initial-letter: 3;
+    initial-letter: 3;
+  }
+
+  .p6 .exergue {
+    font-size: 30px;
+    margin: 32px 0 48px;
+  }
+}
+
+/* Mobile : le titre de Queen défile tout seul, très lentement */
+@keyframes defile {
+  from { transform: none; }
+  to   { transform: translateX(calc(-100% + 100vw - 2 * var(--m))); }
+}
+
+/* Mobile et mouvement réduit : la salle se déplie en lecture verticale */
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .p2 .salle-pin {
+    height: auto;
+    margin-top: 120px;
+  }
+
+  .p2 .salle-scene {
+    position: relative;
+    height: auto;
+    display: block;
+    perspective: none;
+    overflow: visible;
+    padding: 0 var(--m);
+  }
+
+  .p2 .affiche {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 72px;
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    aspect-ratio: auto;
+    margin: 0 auto;
+    transform: none;
+  }
+
+  .p2 .calque,
+  .p2 .affiche-finale,
+  html.js .p2 .calque,
+  html.js .p2 .affiche-finale {
+    position: relative;
+    inset: auto;
+    display: block;
+    aspect-ratio: 1144 / 1626;
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Le nom de chaque calque au-dessus de lui */
+  .p2 .calque::before,
+  .p2 .affiche-finale::before {
+    content: attr(data-nom);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    padding-bottom: 10px;
+    font-size: 14px;
+    color: #999;
+  }
+
+  .p2 .affiche {
+    background: none;
+  }
+
+  .p2 .calque,
+  .p2 .affiche-finale {
+    background: #000;
+  }
+
+  .p2 .calque-nom {
+    display: none;
+  }
+
+  .p2 .generique {
+    margin-top: 72px;
+  }
+}
+
+@media (max-width: 767px) {
+  .p2 .generique {
+    font-size: 15px;
+  }
+}
+
+/* ═══ Mouvement réduit : aucun déplacement, découpe ni épinglage ═══ */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-rv],
+  html.js [data-rv] > * {
+    transform: none !important;
+    clip-path: none !important;
+    transition: opacity 0.25s linear;
+  }
+
+  html.js [data-rv] {
+    opacity: 0;
+  }
+
+  html.js [data-rv].in {
+    opacity: 1;
+  }
+
+  html.js .titre .l > .t {
+    animation: fondu 0.25s linear both;
+  }
+
+  body.projet,
+  .suivant::before,
+  .p1 .rail figure,
+  .p4 .grande-vue {
+    transition-duration: 0.01s;
+  }
+
+  .p1 .portant {
+    height: auto !important;
+  }
+
+  .p1 .portant-scene {
+    position: relative;
+    height: auto;
+    padding-bottom: 32px;
+  }
+
+  .p1 .portant-barre {
+    top: 0;
+  }
+
+  .p1 .rail {
+    position: relative;
+    top: 0;
+    width: 100%;
+    padding-top: 4px;
+    overflow-x: auto;
+    transform: none !important;
+  }
+
+  .p3 .duo {
+    height: auto !important;
+  }
+
+  .p3 .duo-scene {
+    position: relative;
+    height: auto;
+  }
+
+  .p3 .page {
+    transform: none !important;
+  }
+
+  .p3 .notes {
+    visibility: hidden;
+  }
+
+  .p5 .traverse {
+    height: 100vh;
+  }
+
+  .p5 .traverse-scene {
+    position: relative;
+  }
+
+  .p5 .traverse .titre {
+    animation: none;
+  }
+
+  .p5 .carton,
+  .px {
+    transform: none !important;
+  }
+}
+
+@keyframes fondu {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ═══ Corrections passe 1 : header, cibles, titres de section ═══ */
+
+/* Header et flèche lisibles sur tout fond (audit-ux 4 et 5) : blancs en
+   « différence », donc noirs sur blanc, clairs sur une photo ou un titre noir.
+   Sur un aplat de couleur (project.js pose .sur-couleur) ou dans la salle noire,
+   on revient au noir ou au blanc francs. */
+body.projet header,
+body.projet .back-nav {
+  mix-blend-mode: difference;
+}
+
+body.projet nav a,
+body.projet .back-nav a {
+  color: #fff;
+  transition: transform 0.2s ease;
+}
+
+body.projet header a:focus-visible,
+body.projet .back-nav a:focus-visible {
+  outline-color: #fff;
+}
+
+body.projet.sur-couleur header,
+body.projet.sur-couleur .back-nav,
+body.projet.is-dark header,
+body.projet.is-dark .back-nav {
+  mix-blend-mode: normal;
+}
+
+body.projet.sur-couleur nav a,
+body.projet.sur-couleur .back-nav a {
+  color: #000;
+}
+
+body.projet.sur-couleur header a:focus-visible,
+body.projet.sur-couleur .back-nav a:focus-visible {
+  outline-color: #000;
+}
+
+/* Cibles tactiles de 44px sans changer le dessin (audit-ux 9).
+   Le header a sa propre zone dans shared.css. */
+.back-nav a,
+.site-lien {
+  position: relative;
+}
+
+.back-nav a::after,
+.site-lien::after {
+  content: "";
+  position: absolute;
+  inset: -12px -8px;
+}
+
+/* Titres de section pour les lecteurs d'écran, invisibles à l'œil (audit-ux 14) */
+.lecteur {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

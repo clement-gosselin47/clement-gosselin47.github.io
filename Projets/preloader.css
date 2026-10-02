@@ -1,0 +1,59 @@
+/* Preloader Works « Mise au point » (v2) : seules règles ajoutées à celles du site.
+   Pas de calque par-dessus la grille : ce sont les vraies cases qui s'assemblent
+   (preloader.js), et le compteur occupe le lien WORKS du vrai header. */
+
+/* Pendant l'assemblage : grille inerte, transitions CSS des cases coupées,
+   flou de bord masqué (direction-v2 décisions 13 et 32) */
+body.is-loading .wrapper {
+  pointer-events: none;
+}
+
+body.is-assembling .cell {
+  transition: none;
+}
+
+body.is-assembling .speed-blur {
+  display: none;
+}
+
+/* Image d'une case projet masquée tant qu'elle n'est pas chargée (décision 10) */
+body.is-assembling .cell-media:not(.pret) {
+  opacity: 0;
+}
+
+/* Menu inactif tant que le compteur n'est pas redevenu WORKS / ABOUT / CONTACT :
+   ni clic, ni survol, ni anneau du curseur (décision 28) */
+body.menu-en-cours header nav a {
+  pointer-events: none;
+}
+
+/* Rouleaux du compteur et du menu (décision 24) : la police reste celle du lien */
+.rouleaux {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.rouleau {
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+}
+
+.bande {
+  display: block;
+  will-change: transform;
+}
+
+.bande > span {
+  display: block;
+}
+
+/* Texte lu seulement par les lecteurs d'écran */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

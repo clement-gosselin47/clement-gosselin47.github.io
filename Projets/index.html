@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clément Gosselin, portfolio de chef de projet digital</title>
+  <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
+  <meta name="description" content="Portfolio de Clément Gosselin, en Bachelor Chef de Projet Digital à Ynov Bordeaux. Sites, prototypes Figma et affiche. Je cherche une alternance 2j / 3j.">
+  <link rel="canonical" href="https://clement-gosselin47.github.io/Projets/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Clément Gosselin">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Clément Gosselin, portfolio de chef de projet digital">
+  <meta property="og:description" content="Portfolio de Clément Gosselin, en Bachelor Chef de Projet Digital à Ynov Bordeaux. Sites, prototypes Figma et affiche. Je cherche une alternance 2j / 3j.">
+  <meta property="og:url" content="https://clement-gosselin47.github.io/Projets/">
+  <meta property="og:image" content="https://clement-gosselin47.github.io/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Les projets de Clément Gosselin sur la grille de son portfolio.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <script src="../passage.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="preloader.css">
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <h1 class="lecteur">Works, Clément Gosselin</h1>
+
+  <header>
+    <nav>
+      <a href="../Projets/index.html" class="active" data-dest="works">Works</a>
+      <a href="../About/index.html" data-dest="about">About</a>
+      <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+    </nav>
+  </header>
+  <!-- Accès aux projets au clavier et au lecteur d'écran : invisible, la liste
+       apparaît en haut à gauche dès qu'un lien reçoit le focus (touche Tab) -->
+  <nav class="projets-clavier" aria-label="Projets">
+    <a href="./Ethikwear/index.html">Ethikwear</a>
+    <a href="./redstone/index.html">Redstone</a>
+    <a href="./Unik/index.html">Unik</a>
+    <a href="./dugos-photographie/index.html">Dugos Photographie</a>
+  </nav>
+  <div class="wrapper">
+    <div class="grid" id="grid"></div>
+  </div>
+  <div class="speed-blur" id="speedBlur">
+    <div class="blur-edge blur-left"></div>
+    <div class="blur-edge blur-right"></div>
+    <div class="blur-edge blur-top"></div>
+    <div class="blur-edge blur-bottom"></div>
+  </div>
+  <script src="script.js"></script>
+  <script src="preloader.js"></script>
+  <script src="../shared.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Page introuvable, Clément Gosselin</title>
+  <!-- Servie par GitHub Pages à n'importe quelle profondeur d'adresse :
+       tous les chemins sont absolus (le site est à la racine du domaine). -->
+  <script src="/passage.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <style>
+    .perdu {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 80px 80px;
+      box-sizing: border-box;
+    }
+
+    .perdu h1 {
+      font-family: 'Archivo Black', sans-serif;
+      font-weight: 400;
+      font-size: clamp(32px, 11vw, 200px);   /* « INTROUVABLE » tient entre les marges, de 390 à 1920 */
+      line-height: 0.8;
+      letter-spacing: -0.025em;
+      text-transform: uppercase;
+      margin: 0 0 32px;
+    }
+
+    .perdu p {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 20px;
+      color: #444;
+      margin: 0;
+    }
+
+    .perdu a {
+      color: #000;
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 4px;
+    }
+
+    .perdu a:focus-visible {
+      outline: 2px solid #000;
+      outline-offset: 4px;
+    }
+
+    @media (max-width: 1099px) {
+      .perdu { padding: 0 48px 64px; }
+    }
+
+    @media (max-width: 767px) {
+      .perdu { padding: 190px 20px 48px; }
+      header { position: absolute; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <header>
+    <nav>
+      <a href="/Projets/index.html" data-dest="works">Works</a>
+      <a href="/About/index.html" data-dest="about">About</a>
+      <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+    </nav>
+  </header>
+  <main class="perdu">
+    <h1>Page introuvable</h1>
+    <p>Cette adresse ne mène nulle part. <a href="/Projets/index.html" data-cur="Voir">Les projets sont ici.</a></p>
+  </main>
+  <script src="/shared.js"></script>
+</body>
+</html>

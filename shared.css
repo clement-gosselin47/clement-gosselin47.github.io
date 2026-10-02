@@ -1,0 +1,351 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: none !important;
+}
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  background: #000;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  opacity: 0;
+  transition: width 0.25s ease, height 0.25s ease, background 0.25s ease, border 0.25s ease, opacity 0.2s ease;
+}
+
+/* Visible seulement après le premier mouvement de souris (sinon un quart de
+   disque reste au coin haut gauche), jamais sur écran tactile */
+.cursor.vu {
+  opacity: 1;
+}
+
+
+.cursor.hover-nav {
+  width: 52px;
+  height: 52px;
+  background: transparent;
+  border: 1.5px solid #000;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 100;
+  padding: 28px 48px 40px 60px;
+  pointer-events: all;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #000;
+  font-family: monospace;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-right: -0.08em;
+  text-transform: uppercase;
+  opacity: 1;
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+nav a:hover {
+  transform: scale(1.12);
+}
+
+nav a.active {
+  font-size: 52px;
+  margin-right: calc(-0.08em - 16px);
+}
+
+/* ── Composant contact (About + bloc contact des pages projet) ── */
+.contact-label {
+  font-family: monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #999;
+}
+
+.contact-value {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #111;
+}
+
+.contact-link {
+  color: #111;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.contact-link:hover {
+  opacity: 0.6;
+}
+
+.link-icon {
+  width: 12px;
+  height: 12px;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.copy-btn {
+  font-family: monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #777;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.copy-btn:hover {
+  border-color: #111;
+  color: #111;
+}
+
+/* ── Curseur contextuel (motion C.8, direction I.48) ──
+   Sur ce qui se clique et porte data-cur : le rond grossit à 92px et porte
+   un mot. Seule exception assumée aux propriétés animées : width/height du curseur. */
+.cursor {
+  display: grid;
+  place-items: center;
+}
+
+.cursor-mot {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.cursor.has-mot {
+  width: 92px;
+  height: 92px;
+  background: #000;
+  border: 0;
+  transition: width 0.35s cubic-bezier(.16, 1, .3, 1), height 0.35s cubic-bezier(.16, 1, .3, 1), background 0.25s ease;
+}
+
+.cursor.has-mot .cursor-mot {
+  opacity: 1;
+  transition-delay: 0.12s;
+}
+
+/* Fond noir (salle de Redstone) : header, flèche et curseur passent en blanc */
+body.is-dark nav a,
+body.is-dark .back-nav a,
+body.is-dark .back-nav .arrow-icon {
+  color: #fff;
+}
+
+body.is-dark .cursor,
+body.is-dark .cursor.has-mot {
+  background: #fff;
+}
+
+body.is-dark .cursor.hover-nav {
+  background: transparent;
+  border-color: #fff;
+}
+
+body.is-dark .cursor-mot {
+  color: #000;
+}
+
+nav a,
+.back-nav a,
+.back-nav .arrow-icon {
+  transition: transform 0.2s ease, color 1.2s cubic-bezier(.16, 1, .3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor.has-mot,
+  .cursor-mot {
+    transition: none;
+  }
+}
+
+/* Zone de clic du header : 5px de plus en haut et en bas (moitié de l'écart
+   entre ABOUT et CONTACT), sans changer le dessin (audit-ux-final 3) */
+header nav a {
+  position: relative;
+}
+
+header nav a::after {
+  content: "";
+  position: absolute;
+  inset: -5px -8px;
+}
+
+/* Focus clavier du header : contour noir 2px, comme les pages projet (audit-ux-final 4) */
+nav a:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 4px;
+}
+
+/* ═══ Passages entre les pages (shared.js, passage.js) ═══ */
+
+/* Calque commun à toutes les transitions : sous le header et la flèche (100),
+   qui restent en place et cliquables */
+.ov {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Le mot géant, au cadrage, en bas à gauche à 40px du bord */
+.ov-mot {
+  position: absolute;
+  bottom: 40px;
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 400;
+  line-height: 0.8;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Masque du mot : padding pour ne pas couper les jambages ni le bas du O */
+.ov-masque {
+  display: block;
+  overflow: hidden;
+  padding: 0.06em 0 0.16em;
+  margin-bottom: -0.16em;
+}
+
+.ov-masque > span {
+  display: block;
+}
+
+/* Pendant un passage, le header change de couleur vite (0,2 s) : sinon il reste
+   blanc sur la page claire le temps de la transition de 1,2 s (audit-ux-v3, 3) */
+html.passage-en-cours header nav a,
+html.passage-en-cours .back-nav a {
+  transition: transform 0.2s ease, color 0.2s ease !important;
+}
+
+/* Header blanc le temps d'un aplat sombre (flèche retour depuis Redstone, Dugos, Sans titre) */
+html.passage-sombre header nav a,
+html.passage-sombre .back-nav a {
+  color: #fff !important;
+}
+
+html.passage-sombre header,
+html.passage-sombre .back-nav {
+  mix-blend-mode: normal !important;
+}
+
+/* Contact : l'aplat garde l'adresse */
+/* Spécificité relevée : project-style.css redéclare .ov { pointer-events: none }
+   après shared.css, ce qui rendait le panneau sourd aux clics sur les pages projet
+   (audit-ux-v3, bloquant 1) */
+.ov.ov-contact {
+  pointer-events: auto;
+}
+
+.ov-adresse {
+  position: absolute;
+  bottom: 90px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 400;
+  line-height: 0.86;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+  user-select: text;
+}
+
+.ov-bas {
+  position: absolute;
+  bottom: 36px;
+  display: flex;
+  gap: 24px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.ov-bas a,
+.ov-copier {
+  display: inline-block;
+  padding: 14px 0;               /* 44px de zone au toucher, sans changer le dessin */
+  margin: -14px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Le bouton « Copier » n'existe qu'au toucher : à la souris, c'est le curseur qui le dit */
+.ov-copier {
+  display: none;
+}
+
+@media (hover: none) {
+  .ov-copier {
+    display: inline;
+  }
+}
+
+.ov-contact :focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 4px;
+}
+
+/* Mouvement réduit : la page d'arrivée apparaît en fondu */
+html.passage-fondu body {
+  animation: passage-fondu 0.25s linear both;
+}
+
+@keyframes passage-fondu {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Écran tactile : jamais de curseur rond. En fin de fichier et en !important,
+   pour qu'aucune règle d'affichage du curseur ne l'écrase (audit-ux-final 1) */
+@media (hover: none) {
+  .cursor {
+    display: none !important;
+  }
+}

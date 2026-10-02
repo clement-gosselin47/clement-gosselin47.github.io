@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://clement-gosselin47.github.io/sitemap.xml

@@ -1,0 +1,171 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #fff;
+}
+
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  user-select: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(15, calc(100vw / 5));
+  grid-template-rows: repeat(15, calc(100vh / 5));
+  width: calc(3 * 100vw);
+  height: calc(3 * 100vh);
+  will-change: transform;
+}
+
+.cell {
+  position: relative;
+  overflow: hidden;
+  border: 0.5px solid rgba(0,0,0,0.15);
+  opacity: 0.15;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.cell-media {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+}
+
+.cell:hover {
+  opacity: 1;
+  transform: scale(1.05);
+  z-index: 1;
+}
+
+.project-cell {
+  opacity: 0.55;
+}
+
+.project-cell:hover {
+  opacity: 1;
+}
+
+
+.speed-blur {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.blur-edge {
+  position: absolute;
+  --b: var(--edge-blur, 0px);
+  backdrop-filter: blur(var(--b));
+  -webkit-backdrop-filter: blur(var(--b));
+  transition: backdrop-filter 0.05s linear, -webkit-backdrop-filter 0.05s linear;
+}
+
+.blur-left {
+  left: 0; top: 0; bottom: 0; width: 140px;
+  -webkit-mask-image: linear-gradient(to right, black 30%, transparent);
+  mask-image: linear-gradient(to right, black 30%, transparent);
+}
+
+.blur-right {
+  right: 0; top: 0; bottom: 0; width: 140px;
+  -webkit-mask-image: linear-gradient(to left, black 30%, transparent);
+  mask-image: linear-gradient(to left, black 30%, transparent);
+}
+
+.blur-top {
+  top: 0; left: 0; right: 0; height: 140px;
+  -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent);
+  mask-image: linear-gradient(to bottom, black 30%, transparent);
+}
+
+.blur-bottom {
+  bottom: 0; left: 0; right: 0; height: 140px;
+  -webkit-mask-image: linear-gradient(to top, black 30%, transparent);
+  mask-image: linear-gradient(to top, black 30%, transparent);
+}
+
+/* Ouverture d'un projet (script.js, motion A.1) : la case grandit en plein
+   écran pendant que les autres s'effacent. Sous le header, qui reste en place. */
+.ouverture-calque {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 95;
+  background-color: #ebebeb;
+  background-size: cover;
+  background-position: center;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
+body.ouvre .cell {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+body.ouvre .wrapper {
+  pointer-events: none;
+}
+
+/* Liens clavier vers les projets (audit-ux 3) : hors de l'écran, visibles au focus.
+   Même typo que le header, en colonne en haut à gauche. */
+.projets-clavier {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 101;
+  align-items: flex-start;
+  padding: 28px 40px 32px 48px;
+  background: #fff;
+  clip-path: inset(50%);
+  opacity: 0;
+}
+
+.projets-clavier:focus-within {
+  clip-path: none;
+  opacity: 1;
+}
+
+.projets-clavier a:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 4px;
+}
+
+/* Titre lu seulement par les lecteurs d'écran (audit-ux-final 4) */
+.lecteur {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Arrivée sur Works après un passage (menu, flèche retour) : la grille entre
+   en fondu et se pose (motion-transitions.md 3 et 4). Elle attend que l'aplat
+   commence à se refermer (classe passage-attente retirée par shared.js). */
+html.passage-vers-works .wrapper {
+  animation: grille-entree 0.7s cubic-bezier(.16, 1, .3, 1) var(--entree, 0ms) both;
+}
+
+html.passage-attente .wrapper {
+  animation-play-state: paused;
+}
+
+@keyframes grille-entree {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.passage-vers-works .wrapper {
+    animation: none;
+  }
+}
