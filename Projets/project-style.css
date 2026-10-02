@@ -784,13 +784,16 @@ html.js .p2 .affiche-finale {
   grid-column: 8 / 13;
 }
 
-/* Le site est en ligne : le lien passe au premier plan, sous le colophon */
+/* Le site est en ligne : le lien passe au premier plan, sous le colophon.
+   Même dessin pour le prototype Figma d'Ethikwear (p1). */
+.p1 .site-lien,
 .p4 .site-lien {
   margin-top: 24px;
   font-size: 22px;
   gap: 8px;
 }
 
+.p1 .site-lien svg,
 .p4 .site-lien svg {
   width: 18px;
   height: 18px;
@@ -937,11 +940,24 @@ html.js .p2 .affiche-finale {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top;
 }
 
-.p5 .carton-a { top: 58vh; left: 8vw;  width: 26vw; aspect-ratio: 4 / 5; background: var(--c-55); }
-.p5 .carton-b { top: 70vh; left: 44vw; width: 34vw; aspect-ratio: 3 / 2; background: #000; z-index: 1; }
-.p5 .carton-c { top: 86vh; left: 72vw; width: 20vw; aspect-ratio: 1;     background: var(--c-55); }
+/* Recadrage précis d'une grande page (carton C, haut de la fiche album) :
+   l'image est plus large que le carton et décalée ; les marges en % suivent sa largeur */
+.p5 .carton > img.recadre {
+  width: var(--w);
+  max-width: none;
+  height: auto;
+  margin-left: var(--l);
+  margin-top: var(--h);
+}
+
+.p5 .carton { overflow: hidden; }
+/* A à droite du colophon (lisibilité, intégration 2026-10-03) ; B et C inchangés */
+.p5 .carton-a { top: 54vh; left: 29vw; width: 21vw; aspect-ratio: 4 / 5; }
+.p5 .carton-b { top: 70vh; left: 44vw; width: 34vw; aspect-ratio: 3 / 2; z-index: 1; }
+.p5 .carton-c { top: 86vh; left: 72vw; width: 20vw; aspect-ratio: 1; }
 
 .p5 .traverse .colophon {
   position: absolute;
@@ -951,13 +967,212 @@ html.js .p2 .affiche-finale {
   color: #000;
 }
 
-/* Image pleine largeur, d'un bord à l'autre */
-.p5 .plein {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
+/* Le calque : wireframe et maquette l'un sur l'autre, un trait jaune balaie
+   de gauche à droite (direction 2026-10-03-queen D). Rendu de base = lecture
+   empilée, figée à moitié (sans JS, mouvement réduit). html.calque-ok = épinglé. */
+.p5 .calque {
+  --ratio: 1512 / 890;
+  --trait: 6px;
   margin-top: 160px;
+  padding: 0 var(--m);
+}
+
+.p5 .calque-cadre {
+  display: grid;
+  gap: 88px;
+  justify-items: center;
+}
+
+/* Une paire = un cadre au ratio des fichiers, l'écran clair au filet de Works */
+.p5 .paire {
+  position: relative;
+  width: min(100%, calc(74vh * 1512 / 890));
+  aspect-ratio: var(--ratio);
+  margin: 0;
+  outline: var(--filet);
+  outline-offset: -0.5px;
+  --p: 50%;
+}
+
+.p5 .paire img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: top;
+}
+
+.p5 .paire .mq {
+  clip-path: inset(0 calc(100% - var(--p)) 0 0);
+}
+
+/* Le trait : jaune bordé de noir, lisible sur le gris comme sur le noir.
+   Sans JS il est posé au milieu (left), épinglé il suit le bord par transform */
+.p5 .trait {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--p);
+  z-index: 2;
+  width: var(--trait);
+  margin-left: calc(var(--trait) / -2);
+  box-sizing: border-box;
+  background: var(--c);
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  transition: opacity 0.2s ease;
+}
+
+.p5 .paire-nom {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+}
+
+.p5 .calque-legende {
+  display: none;
+}
+
+/* Épinglé : un seul cadre au centre de l'écran, les paires empilées dedans */
+html.calque-ok .p5 .calque {
+  position: relative;
+  height: calc(100vh + var(--n, 4) * 90vh);
+  padding: 0;
+}
+
+html.calque-ok .p5 .calque-scene {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+html.calque-ok .p5 .calque-cadre {
+  display: block;
+  position: relative;
+  height: min(74vh, calc((100vw - 2 * var(--m)) * 890 / 1512));
+  aspect-ratio: var(--ratio);
   overflow: hidden;
+  outline: var(--filet);
+  outline-offset: -0.5px;
+}
+
+html.calque-ok .p5 .paire {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  aspect-ratio: auto;
+  outline: none;
+  clip-path: inset(var(--e, 0%) 0 0 0);
+}
+
+/* Épinglé, le trait suit le bord par transform (posé par project.js) */
+html.calque-ok .p5 .paire .trait {
+  left: 0;
+  will-change: transform, opacity;
+}
+
+html.calque-ok .p5 .paire .mq {
+  will-change: clip-path;
+}
+
+/* Le nom de chaque paire reste pour les lecteurs d'écran ; à l'œil, la légende commune */
+html.calque-ok .p5 .paire-nom {
+  top: auto;
+  margin: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+html.calque-ok .p5 .calque-legende {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  width: calc(min(74vh, calc((100vw - 2 * var(--m)) * 890 / 1512)) * 1512 / 890);
+  margin-top: 16px;
+}
+
+.p5 .calque-nom,
+.p5 .calque-etat {
+  transition: opacity 0.3s ease;
+}
+
+.p5 .calque-nom {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+}
+
+.p5 .calque-etat {
+  font-size: 14px;
+  color: #777;
+  transition-duration: 0.2s;
+}
+
+/* Le prototype : un seul grand lien, souligné en jaune au survol, comme le trait du calque */
+.p5 .proto {
+  margin-top: 160px;
+}
+
+.p5 .proto-lien {
+  grid-column: 1 / -1;
+  justify-self: start;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(40px, 6.4vw, 104px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #000;
+  text-decoration: none;
+}
+
+.p5 .proto-texte {
+  background-image: linear-gradient(var(--c), var(--c));
+  background-repeat: no-repeat;
+  background-position: 0 92%;
+  background-size: 0 0.12em;
+  transition: background-size 0.7s var(--out);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.p5 .proto-fin {
+  white-space: nowrap;
+}
+
+.p5 .proto-fin svg {
+  display: inline-block;
+  width: 0.6em;
+  height: 0.6em;
+  margin-left: 0.12em;
+  vertical-align: 0.02em;
+  transition: transform 0.7s var(--out);
+}
+
+.p5 .proto-fin svg path {
+  stroke-width: 2.4;
+}
+
+.p5 .proto-lien:hover .proto-texte,
+.p5 .proto-lien:focus-visible .proto-texte {
+  background-size: 100% 0.12em;
+}
+
+.p5 .proto-lien:hover svg,
+.p5 .proto-lien:focus-visible svg {
+  transform: translate(6px, -6px);
 }
 
 /* Parallaxe douce : l'image est 12 % plus haute que son cadre */
@@ -1455,8 +1670,54 @@ html.js .p2 .affiche-finale {
     margin: 40px var(--m) 0;
   }
 
-  .p5 .plein {
+  .p5 .calque {
+    --trait: 4px;
     margin-top: 96px;
+  }
+
+  .p5 .calque-cadre {
+    gap: 64px;
+  }
+
+  .p5 .paire {
+    width: 100%;
+  }
+
+  .p5 .paire-nom,
+  .p5 .calque-nom {
+    font-size: 14px;
+  }
+
+  .p5 .calque-etat {
+    font-size: 13px;
+  }
+
+  /* Épinglé en mobile : cadre pleine largeur utile, centré à 45 % de l'écran */
+  html.calque-ok .p5 .calque {
+    height: calc(100svh + var(--n, 4) * 80svh);
+  }
+
+  html.calque-ok .p5 .calque-scene {
+    height: 100svh;
+    justify-content: flex-start;
+    padding-top: calc(45svh - (100vw - 2 * var(--m)) * 890 / 1512 / 2);
+  }
+
+  html.calque-ok .p5 .calque-cadre {
+    width: calc(100vw - 2 * var(--m));
+    height: auto;
+  }
+
+  html.calque-ok .p5 .calque-legende {
+    width: calc(100vw - 2 * var(--m));
+  }
+
+  .p5 .proto {
+    margin-top: 96px;
+  }
+
+  .p5 .proto-texte {
+    background-size: 100% 0.12em;
   }
 
   /* Projet 6 */

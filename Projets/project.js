@@ -2,7 +2,7 @@
    Pages projet v2 : comportement commun (direction.md, motion.md)
    Un seul fichier, pas de script par page : chaque page déclare ses
    effets par attributs (data-rv, data-speed, data-pin, data-ov, data-cur).
-   1. titres au cadrage      5. effets épinglés (portant, salle, deux pages, traverse)
+   1. titres au cadrage      5. effets épinglés (portant, salle, deux pages, traverse, calque)
    2. entrée de page         6. planche-contact (Dugos)
    3. révélations au scroll  7. sorties : projet suivant et retour
    4. boucle et parallaxe
@@ -54,7 +54,9 @@
     if (!ov) return;
     const fin = () => ov.remove();
 
-    if (ov.dataset.type === 'aplat') {
+    // Aplat (projet suivant) ou page sans image d'ouverture à recadrer
+    // (data-entree="retrait", Queen) : le calque se retire vers le haut
+    if (ov.dataset.type === 'aplat' || document.body.dataset.entree === 'retrait') {
       ov.animate(
         [{ clipPath: 'inset(0px 0px 0% 0px)' }, { clipPath: 'inset(0px 0px 100% 0px)' }],
         { duration: 850, easing: IO, fill: 'forwards' }
@@ -323,6 +325,60 @@
         const v = parseFloat(c.dataset.v) || 1;
         c.style.transform = `translate3d(0, ${(-p * v * innerHeight).toFixed(2)}px, 0)`;
       });
+    });
+  }
+
+  // Projet 5 : le calque. Wireframe et maquette l'un sur l'autre ; un trait
+  // jaune balaie le cadre de gauche à droite et découvre la maquette.
+  // Une tranche de défilement par paire : 15 % d'entrée de la paire (découpe du
+  // bas vers le haut), 60 % de balayage, 25 % de repos sur la maquette.
+  const calque = document.querySelector('[data-pin="calque"]');
+  if (calque && !reduit) {
+    doc.classList.add('calque-ok');
+    const cadre = calque.querySelector('.calque-cadre');
+    const paires = [...calque.querySelectorAll('.paire')].map(el => ({
+      el, mq: el.querySelector('.mq'), trait: el.querySelector('.trait'),
+      nom: el.querySelector('.paire-nom').textContent,
+    }));
+    const n = paires.length;
+    const nom = calque.querySelector('.calque-nom');
+    const etat = calque.querySelector('.calque-etat');
+    calque.style.setProperty('--n', n);
+    let largeur = 0, k = -1, actuel = -1, maquette = null;
+    retailles.push(() => { largeur = cadre.clientWidth; });
+
+    // Change un mot de la légende en fondu (sortie, texte, entrée)
+    const changer = (el, texte) => {
+      el.style.opacity = 0;
+      clearTimeout(el._t);
+      el._t = setTimeout(() => { el.textContent = texte; el.style.opacity = 1; }, 160);
+    };
+
+    effets.push(() => {
+      const cible = progression(calque);
+      if (k < 0) k = cible;
+      k += (cible - k) * 0.12;
+      if (Math.abs(cible - k) < 0.0002) k = cible;
+      if (!largeur) largeur = cadre.clientWidth;
+      let p = 0;
+      paires.forEach((pr, i) => {
+        const t = borne(k * n - i, 0, 1);   // avancée dans la tranche de cette paire
+        // Entrée par-dessus la précédente (la première est déjà là)
+        const e = i === 0 ? 0 : 1 - lisse(0, 0.15, t);
+        const pi = borne((t - 0.15) / 0.6, 0, 1);
+        if (pr._e !== e) { pr._e = e; pr.el.style.setProperty('--e', (e * 100).toFixed(2) + '%'); }
+        if (pr._p !== pi) {
+          pr._p = pi;
+          pr.mq.style.clipPath = `inset(0 ${((1 - pi) * 100).toFixed(2)}% 0 0)`;
+          pr.trait.style.transform = `translate3d(${(pi * largeur).toFixed(2)}px, 0, 0)`;
+          pr.trait.style.opacity = pi > 0.002 && pi < 0.998 ? 1 : 0;
+        }
+      });
+      const i = borne(Math.floor(k * n), 0, n - 1);
+      p = paires[i]._p;
+      if (i !== actuel) { actuel = i; changer(nom, paires[i].nom); }
+      const surMaquette = p >= 0.5;
+      if (surMaquette !== maquette) { maquette = surMaquette; changer(etat, surMaquette ? 'La maquette' : 'Le wireframe'); }
     });
   }
 

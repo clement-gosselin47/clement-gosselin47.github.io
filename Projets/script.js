@@ -30,6 +30,11 @@ const projects = [
     image: './dugos-photographie/web/dugos-vitrine.webp',
     url: './dugos-photographie/index.html'
   },
+  {
+    patternIndexes: [7, 11, 20],
+    image: './Queen/web/queen-vitrine.webp',
+    url: './Queen/index.html'
+  },
 ];
 const projectMap = {};
 projects.forEach(p => p.patternIndexes.forEach(idx => { projectMap[idx] = p; }));

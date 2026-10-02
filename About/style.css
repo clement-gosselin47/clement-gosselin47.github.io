@@ -1,5 +1,5 @@
-/* Hauteur minimale de l'écran, mais la page grandit et défile si la bio
-   ne tient pas (portable 1280 × 720) : rien n'est coupé en haut */
+/* Hauteur minimale de l'écran ; sous 900 × 560 la page grandit et défile.
+   Au-dessus, elle est figée à la hauteur de la fenêtre (bloc « Ordinateur ») */
 body {
   background: #fff;
   min-height: 100vh;
@@ -233,6 +233,67 @@ html.passage-attente .side-grid {
   html.js .side-grid {
     animation: about-grille 0.25s linear both;
     animation-delay: 0s;
+  }
+}
+
+/* ═══ Ordinateur (≥ 900 × 560) : la page tient en un écran, sans défilement ═══
+   (demande de Clément, 2026-10-03). Le nom passe sur une ligne, la colonne de
+   texte s'élargit (moins de lignes) et tailles, interlignes et marges suivent la
+   hauteur de la fenêtre (vh). Seuil de hauteur : en dessous de 560px la page
+   reprend un défilement naturel plutôt que de couper du texte. */
+@media (min-width: 900px) and (min-height: 560px) {
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    min-height: 0;
+  }
+
+  .content {
+    height: 100vh;
+    min-height: 0;
+    max-width: min(820px, 72vw);
+    gap: clamp(12px, 3vh, 34px);
+    padding: clamp(24px, 6vh, 64px) 60px clamp(24px, 6vh, 64px) 100px;
+  }
+
+  .side-grid-fade {
+    left: min(820px, 72vw);
+  }
+
+  .identity h1 {
+    font-size: clamp(34px, min(4vw, 7.4vh), 60px);
+    line-height: 1.05;
+    margin-bottom: clamp(4px, 1vh, 10px);
+  }
+
+  /* Les deux mots côte à côte : le masque reste un bloc pour l'animation */
+  .identity h1 .masque {
+    display: inline-block;
+  }
+
+  .role {
+    font-size: clamp(15px, 2.3vh, 18px);
+  }
+
+  .bio {
+    gap: clamp(6px, 1.5vh, 16px);
+  }
+
+  .bio p {
+    font-size: clamp(14px, 2.4vh, 17px);
+    line-height: clamp(1.4em, calc(1em + 0.6vh), 1.65em);
+  }
+
+  .bottom {
+    gap: clamp(8px, 1.5vh, 16px);
+  }
+
+  .available {
+    font-size: clamp(16px, 2.3vh, 18px);
   }
 }
 

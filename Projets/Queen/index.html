@@ -3,11 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Page CACHÉE tant qu'elle est vide (décision de Clément) : hors du circuit « Projet suivant »,
-       absente de Works, non indexée. Pour la publier : retirer cette balise robots,
-       la remettre dans le circuit (dugos-photographie/index.html) et ajouter sa case dans Projets/script.js. -->
-  <meta name="robots" content="noindex, nofollow">
   <title>Queen, Clément Gosselin</title>
+  <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
+  <meta name="description" content="Queen, un site sur le groupe avec une boutique de vinyles. Projet Yboost mené à quatre à Ynov Bordeaux en 2026 : j&#x27;ai fait les wireframes et le prototype Figma.">
+  <link rel="canonical" href="https://clement-gosselin47.github.io/Projets/Queen/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Clément Gosselin">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Queen, Clément Gosselin">
+  <meta property="og:description" content="Queen, un site sur le groupe avec une boutique de vinyles. Projet Yboost mené à quatre à Ynov Bordeaux en 2026 : j&#x27;ai fait les wireframes et le prototype Figma.">
+  <meta property="og:url" content="https://clement-gosselin47.github.io/Projets/Queen/">
+  <meta property="og:image" content="https://clement-gosselin47.github.io/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Les projets de Clément Gosselin sur la grille de son portfolio.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.ico" sizes="32x32">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -19,13 +29,13 @@
   <link rel="stylesheet" href="../project-style.css">
 </head>
 <!-- MODE D'EMPLOI
-     Textes : tout est dans <main>, dans l'ordre de la page (colophon, récit, phrase de fin). Le nom du projet est dans le h1 et dans <title>.
-     Case de couleur = emplacement vide : la remplacer par l'<img> écrite dans le commentaire juste au-dessus.
-     Images : dans ce dossier, sous-dossier web/ à créer, en .webp ; une phrase simple dans alt.
+     Textes : tout est dans <main>, dans l'ordre de la page (colophon, récit, calque, prototype, phrase de fin).
+     Images : dans le dossier web/ de ce projet, en .webp ; une phrase simple dans alt.
      Couleur du projet : --c dans le style de <body> (--c-ink = encre lisible sur la couleur).
-     Lien en ligne : mettre l'adresse dans href du lien « Voir le site » et retirer hidden.
-     Mise en scène de cette page : le titre traverse l'écran jaune, trois images passent devant et derrière lui. -->
-<body class="projet p5" style="--c: #FFD400; --c-ink: #000">
+     Prototype Figma : la même adresse à deux endroits (sous le colophon et dans le grand lien), changer les deux.
+     Mise en scène de cette page : le titre traverse l'écran jaune, puis le calque :
+     le wireframe et la maquette l'un sur l'autre, un trait jaune passe de l'un à l'autre au défilement. -->
+<body class="projet p5" style="--c: #FFD400; --c-ink: #000" data-entree="retrait">
   <div class="cursor" id="cursor"></div>
 
   <div class="back-nav">
@@ -46,25 +56,31 @@
 
   <main>
     <!-- Ouverture : le titre plus grand que l'écran glisse vers la gauche au défilement.
-         Les trois cartons montent à des vitesses différentes (data-v) : A et C devant le titre, B derrière. -->
+         Les trois cartons montent à des vitesses différentes (data-v) : A et C devant le titre, B derrière.
+         A : la page Experience en mobile (fichier déjà au format 4:5). C : la fiche album en maquette.
+         Recadrage de C (class="recadre") : --w largeur de l'image, --l décalage à gauche, --h décalage en haut,
+         tous en % de la largeur du carton. -->
     <section class="traverse" data-pin="traverse" data-couleur>
       <div class="traverse-scene">
-        <!-- IMAGE A : portrait 4:5. Remplacer l'intérieur vide par : <img src="web/nom.webp" alt="phrase qui décrit l'image" width="1000" height="1250"> -->
-        <div class="carton carton-a" data-v="1.6"></div>
-        <!-- IMAGE B : paysage 3:2, derrière le titre. Même modèle : <img src="web/nom.webp" alt="…" width="1500" height="1000"> -->
-        <div class="carton carton-b" data-v="1.4"></div>
-        <!-- IMAGE C : carré. Même modèle : <img src="web/nom.webp" alt="…" width="1000" height="1000"> -->
-        <div class="carton carton-c" data-v="2"></div>
+        <div class="carton carton-a" data-v="1.6">
+          <img src="web/queen-carton-experience.webp" alt="Maquette mobile de la page Experience : le titre The First Encounter et son texte, sur des photos du groupe." width="800" height="1000">
+        </div>
+        <div class="carton carton-b" data-v="1.4">
+          <img src="web/queen-maquette-discographie.webp" alt="Maquette de la discographie du site Queen, pochettes d'albums en bandes verticales." width="1512" height="1127">
+        </div>
+        <div class="carton carton-c" data-v="2">
+          <img class="recadre" src="web/queen-maquette-album.webp" alt="La même fiche en maquette : la pochette d'A Night At The Opera, le titre et les boutons Écouter et Acheter." width="1512" height="1640" style="--w: 140%; --l: -16.67%; --h: 0%">
+        </div>
 
         <h1 class="titre fit"><span class="l"><span class="t">Queen</span></span></h1>
 
         <div class="colophon" data-rv="txt">
           <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
-          <!-- EXEMPLE à remplacer en entier : rien n'est encore écrit sur ce projet -->
-          <p>J'ai tenu la direction artistique, en binôme, pendant trois semaines. Photoshop.</p>
-          <!-- Lien en ligne : mettre l'adresse dans href et retirer hidden -->
-          <a class="site-lien" href="" target="_blank" rel="noopener" hidden>
-            Voir le site
+          <p>Site d'artiste avec boutique, 2026. Yboost, le gros projet de l'année à Ynov Bordeaux, à quatre sur plusieurs mois. Mon rôle : wireframes et prototype interactif. Figma.</p>
+          <!-- Prototype Figma en lecture seule. ADRESSE DU PROTOTYPE : la même dans le grand lien plus bas, changer les deux.
+               Les & s'écrivent &amp; ici. -->
+          <a class="site-lien" href="https://www.figma.com/proto/C8Jamn9TLYGX7pIi0TZty4/Queen_Yboost?node-id=218-38&amp;viewport=92%2C263%2C0.04&amp;t=QGug9CN0ept21shk-1&amp;scaling=min-zoom&amp;content-scaling=fixed&amp;starting-point-node-id=218%3A38&amp;page-id=83%3A144" target="_blank" rel="noopener" data-cur="Voir">
+            Voir le prototype
             <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -73,35 +89,74 @@
       </div>
     </section>
 
-    <!-- Récit : trois à cinq paragraphes courts, chacun commence par une attaque en gras -->
+    <!-- Récit : trois à cinq paragraphes courts -->
     <section class="recit g12">
       <h2 class="lecteur">Le projet</h2>
       <div class="recit-col">
-        <!-- EXEMPLE : récit plausible et neutre, à remplacer en entier -->
-        <p data-rv="txt">Un exercice de cours, à deux : donner une image à un sujet imposé. Mon binôme écrivait les textes. Une seule couleur, beaucoup de noir, et des images assez fortes pour tenir sans légende.</p>
-        <p data-rv="txt">Chaque vendredi, toutes les pistes étaient posées côte à côte sur la table. On en gardait une, et la semaine suivante partait de là. Six visuels sont passés devant le jury en fin de module.</p>
+        <p data-rv="txt">Le brief Yboost : un site WordPress consacré à un artiste, conçu de bout en bout, du wireframe au prototype, avec son design system. À quatre, on a choisi Queen. Le site mêle vitrine et e-commerce : une discographie, des contenus éditoriaux sur l'histoire du groupe et une boutique de vinyles.</p>
+        <p data-rv="txt">J'ai réalisé les wireframes basse fidélité de tout le parcours : accueil, discographie, fiche album, boutique, fiche produit, panier, contact et blog. La navigation typographique de l'accueil est posée dès ce stade. Les maquettes haute fidélité reposent sur un design system commun (typographies, couleurs, composants) qui aligne la boutique et les pages éditoriales. J'ai ensuite relié tous les écrans en prototype interactif sur Figma, qui a servi de base à l'intégration WordPress faite par une autre personne du groupe.</p>
       </div>
     </section>
 
-    <!-- Image pleine largeur, d'un bord à l'autre, en 16:9. Elle flotte doucement au défilement. -->
-    <figure class="plein">
-      <div class="px" data-speed="0.06">
-        <!-- IMAGE : 2400 px de large, 16:9. Remplacer la div par : <img src="web/nom.webp" alt="phrase qui décrit l'image" width="2400" height="1350" loading="lazy"> -->
-        <div class="empty"></div>
+    <!-- Le calque : wireframe et maquette au même format, l'un sur l'autre.
+         Au défilement, un trait jaune balaie le cadre de gauche à droite et découvre la maquette.
+         Une paire = une <figure class="paire"> : le wireframe (class="wf") puis la maquette (class="mq").
+         Les deux images d'une paire ont la même largeur et partent du même haut de page.
+         Sans JavaScript ou en mouvement réduit : les paires s'empilent, figées à moitié. -->
+    <section class="calque" data-pin="calque" data-rv-non aria-label="Du wireframe à la maquette, quatre pages">
+      <div class="calque-scene">
+        <div class="calque-cadre">
+          <figure class="paire">
+            <img class="wf" src="web/queen-wf-accueil.webp" alt="Wireframe de l'accueil du site Queen : une grande image barrée d'une croix et le menu en grosses lettres." width="1512" height="890" loading="lazy" decoding="async">
+            <img class="mq" src="web/queen-maquette-accueil.webp" alt="Maquette de l'accueil : photo des quatre membres de Queen, menu Shop, Experience, Discographie, Contact en lettres détourées." width="1512" height="890" loading="lazy" decoding="async">
+            <span class="trait" aria-hidden="true"></span>
+            <figcaption class="paire-nom">L'accueil</figcaption>
+          </figure>
+          <figure class="paire">
+            <img class="wf" src="web/queen-wf-album.webp" alt="Wireframe de la fiche d'un album du site Queen : pochette barrée, titre, deux boutons et la barre du lecteur." width="1512" height="1640" loading="lazy" decoding="async">
+            <img class="mq" src="web/queen-maquette-album.webp" alt="Maquette de la fiche d'un album dans la discographie de Queen : A Night At The Opera, les boutons Écouter et Acheter, le lecteur et la liste des titres." width="1512" height="1640" loading="lazy" decoding="async">
+            <span class="trait" aria-hidden="true"></span>
+            <figcaption class="paire-nom">La fiche d'un album</figcaption>
+          </figure>
+          <figure class="paire">
+            <img class="wf" src="web/queen-wf-produit.webp" alt="Wireframe de la fiche produit du site Queen." width="1512" height="1320" loading="lazy" decoding="async">
+            <img class="mq" src="web/queen-maquette-produit.webp" alt="Maquette de la fiche produit du vinyle Queen I : photo, prix, bouton Ajouter au panier." width="1512" height="1320" loading="lazy" decoding="async">
+            <span class="trait" aria-hidden="true"></span>
+            <figcaption class="paire-nom">La fiche d'un vinyle</figcaption>
+          </figure>
+          <figure class="paire">
+            <img class="wf" src="web/queen-wf-experience.webp" alt="Wireframe de la page Experience du site Queen." width="1512" height="856" loading="lazy" decoding="async">
+            <img class="mq" src="web/queen-maquette-experience.webp" alt="Maquette de la page Experience : titre The First Encounter, l'année 1970 et des photos du groupe en collage." width="1512" height="856" loading="lazy" decoding="async">
+            <span class="trait" aria-hidden="true"></span>
+            <figcaption class="paire-nom">Experience</figcaption>
+          </figure>
+        </div>
+        <!-- Légende commune pendant le balayage (remplie par project.js) -->
+        <div class="calque-legende" aria-hidden="true">
+          <span class="calque-nom">L'accueil</span>
+          <span class="calque-etat">Le wireframe</span>
+        </div>
       </div>
-    </figure>
+    </section>
+
+    <!-- Le prototype : un seul grand lien. Même adresse que le lien du colophon, changer les deux. -->
+    <section class="proto g12">
+      <a class="proto-lien" href="https://www.figma.com/proto/C8Jamn9TLYGX7pIi0TZty4/Queen_Yboost?node-id=218-38&amp;viewport=92%2C263%2C0.04&amp;t=QGug9CN0ept21shk-1&amp;scaling=min-zoom&amp;content-scaling=fixed&amp;starting-point-node-id=218%3A38&amp;page-id=83%3A144" target="_blank" rel="noopener" data-cur="Voir" data-rv="txt">
+        <span class="proto-texte">Voir le <span class="proto-fin">prototype<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+      </a>
+    </section>
 
     <!-- Ce que j'en retiens : une seule phrase -->
     <section class="retiens g12">
-      <p data-rv="txt">Le vendredi, on jetait quatre pistes sur cinq.</p>
+      <p data-rv="txt">Le menu en grosses lettres que j'avais posé dans le wireframe gris est resté jusqu'au site final.</p>
     </section>
   </main>
 
   <footer class="fin">
     <!-- Projet suivant : tout le bloc est le lien. --next = couleur du projet suivant, --next-ink = encre lisible dessus -->
-    <a class="suivant" href="../projet-6/index.html" style="--next: #AA0064; --next-ink: #fff" data-cur="Suivant">
+    <a class="suivant" href="../Ethikwear/index.html" style="--next: #4CAF1E; --next-ink: #000" data-cur="Suivant">
       <span class="suivant-label">Projet suivant</span>
-      <span class="titre fit"><span class="t">Sans titre</span></span>
+      <span class="titre fit"><span class="t">Ethikwear</span></span>
     </a>
   </footer>
 

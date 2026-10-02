@@ -20,6 +20,7 @@
     { patternIndexes: [5, 19, 22], image: '../Projets/redstone/web/redstone-vitrine.webp' },
     { patternIndexes: [3, 10, 18], image: '../Projets/Unik/web/unik-vitrine.webp' },
     { patternIndexes: [2, 9, 16], image: '../Projets/dugos-photographie/web/dugos-vitrine.webp' },
+    { patternIndexes: [7, 11, 20], image: '../Projets/Queen/web/queen-vitrine.webp' },
   ];
   const projectMap = {};
   projects.forEach(p => p.patternIndexes.forEach(idx => { projectMap[idx] = p; }));
