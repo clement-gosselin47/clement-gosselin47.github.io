@@ -11,6 +11,8 @@ node_modules/
 *.psd
 *.mov
 *.mp4
+# Exception : la vidéo web de Dugos, publiée sur sa page
+!Projets/dugos-photographie/web/dugos-navigation.mp4
 /Preloader*.png
 About/Img/
 Projets/*/Img vitrine.png

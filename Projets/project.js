@@ -180,6 +180,32 @@
     });
   });
 
+  // Vidéos de démonstration (data-auto) : lecture quand elles sont à l'écran,
+  // pause hors écran ou onglet caché. Le bouton qui les entoure met en pause
+  // ou relance ; en mouvement réduit, rien ne démarre seul, il faut cliquer.
+  document.querySelectorAll('video[data-auto]').forEach(video => {
+    const bouton = video.closest('button');
+    let voulue = !reduit;   // la lecture souhaitée (par défaut, ou après un clic)
+    let visible = false;
+    const maj = () => {
+      const lire = voulue && visible && !document.hidden;
+      if (lire && video.paused) video.play().catch(() => {});
+      if (!lire && !video.paused) video.pause();
+      if (bouton) {
+        bouton.dataset.cur = voulue ? 'Pause' : 'Lire';
+        bouton.setAttribute('aria-label', voulue ? 'Mettre la vidéo en pause' : 'Lire la vidéo');
+      }
+    };
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(e => { visible = e[0].isIntersecting; maj(); }, { threshold: 0.25 }).observe(video);
+    } else {
+      visible = true;
+    }
+    document.addEventListener('visibilitychange', maj);
+    if (bouton) bouton.addEventListener('click', () => { voulue = !voulue; maj(); });
+    maj();
+  });
+
   /* ── 5. Effets épinglés ── */
 
   // Projet 1 : le portant. Le défilement vertical fait glisser le rail.

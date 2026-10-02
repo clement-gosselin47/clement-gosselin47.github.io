@@ -806,7 +806,7 @@ html.js .p2 .affiche-finale {
 /* Filets partagés, le même trait que la grille Works */
 .p4 .planche {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));   /* 9 vues : 3 × 3 */
   border-top: var(--filet);
   border-left: var(--filet);
 }
@@ -815,7 +815,7 @@ html.js .p2 .affiche-finale {
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 2000 / 1182;           /* le format des captures du site */
   padding: 16px;
   border: 0;
   border-right: var(--filet);
@@ -867,7 +867,7 @@ html.js .p2 .affiche-finale {
 }
 
 .p4 .grande-vue {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 2000 / 1182;
   transition: opacity 0.4s ease;
 }
 
@@ -880,6 +880,26 @@ html.js .p2 .affiche-finale {
 .p4 .grande-vue.change {
   opacity: 0;
   transition-duration: 0.2s;
+}
+
+/* Le parcours en vidéo, à la largeur de la planche */
+.p4 .parcours {
+  margin-top: 140px;
+  padding: 0 var(--m);
+}
+
+.p4 .parcours-vue {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: #f2f2f2;
+}
+
+.p4 .parcours-vue video {
+  width: 100%;
+  aspect-ratio: 1280 / 756;
+  object-fit: cover;
 }
 
 /* ═══ Projet 5, Queen : le titre qui traverse ═══ */
@@ -1365,12 +1385,9 @@ html.js .p2 .affiche-finale {
     margin-top: 96px;
   }
 
-  .p4 .planche {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
+  /* 3 colonnes gardées : la planche reste un carré de 9, petites vues comme sur une vraie planche */
   .p4 .vue {
-    padding: 8px;
+    padding: 6px;
   }
 
   .p4 .marqueur {
@@ -1382,6 +1399,10 @@ html.js .p2 .affiche-finale {
   .p4 .grande {
     order: -1;
     margin: 0 0 32px;
+  }
+
+  .p4 .parcours {
+    margin-top: 88px;
   }
 
   /* Projet 5 */
