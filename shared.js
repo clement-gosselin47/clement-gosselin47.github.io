@@ -70,7 +70,7 @@ const Passage = (function () {
   const DEST = {
     works:   { mot: 'Works', c: '#FFD400', ink: '#000' },
     about:   { mot: 'About', c: '#F26FD6', ink: '#000' },
-    contact: { c: '#4CAF1E', ink: '#000' },
+    contact: { c: '#fff', ink: '#000' },
   };
 
   let stockage = true;
@@ -213,8 +213,25 @@ const Passage = (function () {
     ]).then(() => requestAnimationFrame(go));
   }
 
-  /* ── Contact : l'aplat s'ouvre et garde l'adresse, la page reste ── */
+  /* ── Contact : la page se vide, une phrase, l'adresse au cadrage ── */
   let contact = null;
+
+  // Source Sans 3 n'est chargée que sur les pages qui l'utilisent (pas sur Works) :
+  // on la demande une fois, à la première ouverture
+  function chargerTexte() {
+    if (!document.querySelector('link[data-contact-police]')) {
+      const l = document.createElement('link');
+      l.rel = 'stylesheet';
+      l.href = 'https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap';
+      l.dataset.contactPolice = '';
+      document.head.appendChild(l);
+    }
+    return document.fonts && document.fonts.load
+      ? Promise.all([document.fonts.load("400 20px 'Source Sans 3'"), document.fonts.load("600 18px 'Source Sans 3'")]).catch(() => {})
+      : Promise.resolve();
+  }
+
+  const FLECHE = '<svg class="link-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   function ouvrirContact(lien) {
     if (occupe || contact) return;
@@ -226,88 +243,179 @@ const Passage = (function () {
     ov.dataset.couleur = '';
     ov.dataset.cur = 'Fermer';
     ov.setAttribute('role', 'dialog');
+    ov.setAttribute('aria-modal', 'true');
     ov.setAttribute('aria-label', 'Contact');
     ov.style.background = D.c;
     ov.style.color = D.ink;
+    const m = (t) => '<span class="ov-masque"><span>' + t + '</span></span>';
     const [nom, domaine] = EMAIL.split('@');
     ov.innerHTML =
+      '<div class="ov-phrase">' +
+        '<p class="ov-accroche">' + m('Je cherche une alternance') + m('en 2j&nbsp;/&nbsp;3j à&nbsp;Bordeaux.') + '</p>' +
+        '<p class="ov-appui">' + m('Disponible dès maintenant.') + '</p>' +
+      '</div>' +
       '<button type="button" class="ov-adresse" data-cur="Copier" aria-label="Copier l\'adresse ' + EMAIL + '">' +
-        '<span class="ov-masque"><span>' + nom + '</span></span>' +
-        '<span class="ov-masque"><span>@' + domaine + '</span></span>' +
+        '<span class="ov-une">' + m(EMAIL) + '</span>' +
+        '<span class="ov-trois"></span>' +
       '</button>' +
       '<p class="ov-bas">' +
-        '<a href="mailto:' + EMAIL + '" data-cur="">Ouvrir ma messagerie</a>' +
-        '<button type="button" class="ov-copier" data-cur="">Copier</button>' +
-      '</p>';
+        '<button type="button" class="ov-copier" data-cur="" aria-label="Copier l\'adresse email dans le presse-papiers">Copier l\'adresse</button>' +
+        '<a href="mailto:' + EMAIL + '" data-cur="" aria-label="Ouvrir ma messagerie pour écrire à ' + EMAIL + '">Ouvrir ma messagerie</a>' +
+        '<a href="https://www.linkedin.com/in/clementgosselin" target="_blank" rel="noopener" data-cur="">LinkedIn' + FLECHE + '</a>' +
+        '<button type="button" class="ov-fermer" data-cur="" aria-label="Fermer la fenêtre de contact">Fermer</button>' +
+      '</p>' +
+      '<span class="sr-seul" role="status" aria-live="polite"></span>';
+    // Version trois lignes (sous 900px) : coupes aux points naturels de l'adresse
+    const [prenom, famille] = nom.split('.');
+    const trois = [prenom + '.', famille, '@' + domaine];
+    ov.querySelector('.ov-trois').innerHTML = trois.map(m).join('');
     const bouton = ov.querySelector('.ov-adresse');
-    bouton.style.fontSize = taille(nom, true) + 'px';
-    police.then(() => { bouton.style.fontSize = taille(nom, true) + 'px'; });
-    bouton.style.left = marge() + 'px';
-    ov.querySelector('.ov-bas').style.left = marge() + 'px';
+    const copierBtn = ov.querySelector('.ov-copier');
+    const statut = ov.querySelector('[role=status]');
+
+    // Cadrage : une ligne au-dessus de 900px, trois lignes dessous (taille de la plus longue)
+    const cadrer = () => {
+      ov.style.setProperty('--m', marge() + 'px');
+      const t = (window.innerWidth >= 900 || window.innerHeight < 560)
+        ? taille(EMAIL, true)
+        : Math.min(...trois.map(t => taille(t, true)));
+      ov.style.setProperty('--taille', t + 'px');
+    };
+    cadrer();
+    police.then(cadrer);
+    window.addEventListener('resize', cadrer);
+    chargerTexte();
+
     document.body.appendChild(ov);
     inerte(true, ov);
     if (window.Works && window.Works.freiner) window.Works.freiner();
     lien.setAttribute('aria-expanded', 'true');
 
-    const lignes = ov.querySelectorAll('.ov-adresse .ov-masque > span');
+    const visibles = Array.from(ov.querySelectorAll('.ov-accroche .ov-masque > span, .ov-appui .ov-masque > span, .ov-adresse .ov-masque > span'))
+      .filter(l => l.getClientRects().length);
+    const bas = ov.querySelector('.ov-bas');
     const d = mobile() ? 650 : 750;
+    const arrivee = d * 0.3 + visibles.length * 90 + 600;   // le texte est en place
+    const timers = [];
+    let copie = null;
     if (reduit) {
       ov.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, fill: 'forwards' });
     } else {
       ov.animate([{ clipPath: rectDe(lien) }, { clipPath: PLEIN }], { duration: d, easing: IO, fill: 'forwards' });
-      lignes.forEach((l, i) => l.animate([{ transform: 'translateY(105%)' }, { transform: 'none' }],
-        { duration: d * 0.8, delay: d * 0.3 + i * 90, easing: OUT, fill: 'both' }));
+      doc.classList.add('contact-ouvert');   // le menu indique CONTACT comme page active
+      visibles.forEach((l, i) => l.animate([{ transform: 'translateY(105%)' }, { transform: 'none' }],
+        { duration: 600, delay: d * 0.3 + i * 90, easing: OUT, fill: 'both' }));
+      bas.animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }],
+        { duration: 500, delay: 700 + d * 0.3, easing: OUT, fill: 'both' });
     }
 
-    // Copier : le mot du curseur devient « Copié » 1,4 s ; sans presse-papiers, l'adresse reste sélectionnable
-    const copier = (ev, el) => {
+    // La bande verte : au toucher elle se déroule seule et reste ; à la souris,
+    // un premier regard (déroule, tient, repart) sauf si elle est déjà survolée
+    if (!reduit) {
+      if (window.matchMedia('(hover: none)').matches) {
+        timers.push(setTimeout(() => bouton.classList.add('vert'), arrivee + 500));
+      } else {
+        timers.push(setTimeout(() => {
+          if (bouton.matches(':hover') || copie) return;
+          bouton.classList.add('vert');
+          timers.push(setTimeout(() => { if (!copie) bouton.classList.remove('vert'); }, 700 + 500));
+        }, arrivee));
+      }
+    }
+
+    // Copier : bande pleine, mot du curseur et action passent à « copié » 1,4 s
+    const copier = (ev) => {
       ev.stopPropagation();
-      if (!navigator.clipboard) return;
-      navigator.clipboard.writeText(EMAIL).then(() => {
-        const avant = el.dataset.cur;
-        if (avant) el.dataset.cur = 'Copié'; else el.textContent = 'Copié';
-        setTimeout(() => { if (avant) el.dataset.cur = avant; else el.textContent = 'Copier'; }, 1400);
-      }).catch(() => {});
+      clearTimeout(copie);
+      bouton.classList.add('vert');
+      const fini = () => {
+        copie = null;
+        bouton.dataset.cur = 'Copier';
+        copierBtn.textContent = 'Copier l\'adresse';
+        if (!window.matchMedia('(hover: none)').matches || reduit) bouton.classList.remove('vert');
+        else bouton.classList.add('vert');
+      };
+      const suite = (texteAction, mot, message) => {
+        bouton.dataset.cur = mot;
+        copierBtn.textContent = texteAction;
+        statut.textContent = '';
+        setTimeout(() => { statut.textContent = message; }, 30);
+        copie = setTimeout(fini, 1400);
+      };
+      const secours = () => {
+        const s = window.getSelection();
+        if (s) s.selectAllChildren(bouton.querySelector('.ov-une').getClientRects().length ? bouton.querySelector('.ov-une') : bouton.querySelector('.ov-trois'));
+        suite('Sélectionnée', 'Copier', 'Copie impossible, sélectionnez l\'adresse.');
+      };
+      if (!navigator.clipboard) { secours(); return; }
+      navigator.clipboard.writeText(EMAIL).then(
+        () => suite('Adresse copiée', 'Copié', 'L\'adresse a été copiée.'),
+        secours);
     };
-    bouton.addEventListener('click', ev => copier(ev, bouton));
-    const petit = ov.querySelector('.ov-copier');
-    petit.addEventListener('click', ev => copier(ev, petit));
-    ov.querySelector('.ov-bas a').addEventListener('click', ev => ev.stopPropagation());
+    bouton.addEventListener('click', copier);
+    copierBtn.addEventListener('click', copier);
+    bas.querySelectorAll('a').forEach(a => a.addEventListener('click', ev => ev.stopPropagation()));
+    ov.querySelector('.ov-fermer').addEventListener('click', ev => { ev.stopPropagation(); fermerContact(); });
     ov.addEventListener('click', () => fermerContact());
 
-    contact = { ov, lien };
+    contact = { ov, lien, visibles, bas, bouton, timers, cadrer };
     setTimeout(() => { occupe = false; bouton.focus({ preventScroll: true }); }, reduit ? 200 : d);
+  }
+
+  function nettoyerContact(c) {
+    c.timers.forEach(clearTimeout);
+    window.removeEventListener('resize', c.cadrer);
   }
 
   function fermerContact() {
     if (!contact || occupe) return;
-    const { ov, lien } = contact;
+    const c = contact;
+    const { ov, lien } = c;
     contact = null;
     occupe = true;
+    nettoyerContact(c);
     lien.setAttribute('aria-expanded', 'false');
+    const retirerEtat = () => doc.classList.remove('contact-ouvert');
     const fin = () => {
       ov.remove();
       inerte(false);
       if (window.Works && window.Works.relancer) window.Works.relancer();
       occupe = false;
-      lien.focus({ preventScroll: true });
+      // Le focus ne revient au lien qu'au clavier : après un clic, pas de contour résiduel
+      if (auClavier) lien.focus({ preventScroll: true });
+      else if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
     };
     if (reduit) {
+      retirerEtat();
       ov.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: 'forwards' }).finished.then(fin);
       return;
     }
-    ov.animate([{ clipPath: PLEIN }, { clipPath: rectDe(lien) }], { duration: mobile() ? 500 : 600, easing: IO, fill: 'forwards' })
+    // Le texte redescend, puis le calque se referme vers le lien
+    c.bouton.classList.remove('vert');
+    c.visibles.forEach((l, i) => l.animate([{ transform: 'none' }, { transform: 'translateY(105%)' }],
+      { duration: 350, delay: i * 30, easing: IO, fill: 'forwards' }));
+    c.bas.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: 'forwards' });
+    ov.animate([{ clipPath: PLEIN }, { clipPath: rectDe(lien) }],
+      { duration: mobile() ? 500 : 600, delay: 250, easing: IO, fill: 'forwards' })
       .finished.then(fin);
+    retirerEtat();   // le menu retrouve l'état de la page courante
   }
 
   // Un autre lien du menu pendant que le contact est ouvert : on le retire sans attendre
   function fermerContactVite() {
     if (!contact) return;
     contact.lien.setAttribute('aria-expanded', 'false');
+    nettoyerContact(contact);
     contact.ov.remove();
     contact = null;
+    doc.classList.remove('contact-ouvert');
     inerte(false);
   }
+
+  // Dernier mode d'entrée : le focus n'est rendu au lien qu'au clavier
+  let auClavier = false;
+  window.addEventListener('keydown', () => { auClavier = true; }, true);
+  window.addEventListener('pointerdown', () => { auClavier = false; }, true);
 
   window.addEventListener('keydown', e => { if (e.key === 'Escape') fermerContact(); });
 
@@ -357,6 +465,7 @@ const Passage = (function () {
     document.querySelectorAll('.ov-passage, .ov-voile, .ov-contact').forEach(o => o.remove());
     doc.classList.remove('passage-sombre', 'passage-attente', 'passage-fondu', 'passage-en-cours');
     contact = null;
+    doc.classList.remove('contact-ouvert');
     inerte(false);
     occupe = false;
   });
