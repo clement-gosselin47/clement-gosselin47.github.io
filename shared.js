@@ -488,7 +488,8 @@ const Passage = (function () {
   function afficher() {
     if (!bouton) return;
     bouton.setAttribute('aria-pressed', sombre() ? 'true' : 'false');
-    bouton.textContent = sombre() ? 'Mode clair' : 'Mode sombre';
+    // Le symbole (lune / soleil) est choisi en CSS selon data-theme ; ici le nom accessible
+    bouton.setAttribute('aria-label', sombre() ? 'Passer en mode clair' : 'Passer en mode sombre');
   }
 
   function poser(theme) {
