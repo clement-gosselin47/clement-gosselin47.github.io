@@ -2270,3 +2270,17 @@ body.projet .theme-nav {
     left: 66px;
   }
 }
+
+/* ═══ Cadre des visuels (2026-10-05, retouche 5) ═══
+   Les captures d'écran ont souvent un fond blanc qui se confond avec la page : filet net de
+   1,5px (1px sur écran standard), coins droits, sans ombre. Dessiné en outline rentrant
+   (offset négatif) : il ne décale rien, ne change pas la taille des visuels et reste visible
+   même quand un parent coupe le débordement. Variable --cadre (shared.css), claire en sombre.
+   Hors cadre : ouvertures plein cadre (déjà sur photo ou aplat de couleur), la salle de
+   Redstone (calques détourés sur noir), logos, icônes, flèche et bouton thème. */
+body.projet:not(.p2) main :is(img, video):not(
+  .ouv *, .ouv-relay *, .ouv-ps *, .heros *, .traverse *, .ouv-img
+) {
+  outline: 1.5px solid var(--cadre);
+  outline-offset: -1.5px;
+}

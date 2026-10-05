@@ -18,10 +18,12 @@
   --case: #ebebeb;      /* case en attente d'image */
   --case-pre: #f4f4f4;  /* case du preloader */
   --bg-salle: #000;     /* la salle noire de Redstone */
+  --cadre: rgba(0, 0, 0, 0.42);   /* filet autour des visuels des pages projet : gris moyen */
   color-scheme: light;
 }
 
 html[data-theme="dark"] {
+  --cadre: rgba(233, 230, 223, 0.38);   /* gris clair sur anthracite */
   --bg: #24272d;
   --bg-rgb: 36, 39, 45;
   --fg: #e9e6df;
