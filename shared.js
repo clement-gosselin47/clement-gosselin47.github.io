@@ -111,7 +111,7 @@ const Passage = (function () {
   // Tout sauf le header, la flèche, le curseur et les calques devient inerte
   function inerte(oui, garder) {
     Array.from(document.body.children).forEach(el => {
-      if (el.matches('header, .back-nav, .cursor, script, .ov') || el === garder) return;
+      if (el.matches('header, .theme-nav, .back-nav, .cursor, script, .ov') || el === garder) return;
       if (oui) el.setAttribute('inert', ''); else el.removeAttribute('inert');
     });
   }

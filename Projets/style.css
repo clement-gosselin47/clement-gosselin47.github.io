@@ -133,7 +133,7 @@ body.ouvre .wrapper {
    Même typo que le header, en colonne en haut à gauche. */
 .projets-clavier {
   position: fixed;
-  top: 0;
+  top: 62px;                   /* sous la bascule de thème (en haut à gauche) */
   left: 0;
   z-index: 101;
   align-items: flex-start;

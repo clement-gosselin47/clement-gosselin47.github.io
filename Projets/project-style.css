@@ -1304,12 +1304,19 @@ html.calque-ok .p5 .calque-legende {
 
   /* Header et flèche défilent avec la page */
   body.projet header,
+  body.projet .theme-nav,
   body.projet .back-nav {
     position: absolute;
   }
 
   .back-nav {
     padding: 32px 20px;
+  }
+
+  /* Bascule de thème : à droite de la flèche (20 + 40px), à sa hauteur */
+  body.projet .theme-nav {
+    top: 20px;
+    left: 66px;
   }
 
   .arrow-icon {
@@ -1830,38 +1837,41 @@ html.calque-ok .p5 .calque-legende {
    Sur un aplat de couleur (project.js pose .sur-couleur) ou dans la salle noire,
    on revient au noir ou au blanc francs. */
 body.projet header,
+body.projet .theme-nav,
 body.projet .back-nav {
   mix-blend-mode: difference;
 }
 
 body.projet nav a,
-body.projet nav .theme-toggle,
+body.projet .theme-toggle,
 body.projet .back-nav a {
   color: #fff;
   transition: transform 0.2s ease;
 }
 
 body.projet header a:focus-visible,
-body.projet header .theme-toggle:focus-visible,
+body.projet .theme-toggle:focus-visible,
 body.projet .back-nav a:focus-visible {
   outline-color: #fff;
 }
 
 body.projet.sur-couleur header,
+body.projet.sur-couleur .theme-nav,
 body.projet.sur-couleur .back-nav,
 body.projet.is-dark header,
+body.projet.is-dark .theme-nav,
 body.projet.is-dark .back-nav {
   mix-blend-mode: normal;
 }
 
 body.projet.sur-couleur nav a,
-body.projet.sur-couleur nav .theme-toggle,
+body.projet.sur-couleur .theme-toggle,
 body.projet.sur-couleur .back-nav a {
   color: #000;
 }
 
 body.projet.sur-couleur header a:focus-visible,
-body.projet.sur-couleur header .theme-toggle:focus-visible,
+body.projet.sur-couleur .theme-toggle:focus-visible,
 body.projet.sur-couleur .back-nav a:focus-visible {
   outline-color: #000;
 }
@@ -1870,12 +1880,13 @@ body.projet.sur-couleur .back-nav a:focus-visible {
    illisible (audit-ux 1). Sur la photo : blanc franc sur un voile sombre en haut
    du hero ; dès que la feuille blanche passe sous le header, retour à la règle. */
 body.p4.sur-photo header,
+body.p4.sur-photo .theme-nav,
 body.p4.sur-photo .back-nav {
   mix-blend-mode: normal;
 }
 
 body.p4.sur-photo nav a,
-body.p4.sur-photo nav .theme-toggle,
+body.p4.sur-photo .theme-toggle,
 body.p4.sur-photo .back-nav a {
   color: #fff;
 }
@@ -2244,5 +2255,18 @@ html.seuil-ok .p7 .seuil-bande {
 
   .p8 .vues > figure {
     scroll-snap-align: start;
+  }
+}
+
+/* ═══ Bascule de thème : à droite de la flèche retour, à sa hauteur (flèche : 60px de marge, 56px de large, centre à 62px) ═══ */
+body.projet .theme-nav {
+  top: 40px;
+  left: 130px;
+}
+
+@media (max-width: 767px) {
+  body.projet .theme-nav {
+    top: 20px;
+    left: 66px;
   }
 }

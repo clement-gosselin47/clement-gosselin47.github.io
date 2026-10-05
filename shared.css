@@ -131,37 +131,45 @@ nav a.active {
   margin-right: calc(-0.08em - 16px);
 }
 
-/* ── Bascule clair / sombre : un symbole sous CONTACT (lune en clair, soleil en sombre) ──
-   Trait fin en currentColor. Zone de clic de 44px (padding 12px compensé par les marges). */
-nav .theme-toggle {
+/* ── Bascule clair / sombre : un symbole en haut à gauche (lune en clair, soleil en sombre) ──
+   Calque propre (.theme-nav), fixe comme le header ; le menu est à droite, lui à gauche, même
+   marge (trait du symbole à 48px du bord). Trait épais (2,75) et bouts ronds : même graisse
+   que le menu en gras, en plus petit (24px). Zone de clic de 44px (padding 10px). */
+.theme-nav {
+  position: fixed;
+  top: 18px;                   /* centre du symbole à la hauteur de la première ligne du menu */
+  left: 38px;
+  z-index: 100;
+}
+
+.theme-toggle {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 4px -12px -12px 0;
-  padding: 12px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
   border: 0;
   background: none;
   color: var(--fg);
   line-height: 0;
   cursor: pointer;
-  opacity: 0.6;
-  transition: transform 0.2s ease, opacity 0.2s ease, color 1.2s cubic-bezier(.16, 1, .3, 1);
-}
-
-nav .theme-toggle svg { display: block; }
-nav .theme-toggle .icone-soleil { display: none; }
-html[data-theme="dark"] nav .theme-toggle .icone-lune { display: none; }
-html[data-theme="dark"] nav .theme-toggle .icone-soleil { display: block; }
-
-nav .theme-toggle:hover {
-  transform: scale(1.12);
   opacity: 1;
+  transition: transform 0.2s ease, color 1.2s cubic-bezier(.16, 1, .3, 1);
 }
 
-nav .theme-toggle:focus-visible {
+.theme-toggle svg { display: block; }
+.theme-toggle .icone-soleil { display: none; }
+html[data-theme="dark"] .theme-toggle .icone-lune { display: none; }
+html[data-theme="dark"] .theme-toggle .icone-soleil { display: block; }
+
+.theme-toggle:hover {
+  transform: scale(1.12);
+}
+
+.theme-toggle:focus-visible {
   outline: 2px solid var(--fg);
   outline-offset: -4px;
-  opacity: 1;
 }
 
 /* Pendant le compteur du preloader, le menu n'est pas encore là */
@@ -171,7 +179,7 @@ body.menu-en-cours .theme-toggle {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  nav .theme-toggle { transition: none; }
+  .theme-toggle { transition: none; }
 }
 
 /* ── Composant contact (About + bloc contact des pages projet) ── */
@@ -379,19 +387,20 @@ nav a:focus-visible {
 /* Pendant un passage, le header change de couleur vite (0,2 s) : sinon il reste
    blanc sur la page claire le temps de la transition de 1,2 s (audit-ux-v3, 3) */
 html.passage-en-cours header nav a,
-html.passage-en-cours header .theme-toggle,
+html.passage-en-cours .theme-toggle,
 html.passage-en-cours .back-nav a {
   transition: transform 0.2s ease, color 0.2s ease !important;
 }
 
 /* Header blanc le temps d'un aplat sombre (flèche retour depuis Redstone, Dugos) */
 html.passage-sombre header nav a,
-html.passage-sombre header .theme-toggle,
+html.passage-sombre .theme-toggle,
 html.passage-sombre .back-nav a {
   color: #fff !important;
 }
 
 html.passage-sombre header,
+html.passage-sombre .theme-nav,
 html.passage-sombre .back-nav {
   mix-blend-mode: normal !important;
 }
