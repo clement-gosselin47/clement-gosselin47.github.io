@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
   <title>Unik, Clément Gosselin</title>
   <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
   <meta name="description" content="Unik, un défilé de créateurs bordelais pendant les portes ouvertes d&#x27;Ynov. Le site, du wireframe à la maquette Figma, dans un univers rose Y2K.">
@@ -51,6 +52,7 @@
       <a href="../index.html" class="active" data-dest="works">Works</a>
       <a href="../../About/index.html" data-dest="about">About</a>
       <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+      <button type="button" class="theme-toggle" aria-pressed="false">Mode sombre</button>
     </nav>
   </header>
 
@@ -80,9 +82,9 @@
     <section class="recit g12">
       <h2 class="lecteur">Le projet</h2>
       <div class="recit-col">
-        <p data-rv="txt">Unik est un événement associatif : des créateurs et des mannequins de plusieurs écoles bordelaises défilent pendant les portes ouvertes d'Ynov, entre des stands de nail art, de tatouage et de friperie. Notre groupe devait concevoir la landing page qui fait venir le public. J'ai fait le wireframe et le prototype sur Figma, et j'ai participé aux visuels.</p>
+        <p data-rv="txt"><b class="lead">Une landing page.</b> Unik est un événement associatif&nbsp;: des créateurs et des mannequins de plusieurs écoles bordelaises défilent pendant les portes ouvertes d'Ynov, entre des stands de nail art, de tatouage et de friperie. Notre groupe devait concevoir la landing page qui fait venir le public. J'ai fait le wireframe et le prototype sur Figma, et j'ai participé aux visuels.</p>
         <!-- À CONFIRMER PAR CLÉMENT : taille du groupe, durée, organisation, et si l'événement du 13 juin 2026 a eu lieu avec ce site. Phrase prête (200 est un exemple) : « L'événement a réuni 200 personnes, et les inscriptions passaient par ce bouton. » -->
-        <p data-rv="txt">Le wireframe fixe la structure : présentation, créateurs et mannequins, stands, projet, infos pratiques, inscription, et un menu à quatre entrées. La direction artistique Y2K vient ensuite, avec du rose glossy, des textures liquides, du métal et des zones sombres. Le visuel est chargé, mais la hiérarchie tient, et tout le parcours mène au CTA « Prends ta place ».</p>
+        <p data-rv="txt"><b class="lead">La structure, puis le style.</b> Le wireframe fixe la structure&nbsp;: présentation, créateurs et mannequins, stands, projet, infos pratiques, inscription, et un menu à quatre entrées. La direction artistique Y2K vient ensuite, avec du rose glossy, des textures liquides, du métal et des zones sombres. Le visuel est chargé, mais la hiérarchie tient, et tout le parcours mène au CTA «&nbsp;Prends ta place&#8239;».</p>
       </div>
     </section>
 
@@ -94,7 +96,7 @@
         <p class="duo-legende">La maquette</p>
 
         <div class="fenetre">
-          <img class="page ecran" src="web/unik-wireframe-accueil.webp" alt="Wireframe en niveaux de gris de la page d'accueil d'Unik : blocs d'images, textes et bouton d'inscription." width="1200" height="3448" loading="lazy">
+          <img class="page ecran" src="web/unik-wireframe-accueil.webp" alt="Wireframe en niveaux de gris de la page d'accueil d'Unik&nbsp;: blocs d'images, textes et bouton d'inscription." width="1200" height="3448" loading="lazy">
         </div>
 
         <!-- Note au centre : top = hauteur, dans la page, de la section qu'elle commente (une seule, voulue) -->
@@ -105,18 +107,23 @@
         </div>
 
         <div class="fenetre">
-          <img class="page" src="web/unik-maquette-accueil.webp" alt="Maquette de la page d'accueil d'Unik sur fond rose glossy : créateurs, stands, date du 13 juin 2026 et bouton Prends ta place." width="1200" height="3623" loading="lazy">
+          <img class="page" src="web/unik-maquette-accueil.webp" alt="Maquette de la page d'accueil d'Unik sur fond rose glossy&nbsp;: créateurs, stands, date du 13 juin 2026 et bouton Prends ta place." width="1200" height="3623" loading="lazy">
         </div>
       </div>
     </section>
 
     <!-- Les détails : trois recadrages collés, d'un bord à l'autre. --r = largeur / hauteur de l'image (fixe la place de chacun) -->
     <section class="details" aria-label="Détails de la maquette">
-      <img src="web/unik-detail-1-evenement.webp" alt="Le bloc d'inscription d'Unik : 13 juin 2026, Bordeaux Ynov Campus, bouton Prends ta place." width="1090" height="727" loading="lazy" style="--r: 1.5">
+      <img src="web/unik-detail-1-evenement.webp" alt="Le bloc d'inscription d'Unik&nbsp;: 13 juin 2026, Bordeaux Ynov Campus, bouton Prends ta place." width="1090" height="727" loading="lazy" style="--r: 1.5">
       <img src="web/unik-detail-2-createur.webp" alt="Un créateur photographié pour la section Créateurs et mannequins." width="520" height="650" loading="lazy" style="--r: 0.8">
-      <img src="web/unik-detail-3-stand.webp" alt="Une photo de la section Stands : un sourire aux dents ornées de strass." width="752" height="627" loading="lazy" style="--r: 1.2">
+      <img src="web/unik-detail-3-stand.webp" alt="Une photo de la section Stands&nbsp;: un sourire aux dents ornées de strass." width="752" height="627" loading="lazy" style="--r: 1.2">
     </section>
 
+    <!-- Ce que j'en retiens : une seule phrase. À CONFIRMER PAR CLÉMENT (c'est un avis).
+         Version factuelle de rechange : « Le wireframe a fixé la structure avant que le rose arrive. » -->
+    <section class="retiens g12">
+      <p data-rv="txt">Le rose n'arrive qu'après la structure.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
+    </section>
   </main>
 
   <footer class="fin">

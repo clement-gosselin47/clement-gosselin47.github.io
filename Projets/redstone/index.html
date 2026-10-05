@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
   <title>Redstone, Clément Gosselin</title>
   <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
-  <meta name="description" content="Redstone, l&#x27;affiche d&#x27;un film de super-héros inventé. Trois images générées par IA, fondues à la main sous Photoshop : détourage, lumière, fumée et titre.">
+  <meta name="description" content="Redstone, l&#x27;affiche d&#x27;un film de super-héros inventé. Trois images générées par IA, fondues à la main sous Photoshop&nbsp;: détourage, lumière, fumée et titre.">
   <link rel="canonical" href="https://clement-gosselin47.github.io/Projets/redstone/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Clément Gosselin">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:title" content="Redstone, Clément Gosselin">
-  <meta property="og:description" content="Redstone, l&#x27;affiche d&#x27;un film de super-héros inventé. Trois images générées par IA, fondues à la main sous Photoshop : détourage, lumière, fumée et titre.">
+  <meta property="og:description" content="Redstone, l&#x27;affiche d&#x27;un film de super-héros inventé. Trois images générées par IA, fondues à la main sous Photoshop&nbsp;: détourage, lumière, fumée et titre.">
   <meta property="og:url" content="https://clement-gosselin47.github.io/Projets/redstone/">
   <meta property="og:image" content="https://clement-gosselin47.github.io/og-image.jpg">
   <meta property="og:image:width" content="1200">
@@ -51,6 +52,7 @@
       <a href="../index.html" class="active" data-dest="works">Works</a>
       <a href="../../About/index.html" data-dest="about">About</a>
       <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+      <button type="button" class="theme-toggle" aria-pressed="false">Mode sombre</button>
     </nav>
   </header>
 
@@ -79,9 +81,9 @@
     <section class="recit g12">
       <h2 class="lecteur">Le projet</h2>
       <div class="recit-col">
-        <p data-rv="txt"><b class="lead">Un héros qui n'existe pas.</b> Le brief du cours de direction artistique : l'affiche d'un film de super-héros original, avec son personnage, son univers et son identité graphique. Redstone change ses poings en roche, et ce pouvoir fixe toute la direction : costume rouge vif, ville en feu, palette restreinte au rouge, au noir, à l'anthracite et au blanc.</p>
+        <p data-rv="txt"><b class="lead">Un héros qui n'existe pas.</b> Le brief du cours de direction artistique&nbsp;: l'affiche d'un film de super-héros original, avec son personnage, son univers et son identité graphique. Redstone change ses poings en roche, et ce pouvoir fixe toute la direction&nbsp;: costume rouge vif, ville en feu, palette restreinte au rouge, au noir, à l'anthracite et au blanc.</p>
         <!-- À CONFIRMER PAR CLÉMENT : seul ou en groupe, durée, outil d'IA. Phrase prête (seul, trois semaines et Midjourney sont des exemples) : « Un projet seul, en trois semaines. Les images viennent de Midjourney. » -->
-        <p data-rv="txt"><b class="lead">Trois images, une affiche.</b> J'ai généré séparément par IA le personnage, l'arrière-plan et le premier plan, en itérant sur les prompts pour accorder la lumière, la pose et l'ambiance. Le reste est un compositing fait à la main sous Photoshop : détourage, raccords d'ombres et de lumière, fumée, braises, puis le titrage et le bloc de crédits d'une affiche de cinéma.</p>
+        <p data-rv="txt"><b class="lead">Trois images, une affiche.</b> J'ai généré séparément par IA le personnage, l'arrière-plan et le premier plan, en itérant sur les prompts pour accorder la lumière, la pose et l'ambiance. Le reste est un compositing fait à la main sous Photoshop&nbsp;: détourage, raccords d'ombres et de lumière, fumée, braises, puis le titrage et le bloc de crédits d'une affiche de cinéma.</p>
       </div>
     </section>
 
@@ -93,9 +95,9 @@
             <!-- Les calques se construisent par fondus, dans l'ordre du DOM : le personnage seul,
                  puis le décor (qui le contient déjà), le premier plan, le titre, l'affiche finale.
                  Tous sur le même canevas de 1144 × 1626, alignés au pixel. data-nom = le nom affiché à côté. -->
-            <div class="calque calque-perso" data-nom="Le personnage"><img src="web/redstone-personnage.webp" alt="Le personnage de Redstone, détouré : costume rouge, cape et poing levé en roche." width="1144" height="1626" loading="lazy"></div>
-            <div class="calque calque-fond" data-nom="Le décor"><img src="web/redstone-etape-2-calee.webp" alt="Le héros posé dans le décor : ville en feu, fumée et lave." width="1144" height="1626" loading="lazy"></div>
-            <div class="calque calque-avant" data-nom="Le premier plan"><img src="web/redstone-etape-3-calee.webp" alt="Le premier plan ajouté : créatures, braises et fumée devant le héros." width="1144" height="1626" loading="lazy"></div>
+            <div class="calque calque-perso" data-nom="Le personnage"><img src="web/redstone-personnage.webp" alt="Le personnage de Redstone, détouré&nbsp;: costume rouge, cape et poing levé en roche." width="1144" height="1626" loading="lazy"></div>
+            <div class="calque calque-fond" data-nom="Le décor"><img src="web/redstone-etape-2-calee.webp" alt="Le héros posé dans le décor&nbsp;: ville en feu, fumée et lave." width="1144" height="1626" loading="lazy"></div>
+            <div class="calque calque-avant" data-nom="Le premier plan"><img src="web/redstone-etape-3-calee.webp" alt="Le premier plan ajouté&nbsp;: créatures, braises et fumée devant le héros." width="1144" height="1626" loading="lazy"></div>
             <div class="calque calque-titre" data-nom="Le titre"><img src="web/redstone-titre.webp" alt="Le titre Redstone, les noms et les crédits, détourés." width="1144" height="1626" loading="lazy"></div>
             <div class="affiche-finale" data-nom="L'affiche"><img src="web/redstone-affiche.webp" alt="L'affiche Redstone terminée." width="1144" height="1626" loading="lazy"></div>
             <!-- À CONFIRMER PAR CLÉMENT : avec les vrais calques fond seul et premier plan seul exportés du PSD de travail,
@@ -115,8 +117,8 @@
       </p>
 
       <!-- Ce que j'en retiens : une seule phrase -->
-      <section class="retiens">
-        <p data-rv="txt">L'IA m'a donné trois images. L'affiche, c'est le travail qu'il a fallu pour qu'elles n'en fassent qu'une.</p>
+      <section class="retiens g12">
+        <p data-rv="txt">L'IA m'a donné trois images. L'affiche, c'est le travail qu'il a fallu pour qu'elles n'en fassent qu'une.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
       </section>
     </div>
   </main>

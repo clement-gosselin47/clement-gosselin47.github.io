@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
   <title>Queen, Clément Gosselin</title>
   <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
-  <meta name="description" content="Queen, un site sur le groupe avec une boutique de vinyles. Projet Yboost mené à quatre à Ynov Bordeaux en 2026 : j&#x27;ai fait les wireframes et le prototype Figma.">
+  <meta name="description" content="Queen, un site sur le groupe avec une boutique de vinyles. Projet Yboost mené à quatre à Ynov Bordeaux en 2026&nbsp;: j&#x27;ai fait les wireframes et le prototype Figma.">
   <link rel="canonical" href="https://clement-gosselin47.github.io/Projets/Queen/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Clément Gosselin">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:title" content="Queen, Clément Gosselin">
-  <meta property="og:description" content="Queen, un site sur le groupe avec une boutique de vinyles. Projet Yboost mené à quatre à Ynov Bordeaux en 2026 : j&#x27;ai fait les wireframes et le prototype Figma.">
+  <meta property="og:description" content="Queen, un site sur le groupe avec une boutique de vinyles. Projet Yboost mené à quatre à Ynov Bordeaux en 2026&nbsp;: j&#x27;ai fait les wireframes et le prototype Figma.">
   <meta property="og:url" content="https://clement-gosselin47.github.io/Projets/Queen/">
   <meta property="og:image" content="https://clement-gosselin47.github.io/og-image.jpg">
   <meta property="og:image:width" content="1200">
@@ -51,6 +52,7 @@
       <a href="../index.html" class="active" data-dest="works">Works</a>
       <a href="../../About/index.html" data-dest="about">About</a>
       <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+      <button type="button" class="theme-toggle" aria-pressed="false">Mode sombre</button>
     </nav>
   </header>
 
@@ -63,20 +65,20 @@
     <section class="traverse" data-pin="traverse" data-couleur>
       <div class="traverse-scene">
         <div class="carton carton-a" data-v="1.6">
-          <img src="web/queen-carton-experience.webp" alt="Maquette mobile de la page Experience : le titre The First Encounter et son texte, sur des photos du groupe." width="800" height="1000">
+          <img src="web/queen-carton-experience.webp" alt="Maquette mobile de la page Experience&nbsp;: le titre The First Encounter et son texte, sur des photos du groupe." width="800" height="1000">
         </div>
         <div class="carton carton-b" data-v="1.4">
           <img src="web/queen-maquette-discographie.webp" alt="Maquette de la discographie du site Queen, pochettes d'albums en bandes verticales." width="1512" height="1127">
         </div>
         <div class="carton carton-c" data-v="2">
-          <img class="recadre" src="web/queen-maquette-album.webp" alt="La même fiche en maquette : la pochette d'A Night At The Opera, le titre et les boutons Écouter et Acheter." width="1512" height="1640" style="--w: 140%; --l: -16.67%; --h: 0%">
+          <img class="recadre" src="web/queen-maquette-album.webp" alt="La même fiche en maquette&nbsp;: la pochette d'A Night At The Opera, le titre et les boutons Écouter et Acheter." width="1512" height="1640" style="--w: 140%; --l: -16.67%; --h: 0%">
         </div>
 
         <h1 class="titre fit"><span class="l"><span class="t">Queen</span></span></h1>
 
         <div class="colophon" data-rv="txt">
           <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
-          <p>Site d'artiste avec boutique, 2026. Yboost, le gros projet de l'année à Ynov Bordeaux, à quatre sur plusieurs mois. Mon rôle : wireframes et prototype interactif. Figma.</p>
+          <p>Site d'artiste avec boutique, 2026. Yboost, le gros projet de l'année à Ynov Bordeaux, à quatre sur plusieurs mois. Mon rôle&nbsp;: wireframes et prototype interactif. Figma.</p>
           <!-- Prototype Figma en lecture seule. ADRESSE DU PROTOTYPE : la même dans le grand lien plus bas, changer les deux.
                Les & s'écrivent &amp; ici. -->
           <a class="site-lien" href="https://www.figma.com/proto/C8Jamn9TLYGX7pIi0TZty4/Queen_Yboost?node-id=218-38&amp;viewport=92%2C263%2C0.04&amp;t=QGug9CN0ept21shk-1&amp;scaling=min-zoom&amp;content-scaling=fixed&amp;starting-point-node-id=218%3A38&amp;page-id=83%3A144" target="_blank" rel="noopener" data-cur="Voir">
@@ -93,8 +95,8 @@
     <section class="recit g12">
       <h2 class="lecteur">Le projet</h2>
       <div class="recit-col">
-        <p data-rv="txt">Le brief Yboost : un site WordPress consacré à un artiste, conçu de bout en bout, du wireframe au prototype, avec son design system. À quatre, on a choisi Queen. Le site mêle vitrine et e-commerce : une discographie, des contenus éditoriaux sur l'histoire du groupe et une boutique de vinyles.</p>
-        <p data-rv="txt">J'ai réalisé les wireframes basse fidélité de tout le parcours : accueil, discographie, fiche album, boutique, fiche produit, panier, contact et blog. La navigation typographique de l'accueil est posée dès ce stade. Les maquettes haute fidélité reposent sur un design system commun (typographies, couleurs, composants) qui aligne la boutique et les pages éditoriales. J'ai ensuite relié tous les écrans en prototype interactif sur Figma, qui a servi de base à l'intégration WordPress faite par une autre personne du groupe.</p>
+        <p data-rv="txt"><b class="lead">Le brief Yboost.</b> Un site WordPress consacré à un artiste, conçu de bout en bout, du wireframe au prototype, avec son design system. À quatre, on a choisi Queen. Le site mêle vitrine et e-commerce&nbsp;: une discographie, des contenus éditoriaux sur l'histoire du groupe et une boutique de vinyles.</p>
+        <p data-rv="txt"><b class="lead">Du wireframe au prototype.</b> J'ai réalisé les wireframes basse fidélité de tout le parcours&nbsp;: accueil, discographie, fiche album, boutique, fiche produit, panier, contact et blog. La navigation typographique de l'accueil est posée dès ce stade. Les maquettes haute fidélité reposent sur un design system commun (typographies, couleurs, composants) qui aligne la boutique et les pages éditoriales. J'ai ensuite relié tous les écrans en prototype interactif sur Figma, qui a servi de base à l'intégration WordPress faite par une autre personne du groupe.</p>
       </div>
     </section>
 
@@ -107,26 +109,26 @@
       <div class="calque-scene">
         <div class="calque-cadre">
           <figure class="paire">
-            <img class="wf" src="web/queen-wf-accueil.webp" alt="Wireframe de l'accueil du site Queen : une grande image barrée d'une croix et le menu en grosses lettres." width="1512" height="890" loading="lazy" decoding="async">
-            <img class="mq" src="web/queen-maquette-accueil.webp" alt="Maquette de l'accueil : photo des quatre membres de Queen, menu Shop, Experience, Discographie, Contact en lettres détourées." width="1512" height="890" loading="lazy" decoding="async">
+            <img class="wf" src="web/queen-wf-accueil.webp" alt="Wireframe de l'accueil du site Queen&nbsp;: une grande image barrée d'une croix et le menu en grosses lettres." width="1512" height="890" loading="lazy" decoding="async">
+            <img class="mq" src="web/queen-maquette-accueil.webp" alt="Maquette de l'accueil&nbsp;: photo des quatre membres de Queen, menu Shop, Experience, Discographie, Contact en lettres détourées." width="1512" height="890" loading="lazy" decoding="async">
             <span class="trait" aria-hidden="true"></span>
             <figcaption class="paire-nom">L'accueil</figcaption>
           </figure>
           <figure class="paire">
-            <img class="wf" src="web/queen-wf-album.webp" alt="Wireframe de la fiche d'un album du site Queen : pochette barrée, titre, deux boutons et la barre du lecteur." width="1512" height="1640" loading="lazy" decoding="async">
-            <img class="mq" src="web/queen-maquette-album.webp" alt="Maquette de la fiche d'un album dans la discographie de Queen : A Night At The Opera, les boutons Écouter et Acheter, le lecteur et la liste des titres." width="1512" height="1640" loading="lazy" decoding="async">
+            <img class="wf" src="web/queen-wf-album.webp" alt="Wireframe de la fiche d'un album du site Queen&nbsp;: pochette barrée, titre, deux boutons et la barre du lecteur." width="1512" height="1640" loading="lazy" decoding="async">
+            <img class="mq" src="web/queen-maquette-album.webp" alt="Maquette de la fiche d'un album dans la discographie de Queen&nbsp;: A Night At The Opera, les boutons Écouter et Acheter, le lecteur et la liste des titres." width="1512" height="1640" loading="lazy" decoding="async">
             <span class="trait" aria-hidden="true"></span>
             <figcaption class="paire-nom">La fiche d'un album</figcaption>
           </figure>
           <figure class="paire">
             <img class="wf" src="web/queen-wf-produit.webp" alt="Wireframe de la fiche produit du site Queen." width="1512" height="1320" loading="lazy" decoding="async">
-            <img class="mq" src="web/queen-maquette-produit.webp" alt="Maquette de la fiche produit du vinyle Queen I : photo, prix, bouton Ajouter au panier." width="1512" height="1320" loading="lazy" decoding="async">
+            <img class="mq" src="web/queen-maquette-produit.webp" alt="Maquette de la fiche produit du vinyle Queen I&nbsp;: photo, prix, bouton Ajouter au panier." width="1512" height="1320" loading="lazy" decoding="async">
             <span class="trait" aria-hidden="true"></span>
             <figcaption class="paire-nom">La fiche d'un vinyle</figcaption>
           </figure>
           <figure class="paire">
             <img class="wf" src="web/queen-wf-experience.webp" alt="Wireframe de la page Experience du site Queen." width="1512" height="856" loading="lazy" decoding="async">
-            <img class="mq" src="web/queen-maquette-experience.webp" alt="Maquette de la page Experience : titre The First Encounter, l'année 1970 et des photos du groupe en collage." width="1512" height="856" loading="lazy" decoding="async">
+            <img class="mq" src="web/queen-maquette-experience.webp" alt="Maquette de la page Experience&nbsp;: titre The First Encounter, l'année 1970 et des photos du groupe en collage." width="1512" height="856" loading="lazy" decoding="async">
             <span class="trait" aria-hidden="true"></span>
             <figcaption class="paire-nom">Experience</figcaption>
           </figure>
@@ -148,15 +150,15 @@
 
     <!-- Ce que j'en retiens : une seule phrase -->
     <section class="retiens g12">
-      <p data-rv="txt">Le menu en grosses lettres que j'avais posé dans le wireframe gris est resté jusqu'au site final.</p>
+      <p data-rv="txt">Le menu en grosses lettres que j'avais posé dans le wireframe gris est resté jusqu'au site final.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
     </section>
   </main>
 
   <footer class="fin">
     <!-- Projet suivant : tout le bloc est le lien. --next = couleur du projet suivant, --next-ink = encre lisible dessus -->
-    <a class="suivant" href="../Ethikwear/index.html" style="--next: #4CAF1E; --next-ink: #000" data-cur="Suivant">
+    <a class="suivant" href="../passage-secret/index.html" style="--next: #AA0064; --next-ink: #fff" data-cur="Suivant">
       <span class="suivant-label">Projet suivant</span>
-      <span class="titre fit"><span class="t">Ethikwear</span></span>
+      <span class="titre fit"><span class="t">Passage Secret</span></span>
     </a>
   </footer>
 

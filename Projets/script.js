@@ -7,35 +7,75 @@ const colors = [
 ];
 
 // Projets : patternIndexes = positions dans la tuile 5×5 (row%5 * 5 + col%5)
-// Vitrines : web/<projet>-vitrine.webp, toutes en 4:3 (1600×1200) sur le même
-// gabarit et à la même échelle : plus besoin de zoom correctif (scale 1 partout).
+// Chaque case montre une capture plein cadre du projet (plus de mockup) :
+//   image         paysage 1600×1000 (16:10), pour les fenêtres plus larges que hautes
+//   imagePortrait 740×1600, pour les fenêtres nettement plus hautes que larges (ratio ≤ 3/5, téléphone ; une tablette garde les cases paysage)
+//   ton           teinte de la zone haut droite de la capture : le header passe en blanc
+//                 quand l'ouverture d'un projet « sombre » couvre l'écran
+//   tonPortrait   idem pour la variante portrait, si elle diffère (Redstone)
+//                 (tons mesurés le 2026-10-05 sur le quart haut droit : Dugos 71/255,
+//                 Queen 130, Passage Secret 31 = sombre ; Ethikwear 194, Unik 148,
+//                 Redstone paysage 226 = clair)
+//   position      cadrage optionnel de cover (défaut : center)
 const projects = [
   {
     patternIndexes: [1, 13, 24],
-    image: './Ethikwear/web/ethikwear-vitrine.webp',
+    image: './Ethikwear/web/ethikwear-vitrine-plein.jpg',
+    imagePortrait: './Ethikwear/web/ethikwear-vitrine-portrait.jpg',
+    ton: 'clair',
     url: './Ethikwear/index.html'
   },
   {
     patternIndexes: [5, 19, 22],
-    image: './redstone/web/redstone-vitrine.webp',
+    image: './redstone/web/redstone-vitrine-plein.jpg',
+    imagePortrait: './redstone/web/redstone-vitrine-portrait.jpg',
+    ton: 'clair',
+    tonPortrait: 'sombre',   // le haut de la capture portrait est noir (mesuré)
     url: './redstone/index.html'
   },
   {
     patternIndexes: [3, 10, 18],
-    image: './Unik/web/unik-vitrine.webp',
+    image: './Unik/web/unik-vitrine-plein.jpg',
+    imagePortrait: './Unik/web/unik-vitrine-portrait.jpg',
+    ton: 'clair',
     url: './Unik/index.html'
   },
   {
     patternIndexes: [2, 9, 16],
-    image: './dugos-photographie/web/dugos-vitrine.webp',
+    image: './dugos-photographie/web/dugos-vitrine-plein.jpg',
+    imagePortrait: './dugos-photographie/web/dugos-vitrine-portrait.jpg',
+    ton: 'sombre',
     url: './dugos-photographie/index.html'
   },
   {
     patternIndexes: [7, 11, 20],
-    image: './Queen/web/queen-vitrine.webp',
+    image: './Queen/web/queen-vitrine-plein.jpg',
+    imagePortrait: './Queen/web/queen-vitrine-portrait.jpg',
+    ton: 'sombre',
     url: './Queen/index.html'
   },
+  {
+    patternIndexes: [0, 12, 23],
+    image: './passage-secret/web/passage-secret-hero.jpg',
+    imagePortrait: './passage-secret/web/passage-secret-mobile.jpg',
+    ton: 'sombre',
+    url: './passage-secret/index.html'
+  },
+  {
+    patternIndexes: [4, 6, 15],
+    image: './relay/web/relay-vitrine-plein.jpg',
+    imagePortrait: './relay/web/relay-vitrine-portrait.jpg',
+    ton: 'sombre',           // vitrine : aplat noir avec logo, header blanc
+    url: './relay/index.html'
+  },
 ];
+
+// Orientation : sous le ratio 3/5 on affiche la variante portrait. Une seule
+// des deux images est chargée par visiteur (le preloader et le clic lisent
+// l'image effectivement affichée, via imageDe).
+const portraitMQ = window.matchMedia('(max-aspect-ratio: 3/5)');
+function imageDe(p) { return portraitMQ.matches ? p.imagePortrait : p.image; }
+function tonDe(p) { return (portraitMQ.matches && p.tonPortrait) || p.ton; }
 const projectMap = {};
 projects.forEach(p => p.patternIndexes.forEach(idx => { projectMap[idx] = p; }));
 
@@ -59,10 +99,8 @@ for (let row = 0; row < 15; row++) {
     if (project) {
       const media = document.createElement('div');
       media.className = 'cell-media';
-      media.style.backgroundImage = `url('${project.image}')`;
-      media.style.backgroundSize = project.backgroundSize ?? 'cover';
-      media.style.backgroundPosition = 'center';
-      media.style.transform = `scale(${project.scale ?? 1})`;
+      media.style.backgroundImage = `url('${imageDe(project)}')`;
+      media.style.backgroundPosition = project.position ?? 'center';
       cell.appendChild(media);
       cell.dataset.url = project.url;
       cell.dataset.cur = 'Voir';            // mot du curseur contextuel (shared.js)
@@ -74,6 +112,16 @@ for (let row = 0; row < 15; row++) {
     grid.appendChild(cell);
   }
 }
+
+// Changement d'orientation (rotation de la tablette, redimensionnement) : les
+// cases reprennent la variante qui convient
+portraitMQ.addEventListener('change', () => {
+  dimensionnerCases(); normalize(); render();
+  cells.forEach(c => {
+    if (c.projet === null) return;
+    c.el.firstChild.style.backgroundImage = `url('${imageDe(projects[c.projet])}')`;
+  });
+});
 
 let posX = 0, posY = 0;
 let enPause = false;     // grille figée en 0,0 pendant l'assemblage du preloader
@@ -94,8 +142,25 @@ let driftNX = Math.cos(angle), driftNY = Math.sin(angle);
 let velX = driftNX * DRIFT_SPEED;
 let velY = driftNY * DRIFT_SPEED;
 
-function tileW() { return window.innerWidth; }
-function tileH() { return window.innerHeight; }
+// Cases en pixels entiers (arrondi au-dessus) : aucun sous-pixel, donc aucun
+// trait entre deux cases. La tuile fait 5 cases, au moins un écran.
+// Image entière, sans coupe (décision de Clément, 2026-10-05) : la case a le
+// ratio de la capture, 16:10 en paysage, 740:1600 en portrait. La largeur suit
+// la fenêtre (1/5), la hauteur en découle ; la tuile 5×5 n'a donc plus la
+// hauteur de l'écran (62,5 % de la largeur en paysage).
+function caseW() { return Math.ceil(window.innerWidth / 5); }
+function caseH() {
+  return Math.round(caseW() * (portraitMQ.matches ? 1600 / 740 : 10 / 16));
+}
+function tileW() { return 5 * caseW(); }
+function tileH() { return 5 * caseH(); }
+function dimensionnerCases() {
+  const r = document.documentElement.style;
+  r.setProperty('--cw', `${caseW()}px`);
+  r.setProperty('--ch', `${caseH()}px`);
+}
+dimensionnerCases();
+window.addEventListener('resize', () => { dimensionnerCases(); normalize(); render(); });
 
 function normalize() {
   posX = posX % tileW(); if (posX > 0) posX -= tileW();
@@ -110,7 +175,7 @@ function updateBlur(speed) {
 }
 
 function render() {
-  grid.style.transform = `translate(${posX}px, ${posY}px)`;
+  grid.style.transform = `translate3d(${Math.round(posX)}px, ${Math.round(posY)}px, 0)`;
   updateBlur(Math.hypot(velX, velY));
 }
 
@@ -270,26 +335,60 @@ function ouvrirProjet(cell) {
   const r = cell.getBoundingClientRect();
   const W = window.innerWidth, H = window.innerHeight;
   const projet = projects.find(p => p.url === url);
-  const src = new URL(projet.image, window.location.href).href;
+  const src = new URL(imageDe(projet), window.location.href).href;
 
-  // Calque plein écran, ramené au rectangle de la case : même ratio que la
-  // fenêtre, même image en cover, donc il recouvre la case à l'identique
+  // Départ en transform et clip-path (pas de left / top / width / height : pas de
+  // recalcul de mise en page, 60 images/s). Le calque est plein écran, l'image y est
+  // dessinée à son cadrage final (cover plein écran). Au départ, la découpe épouse
+  // la case et l'image est à l'échelle de la case : c'est le miroir exact du
+  // recadrage d'arrivée de project.js, et la page reprend le même cover plein écran.
   const calque = document.createElement('div');
   calque.className = 'ouverture-calque';
-  calque.style.backgroundImage = `url('${src}')`;
-  document.body.appendChild(calque);
+  const img = new Image();
+  img.alt = '';
+  img.decoding = 'sync';
+  img.src = src;                       // déjà en cache : c'est l'image de la case
+  calque.appendChild(img);
 
-  freinage = true;
-  document.body.classList.add('ouvre');
+  const partir = () => {
+    const iw = img.naturalWidth, ih = img.naturalHeight;
+    if (!iw) { window.location.href = url; return; }
+    const s0 = Math.max(W / iw, H / ih);
+    const w0 = iw * s0, h0 = ih * s0;
+    const x0 = (W - w0) / 2, y0 = (H - h0) / 2;
+    // L'image dans la case, en cover (la case a le ratio de la capture : entière)
+    const s1 = Math.max(r.width / iw, r.height / ih);
+    const w1 = iw * s1, h1 = ih * s1;
+    const x1 = r.left + (r.width - w1) / 2, y1 = r.top + (r.height - h1) / 2;
 
-  calque.animate(
-    [{ transform: `translate(${r.left}px, ${r.top}px) scale(${r.width / W}, ${r.height / H})` },
-     { transform: 'none' }],
-    { duration: W < 768 ? 750 : 850, easing: 'cubic-bezier(.7,0,.2,1)', fill: 'forwards' }
-  ).finished.then(() => {
-    try { sessionStorage.setItem('ouverture', JSON.stringify({ type: 'img', src })); } catch (e) { /* rien */ }
-    window.location.href = url;
-  });
+    Object.assign(img.style, { width: w0 + 'px', height: h0 + 'px', transformOrigin: '0 0' });
+    document.body.appendChild(calque);
+
+    // Profondeur : le calque part à .55 comme la case au repos et monte à 1
+    // (sur tactile, le clic est le passage au premier plan)
+    calque.animate([{ opacity: 0.55 }, { opacity: 1 }], { duration: 250, easing: 'ease', fill: 'forwards' });
+
+    // Capture sombre en haut à droite : le header passe en blanc à mi-course
+    const duree = W < 768 ? 750 : 850;
+    if (tonDe(projet) === 'sombre') setTimeout(() => { if (calque.isConnected) document.documentElement.classList.add('passage-sombre'); }, duree * 0.5);
+
+    freinage = true;
+    document.body.classList.add('ouvre');
+
+    const IO = 'cubic-bezier(.7,0,.2,1)';
+    img.animate(
+      [{ transform: `translate(${x1}px, ${y1}px) scale(${w1 / w0})` }, { transform: `translate(${x0}px, ${y0}px)` }],
+      { duration: duree, easing: IO, fill: 'forwards' }
+    );
+    calque.animate(
+      [{ clipPath: `inset(${r.top}px ${W - r.right}px ${H - r.bottom}px ${r.left}px)` }, { clipPath: 'inset(0px 0px 0px 0px)' }],
+      { duration: duree, easing: IO, fill: 'forwards' }
+    ).finished.then(() => {
+      try { sessionStorage.setItem('ouverture', JSON.stringify({ type: 'img', src, ton: tonDe(projet) })); } catch (e) { /* rien */ }
+      window.location.href = url;
+    });
+  };
+  (img.decode ? img.decode() : Promise.resolve()).then(partir, partir);
 }
 
 // Liens clavier (Projets/index.html) : Entrée ouvre le projet par la case
@@ -318,6 +417,7 @@ window.addEventListener('pageshow', (e) => {
   if (!e.persisted) return;
   document.querySelectorAll('.ouverture-calque').forEach(c => c.remove());
   document.body.classList.remove('ouvre');
+  document.documentElement.classList.remove('passage-sombre');
   wrapper.getAnimations().forEach(a => a.cancel());
   freinage = false;
   ouvertureEnCours = false;
@@ -328,6 +428,9 @@ window.Works = {
   grid,
   projects,
   cells,
+  imageDe,
+  caseW,
+  caseH,
   figer() {
     enPause = true;
     posX = 0; posY = 0;

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <title>Relay, Clément Gosselin</title>
+  <!-- Référencement et partage (LinkedIn) : URL absolues, image commune du portfolio -->
+  <meta name="description" content="Relay, une webapp d&#x27;entraide flash entre étudiants, codée à quatre en même temps avec Claude Code, via commits et pull requests. En ligne, à tester.">
+  <link rel="canonical" href="https://clement-gosselin47.github.io/Projets/relay/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Clément Gosselin">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Relay, Clément Gosselin">
+  <meta property="og:description" content="Relay, une webapp d&#x27;entraide flash entre étudiants, codée à quatre en même temps avec Claude Code, via commits et pull requests. En ligne, à tester.">
+  <meta property="og:url" content="https://clement-gosselin47.github.io/Projets/relay/">
+  <meta property="og:image" content="https://clement-gosselin47.github.io/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Les projets de Clément Gosselin sur la grille de son portfolio.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <script src="../../passage.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared.css">
+  <link rel="stylesheet" href="../project-style.css">
+</head>
+<!-- MODE D'EMPLOI
+     Textes : tout est dans <main>, dans l'ordre de la page (titre, colophon, récit, vues, lien, phrase de fin).
+     Images : dans le dossier web/ de ce projet. Aucune capture ne montre le nom d'un campus, d'une personne ni une adresse email.
+     Couleur du projet : --c dans le style de <body> (--c-ink = encre lisible sur la couleur).
+     Adresse de l'application : la même dans le lien du colophon et dans le grand lien, changer les deux.
+     L'application n'est pas embarquée dans la page (iframe) tant que Clément n'a pas donné son accord : seul le lien existe. -->
+<body class="projet p8" style="--c: #FFD400; --c-ink: #000">
+  <div class="cursor" id="cursor"></div>
+
+  <div class="back-nav">
+    <a href="../index.html" aria-label="Retour aux projets" data-cur="Retour">
+      <svg class="arrow-icon" viewBox="0 0 64 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M2 16H62M46 2L62 16L46 30" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  <header>
+    <nav>
+      <a href="../index.html" class="active" data-dest="works">Works</a>
+      <a href="../../About/index.html" data-dest="about">About</a>
+      <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+      <button type="button" class="theme-toggle" aria-pressed="false">Mode sombre</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Ouverture : le titre au cadrage, puis la capture de l'application bord à bord.
+         C'est le même fichier que la case de Works (data-ov) : le calque se recadre dessus sans fondu. -->
+    <section class="ouv-relay">
+      <h1 class="titre fit"><span class="l"><span class="t">Relay</span></span></h1>
+      <div class="ouv-relay-img">
+        <picture>
+          <source media="(max-aspect-ratio: 3/5)" srcset="web/relay-vitrine-portrait.jpg">
+          <img src="web/relay-vitrine-plein.jpg" alt="Le logo de Relay, une main ouverte dessinée d'un seul trait crème, avec le nom Relay dessous, sur fond noir carbone." width="1600" height="1000" fetchpriority="high" data-ov>
+        </picture>
+      </div>
+      <div class="ouv-relay-texte g12">
+        <div data-rv="txt">
+          <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
+          <p class="colophon">Webapp d'entraide entre étudiants, 2026. Projet de groupe à Ynov, à quatre. J'ai touché à tout. Claude Code, React, TypeScript, Supabase, Vercel, GitHub.</p>
+          <a class="site-lien" href="https://relay-chi-seven.vercel.app" target="_blank" rel="noopener" data-cur="Tester" aria-label="Tester l'app Relay, s'ouvre dans un nouvel onglet">
+            Tester l'app
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Récit : deux paragraphes courts, attaque en Archivo Black -->
+    <section class="recit g12">
+      <h2 class="lecteur">Le projet</h2>
+      <div class="recit-col">
+        <p data-rv="txt"><strong class="lead">La demande.</strong> Il manque un adaptateur HDMI avant une soutenance, ou un avis sur une maquette Figma, ou quelqu'un qui comprend pourquoi un composant React plante. Relay met ce coup de main en ligne&nbsp;: un étudiant poste une demande flash avec un minuteur, les camarades disponibles la voient arriver en direct et touchent «&nbsp;J'aide&#8239;». Ça s'ouvre dans le navigateur, sans rien installer.</p>
+        <!-- Organisation du travail à quatre : seulement les mots de Clément (tous sur le même site en même temps, commits, pull requests). Ne rien ajouter sans lui. -->
+        <p data-rv="txt"><strong class="lead">Le vrai défi.</strong> J'ai touché à tout. On était quatre, tous sur le même site en même temps, en vibe coding avec Claude Code, avec des commits et des pull requests. Le résultat est en ligne&nbsp;: le feed, la création d'une demande en six étapes, la disponibilité «&nbsp;Sur le campus&#8239;» dans le profil, et une version desktop.</p>
+      </div>
+    </section>
+
+    <!-- Les vues : trois captures mobiles collées, à la même hauteur, d'un bord à l'autre.
+         --r = largeur / hauteur de l'image (fixe la place de chacune). Le feed est déjà l'ouverture. -->
+    <section class="vues" aria-label="Trois écrans de l'application sur mobile" role="region" tabindex="0">
+      <figure style="--r: 0.462"><img src="web/relay-demande-mobile.webp" alt="Création d'une demande flash dans Relay&nbsp;: un besoin en une phrase, des catégories (Matériel, Design, Code, Cours, Test UX, Autre), une filière et un lieu." width="741" height="1604" loading="lazy"><figcaption class="legende">La demande, en une phrase.</figcaption></figure>
+      <figure style="--r: 0.462"><img src="web/relay-demande-urgente-mobile.webp" alt="La fin du formulaire de demande flash&nbsp;: l'interrupteur Demande flash sur fond crème, avec l'expiration à 5, 10 ou 15 minutes." width="741" height="1604" loading="lazy"><figcaption class="legende">Le minuteur de la demande flash.</figcaption></figure>
+      <figure style="--r: 0.462"><img src="web/relay-conversation-mobile.webp" alt="Une conversation dans Relay&nbsp;: un étudiant propose d'apporter un câble HDMI avant une soutenance, l'autre le remercie." width="741" height="1604" loading="lazy"><figcaption class="legende">La conversation avec celui qui aide.</figcaption></figure>
+    </section>
+
+    <!-- Le feed sur ordinateur, en grand : c'est la « version desktop » du récit -->
+    <section class="bureau">
+      <figure>
+        <img src="web/relay-app-feed-bureau.jpg" alt="Le feed de Relay sur ordinateur&nbsp;: une barre latérale à gauche, quatre demandes d'aide en cartes crème et noires avec un bouton J'aide, et à droite le nombre de demandes actives et l'activité récente." width="1600" height="1000" loading="lazy">
+        <figcaption class="legende">Le feed, sur ordinateur.</figcaption>
+      </figure>
+    </section>
+
+    <!-- L'application : un seul grand lien. Même adresse que le lien du colophon, changer les deux. -->
+    <section class="proto g12">
+      <a class="proto-lien" href="https://relay-chi-seven.vercel.app" target="_blank" rel="noopener" data-cur="Tester" aria-label="Tester l'app Relay, s'ouvre dans un nouvel onglet" data-rv="txt">
+        <span class="proto-texte">Tester l'<span class="proto-fin">app<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+      </a>
+    </section>
+
+    <!-- Ce que j'en retiens : une seule phrase, factuelle (app en ligne, utilisable sur mobile) -->
+    <section class="retiens g12">
+      <p data-rv="txt">Relay n'est pas une maquette&nbsp;: on peut l'ouvrir sur son téléphone et lancer une demande.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
+    </section>
+  </main>
+
+  <footer class="fin">
+    <!-- Projet suivant : tout le bloc est le lien. --next = couleur du projet suivant, --next-ink = encre lisible dessus -->
+    <!-- Circuit : Ethikwear, Redstone, Unik, Dugos, Queen, Passage Secret, Relay, puis retour à Ethikwear. -->
+    <a class="suivant" href="../Ethikwear/index.html" style="--next: #4CAF1E; --next-ink: #000" data-cur="Suivant">
+      <span class="suivant-label">Projet suivant</span>
+      <span class="titre fit"><span class="t">Ethikwear</span></span>
+    </a>
+  </footer>
+
+  <script src="../../shared.js"></script>
+  <script src="../project.js"></script>
+</body>
+</html>

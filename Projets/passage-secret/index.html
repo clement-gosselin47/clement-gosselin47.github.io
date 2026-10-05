@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <title>Passage Secret, Clément Gosselin</title>
+  <!-- Référencement et partage (LinkedIn) : URL absolues, image commune du portfolio (jamais un visuel du restaurant) -->
+  <meta name="description" content="Passage Secret, refonte du site d&#x27;un restaurant bordelais. Projet personnel, non commandé, sans lien avec le restaurant, jamais mis en ligne.">
+  <link rel="canonical" href="https://clement-gosselin47.github.io/Projets/passage-secret/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Clément Gosselin">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Passage Secret, Clément Gosselin">
+  <meta property="og:description" content="Passage Secret, refonte du site d&#x27;un restaurant bordelais. Projet personnel, non commandé, sans lien avec le restaurant, jamais mis en ligne.">
+  <meta property="og:url" content="https://clement-gosselin47.github.io/Projets/passage-secret/">
+  <meta property="og:image" content="https://clement-gosselin47.github.io/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Les projets de Clément Gosselin sur la grille de son portfolio.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <script src="../../passage.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared.css">
+  <link rel="stylesheet" href="../project-style.css">
+</head>
+<!-- MODE D'EMPLOI
+     Textes : tout est dans <main>, dans l'ordre de la page (titre, colophon, mention, récit, phrase de fin).
+     Images : dans le dossier web/ de ce projet. Seules les captures sans photo ni logo du restaurant sont utilisées.
+     Couleur du projet : --c dans le style de <body> (--c-ink = encre lisible sur la couleur).
+     Cadre : la mention « Projet personnel… » reste dans le HTML (jamais seulement dans une image).
+     Aucun lien vers le restaurant ni vers une version en ligne : ne pas en ajouter.
+     Mise en scène de cette page : le seuil. Une fente d'une colonne s'ouvre au centre de la page,
+     s'élargit jusqu'au plein cadre, puis les pages de la maquette se relaient par lanières verticales.
+     Pour ajouter une page à la scène : une <figure class="seuil-page"> de plus (image 16:10 et légende). -->
+<body class="projet p7" style="--c: #AA0064; --c-ink: #fff">
+  <div class="cursor" id="cursor"></div>
+
+  <div class="back-nav">
+    <a href="../index.html" aria-label="Retour aux projets" data-cur="Retour">
+      <svg class="arrow-icon" viewBox="0 0 64 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M2 16H62M46 2L62 16L46 30" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  <header>
+    <nav>
+      <a href="../index.html" class="active" data-dest="works">Works</a>
+      <a href="../../About/index.html" data-dest="about">About</a>
+      <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+      <button type="button" class="theme-toggle" aria-pressed="false">Mode sombre</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Ouverture : le titre au cadrage, le colophon, la mention. Rien ne s'anime sur la mention. -->
+    <section class="ouv-ps">
+      <h1 class="titre fit"><span class="l"><span class="t">Passage Secret</span></span></h1>
+      <div class="ouv-ps-texte">
+        <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
+        <p class="colophon">Refonte du site d'un restaurant gastronomique de Bordeaux, 2026. Projet personnel, mené seul. Mon rôle&nbsp;: arborescence, parcours de réservation, direction artistique, intégration, version française et anglaise. HTML, CSS, JavaScript.</p>
+        <!-- Mention de cadre, exigée : visible dès le premier écran, jamais en petit, jamais animée -->
+        <p class="mention">Projet personnel, non commandé, sans lien avec le restaurant, jamais mis en ligne.</p>
+      </div>
+    </section>
+
+    <!-- Récit : deux paragraphes courts, attaque en Archivo Black -->
+    <section class="recit g12">
+      <h2 class="lecteur">Le projet</h2>
+      <div class="recit-col">
+        <p data-rv="txt"><strong class="lead">Le point de départ.</strong> Passage Secret est une table gastronomique bordelaise installée dans le Passage Sarget, à l'entrée discrète. Je cherchais un site à refaire, et celui-ci m'a laissé de la place pour travailler&nbsp;: personne ne me l'a demandé, je n'ai eu aucun échange avec le restaurant. Le site d'origine a de la matière&nbsp;: menus et prix publiés, presse, histoire du lieu, producteurs. J'ai relevé ses pages, ses contenus et le chemin qui mène à la réservation, puis j'ai reconstruit autour de ce chemin.</p>
+        <p data-rv="txt"><strong class="lead">Mes choix.</strong> Arborescence&nbsp;: je garde les pages et les libellés d'origine (Menu, Chef, Cadeaux, Privatiser) et je resserre l'accueil. Parcours de réservation&nbsp;: un seul outil, à un clic depuis chaque page, un appel en un clic sur mobile, les conditions écrites avant d'ouvrir l'outil. Direction artistique&nbsp;: logo inchangé, pierre claire et bleu nuit, un seul rouge réservé au bouton Réserver, Newsreader et Hanken Grotesk sur une grille visible. Le site existe en français et en anglais, page pour page. Je pilotais des agents Claude Code dans cmux, un rôle par agent.</p>
+      </div>
+    </section>
+
+    <!-- Le seuil : épinglé, piloté par project.js (--k de 0 à 1).
+         Sans JavaScript ou en mouvement réduit : les pages s'empilent, chacune avec sa légende. -->
+    <section class="seuil" data-pin="seuil" data-rv-non aria-label="La maquette de Passage Secret, trois pages">
+      <div class="seuil-scene">
+        <div class="seuil-cadre">
+          <figure class="seuil-page">
+            <img src="web/passage-secret-hero.jpg" alt="Accueil de la maquette&nbsp;: le mot Secret en grandes lettres crème et laiton sur fond bleu nuit, le bouton Réserver en rouge." width="1600" height="1000" fetchpriority="high" decoding="async">
+            <figcaption>L'accueil</figcaption>
+          </figure>
+          <figure class="seuil-page">
+            <img src="web/passage-secret-menus.jpg" alt="Page Menus de la maquette&nbsp;: une introduction, deux boutons, un cadre image et le titre Les menus en grand sur fond pierre." width="1600" height="1000" loading="lazy" decoding="async">
+            <figcaption>Le menu</figcaption>
+          </figure>
+          <figure class="seuil-page">
+            <img src="web/passage-secret-lieu.jpg" alt="Section Le lieu de la maquette&nbsp;: deux façons de dîner, la terrasse et la salle à l'étage, une arche à droite et quatre étapes numérotées." width="1600" height="1000" loading="lazy" decoding="async">
+            <figcaption>Le lieu</figcaption>
+          </figure>
+        </div>
+        <!-- Bande basse : le nom de la page affichée (project.js). La mention de cadre n'est dite qu'une fois, sous le colophon. -->
+        <div class="seuil-bande" aria-hidden="true">
+          <span class="seuil-nom">L'accueil</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Le parcours en vidéo : maquette neutralisée (aucune photo, aucun logo, aucun nom), muette, en boucle.
+         Lancée quand elle est à l'écran, arrêtée hors écran (project.js, data-auto). Un clic ou Entrée met en pause ou relance.
+         En mouvement réduit : l'image d'attente seule, la lecture se lance au clic. Aucun son. -->
+    <section class="parcours">
+      <figure>
+        <button type="button" class="parcours-vue" data-cur="Lire" aria-label="Lire la vidéo">
+          <video src="web/passage-secret-navigation.mp4" poster="web/passage-secret-navigation-poster.jpg" width="1280" height="800" muted loop playsinline preload="none" data-auto aria-label="Parcours dans la maquette&nbsp;: l'accueil, les menus, la privatisation puis les cadeaux, sur fond bleu nuit et pierre claire. Les images, les noms et les adresses sont remplacés par des aplats et du texte neutre."></video>
+        </button>
+        <figcaption class="legende">Le parcours dans la maquette, version neutralisée.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Le mobile : une plongée dans l'accueil et la version téléphone, décalées en hauteur -->
+    <section class="mobile-ps g12">
+      <figure class="mobile-ps-a">
+        <img src="web/passage-secret-hero-detail.jpg" alt="Les lettres du titre de l'accueil en gros plan, laiton sur bleu nuit." width="1600" height="1000" loading="lazy" decoding="async">
+      </figure>
+      <figure class="mobile-ps-b">
+        <img src="web/passage-secret-mobile.jpg" alt="L'accueil en version mobile&nbsp;: Passage et Secret empilés sur fond bleu nuit, le bouton Réserver une table en bas." width="739" height="1600" loading="lazy" decoding="async">
+      </figure>
+    </section>
+
+    <!-- Ce que j'en retiens : une seule phrase -->
+    <section class="retiens g12">
+      <p data-rv="txt">Sur chaque page, Réserver est à un clic.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
+    </section>
+  </main>
+
+  <footer class="fin">
+    <!-- Projet suivant : tout le bloc est le lien. --next = couleur du projet suivant, --next-ink = encre lisible dessus -->
+    <!-- Circuit : Ethikwear, Redstone, Unik, Dugos, Queen, Passage Secret, Relay, puis retour à Ethikwear. -->
+    <a class="suivant" href="../relay/index.html" style="--next: #FFD400; --next-ink: #000" data-cur="Suivant">
+      <span class="suivant-label">Projet suivant</span>
+      <span class="titre fit"><span class="t">Relay</span></span>
+    </a>
+  </footer>
+
+  <script src="../../shared.js"></script>
+  <script src="../project.js"></script>
+</body>
+</html>

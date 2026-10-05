@@ -46,79 +46,92 @@
   retailles.push(cadrer);
   cadrer();
 
-  /* ── 2. Entrée de page (motion A, direction K.50) ──
-     Calque image : il se recadre vers sa place dans l'ouverture (data-ov).
-     Calque couleur (projet suivant) : il se retire vers le haut. */
+  /* ── 2. Entrée de page (motion A, 2026-10-05-transitions/motion.md) ──
+     Une seule règle pour les six projets, jamais un réglage par page :
+     - recadrage : le calque rétrécit vers le hero, sans fondu. Seulement si le
+       visiteur retrouve la même image (même fichier, cover qui ne rogne pas
+       plus de 55 %, cible ni détourée ni en contain) ;
+     - levée : sinon, le calque se lève vers le haut et la page est dessous,
+       déjà en place (geste de Queen, aplat du projet suivant). */
   function entrer() {
     const ov = document.getElementById('ov');
     if (!ov) return;
-    const fin = () => ov.remove();
+    const fin = () => { ov.remove(); if (!document.querySelector('.ov-passage')) document.documentElement.classList.remove('passage-sombre'); };
+    const duree = mobile() ? 750 : 850;
 
-    // Aplat (projet suivant) ou page sans image d'ouverture à recadrer
-    // (data-entree="retrait", Queen) : le calque se retire vers le haut
-    if (ov.dataset.type === 'aplat' || document.body.dataset.entree === 'retrait') {
+    const lever = (img) => {
+      // L'en-tête repasse en noir quand le bord du calque passe sous le menu
+      setTimeout(() => { if (!document.querySelector('.ov-passage')) document.documentElement.classList.remove('passage-sombre'); }, duree * 0.88);
+      // L'image monte un peu plus vite que la découpe : une feuille qui se soulève
+      if (img) img.animate(
+        [{ transform: 'translateY(0)' }, { transform: `translateY(${mobile() ? -8 : -12}vh)` }],
+        { duration: duree, easing: IO, fill: 'forwards' }
+      );
       ov.animate(
         [{ clipPath: 'inset(0px 0px 0% 0px)' }, { clipPath: 'inset(0px 0px 100% 0px)' }],
-        { duration: 850, easing: IO, fill: 'forwards' }
+        { duration: duree, easing: IO, fill: 'forwards' }
       ).finished.then(fin);
-      return;
-    }
+    };
 
     const img = ov.querySelector('img');
     const cible = document.querySelector('[data-ov]');
-    if (!img || !img.naturalWidth || !cible) {
-      ov.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, easing: 'ease', fill: 'forwards' }).finished.then(fin);
+
+    // Aplat (projet suivant), data-entree="retrait" (Queen), pas de cible : levée
+    if (ov.dataset.type === 'aplat' || document.body.dataset.entree === 'retrait' || !img || !img.naturalWidth || !cible) {
+      lever(img);
       return;
     }
 
-    // Même image, deux cadrages « cover » : plein écran puis la boîte cible.
-    // Les deux sont une simple échelle de l'image, donc on passe de l'un à
-    // l'autre par transform, et la découpe suit le bord de la boîte.
     const W = innerWidth, H = innerHeight;
     const iw = img.naturalWidth, ih = img.naturalHeight;
     const b = cible.getBoundingClientRect();
+    const cs = getComputedStyle(cible);
+    const contient = cs.objectFit === 'contain';
+    const memeImage = (cible.currentSrc || cible.src || '').split('/').pop() === (img.currentSrc || img.src).split('/').pop();
+    const ri = iw / ih, rb = b.width / b.height;
+    const rogne = 1 - Math.min(ri, rb) / Math.max(ri, rb);
+    if (!memeImage || contient || cs.clipPath !== 'none' || rogne > 0.55 || !b.width || !b.height) {
+      lever(img);
+      return;
+    }
+
+    // Recadrage : même image, deux cadrages « cover », plein écran puis la boîte
+    // cible. Les deux sont une simple échelle de l'image, donc on passe de l'un
+    // à l'autre par transform, et la découpe suit le bord de la boîte.
     const s0 = Math.max(W / iw, H / ih);
     const w0 = iw * s0, h0 = ih * s0;
     const x0 = (W - w0) / 2, y0 = (H - h0) / 2;
-    const pos = getComputedStyle(cible).objectPosition.split(' ').map(v => parseFloat(v) / 100);
+    const pos = cs.objectPosition.split(' ').map(v => parseFloat(v) / 100);
     const px = isNaN(pos[0]) ? 0.5 : pos[0];
     const py = isNaN(pos[1]) ? 0.5 : pos[1];
-    // « cover » remplit la boîte, « contain » y tient en entier
-    const contient = getComputedStyle(cible).objectFit === 'contain';
-    const s1 = (contient ? Math.min : Math.max)(b.width / iw, b.height / ih);
+    const s1 = Math.max(b.width / iw, b.height / ih);
     const w1 = iw * s1, h1 = ih * s1;
     const x1 = b.left + (b.width - w1) * px;
     const y1 = b.top + (b.height - h1) * py;
 
     Object.assign(img.style, { width: w0 + 'px', height: h0 + 'px', objectFit: 'fill', transformOrigin: '0 0' });
-    const duree = mobile() ? 750 : 850;
     img.animate(
       [{ transform: `translate(${x0}px, ${y0}px)` }, { transform: `translate(${x1}px, ${y1}px) scale(${w1 / w0})` }],
       { duration: duree, easing: IO, fill: 'forwards' }
     );
-    // Une cible détourée (clip-path) ne recouvre pas tout son rectangle :
-    // le calque s'efface alors en douceur au lieu de disparaître d'un coup
-    const detouree = getComputedStyle(cible).clipPath !== 'none' || contient;
+    // Même fichier : à l'arrivée le calque et le hero sont identiques, il part sans fondu
     ov.animate(
       [{ clipPath: 'inset(0px 0px 0px 0px)' },
        { clipPath: `inset(${b.top}px ${W - b.right}px ${H - b.bottom}px ${b.left}px)` }],
       { duration: duree, easing: IO, fill: 'forwards' }
-    ).finished.then(() => {
-      if (!detouree) { fin(); return; }
-      ov.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, easing: 'ease', fill: 'forwards' }).finished.then(fin);
-    });
+    ).finished.then(fin);
   }
 
-  // On attend la police (pour le cadrage) et l'image cible, jamais plus de 500 ms
+  // On attend la police (pour le cadrage), au plus 250 ms. Le calque est la
+  // seule image qui compte : on n'attend plus le décodage du hero, sauf si le
+  // navigateur n'a pas encore choisi sa source (comparaison de fichier).
   const cibleOv = document.querySelector('[data-ov]');
-  const imgOv = document.querySelector('#ov img');
   Promise.race([
     Promise.all([
       document.fonts ? document.fonts.ready : null,
-      imgOv && imgOv.decode ? imgOv.decode().catch(() => {}) : null,
-      cibleOv && cibleOv.decode ? cibleOv.decode().catch(() => {}) : null,
+      cibleOv && !cibleOv.currentSrc && cibleOv.decode ? cibleOv.decode().catch(() => {}) : null,
     ]),
-    attente(500),
+    attente(250),
   ]).then(() => {
     cadrer();
     requestAnimationFrame(entrer);
@@ -382,10 +395,86 @@
     });
   }
 
-  // Queen en mobile : le titre défile seul, un toucher le met en pause (WCAG 2.2.2)
-  if (traverse) {
-    const titre = traverse.querySelector('.titre');
-    titre.addEventListener('click', () => { if (mobile()) titre.classList.toggle('en-pause'); });
+  // Projet 6 : le seuil. Une fente d'une colonne s'ouvre au centre, s'élargit
+  // jusqu'au plein cadre, puis les pages se relaient par lanières verticales.
+  // k de 0 à 1 (lissage 0,12) : .08 repos, .08 à .45 la fente s'élargit,
+  // .45 à .65 le cadre prend tout l'écran, .65 à .95 les pages se relaient, puis repos.
+  const seuil = document.querySelector('[data-pin="seuil"]');
+  if (seuil && !reduit) {
+    doc.classList.add('seuil-ok');
+    const cadre = seuil.querySelector('.seuil-cadre');
+    const pages = [...seuil.querySelectorAll('.seuil-page')].map(el => ({
+      el, nom: el.querySelector('figcaption').textContent, _c: '',
+    }));
+    const nom = seuil.querySelector('.seuil-nom');
+    const relais = pages.length - 1;
+    // Une découpe en lanières s'écrit en path() ; sans lui, une découpe unique du bas vers le haut
+    const lanieres = CSS.supports('clip-path', 'path("M0 0")');
+    let W = 0, H = 0, m = 80, col = 0, k = -1, actuel = 0;
+    retailles.push(() => {
+      W = cadre.clientWidth; H = cadre.clientHeight;
+      const mob = mobile();
+      m = mob ? 20 : (innerWidth < 1100 ? 48 : 80);
+      const g = mob ? 12 : 24;
+      col = mob ? innerWidth * 0.24 : (innerWidth - 2 * m - 11 * g) / 12;
+      seuil.dataset.n = mob ? 4 : 12;
+      pages.forEach(p => { p._c = ''; });
+    });
+    const sortie = (t) => 1 - Math.pow(1 - t, 3);
+    const entree = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    effets.push(() => {
+      const cible = progression(seuil);
+      if (k < 0) k = cible;
+      k += (cible - k) * 0.12;
+      if (Math.abs(cible - k) < 0.0002) k = cible;
+      if (!W) { W = cadre.clientWidth; H = cadre.clientHeight; col = mobile() ? innerWidth * 0.24 : (innerWidth - 2 * m - 11 * 24) / 12; }
+
+      // La fente : de une colonne à marge à marge, puis plein cadre
+      const ouvre = entree(borne((k - 0.08) / 0.37, 0, 1));
+      const plein = entree(borne((k - 0.45) / 0.2, 0, 1));
+      const lFente = (W - col) / 2;
+      const l = (lFente + (m - lFente) * ouvre) * (1 - plein);
+      const t = innerHeight * 0.14 * (1 - plein);
+      cadre.style.setProperty('--l', l.toFixed(1) + 'px');
+      cadre.style.setProperty('--r', l.toFixed(1) + 'px');
+      cadre.style.setProperty('--t', t.toFixed(1) + 'px');
+
+      // Les pages se relaient : chaque changement occupe une tranche de .30 / relais de k
+      const tranche = 0.30 / relais;
+      let courante = 0;
+      pages.forEach((p, i) => {
+        if (i === 0) return;
+        const u = borne((k - 0.65 - (i - 1) * tranche) / (tranche * 0.8), 0, 1);
+        if (u > 0) courante = i;
+        let val;
+        if (u <= 0) val = 'inset(100% 0 0 0)';
+        else if (u >= 1) val = 'none';
+        else if (lanieres) {
+          const n = mobile() ? 4 : 12;
+          const d = 0.05, duree = 1 - (n - 1) * d;
+          let chemin = '';
+          for (let j = 0; j < n; j++) {
+            const hj = sortie(borne((u - j * d) / duree, 0, 1)) * H;
+            if (hj <= 0.2) continue;
+            const x0 = (W / n) * j, x1 = (W / n) * (j + 1) + 0.6;
+            chemin += `M${x0.toFixed(1)} ${(H - hj).toFixed(1)}H${x1.toFixed(1)}V${H}H${x0.toFixed(1)}Z`;
+          }
+          val = chemin ? `path("${chemin}")` : 'inset(100% 0 0 0)';
+        } else {
+          val = `inset(${((1 - sortie(u)) * 100).toFixed(2)}% 0 0 0)`;
+        }
+        if (p._c !== val) { p._c = val; p.el.style.clipPath = val; }
+      });
+
+      // Le nom de la page dans la bande basse change au début de chaque lanière
+      if (courante !== actuel) {
+        actuel = courante;
+        nom.style.opacity = 0;
+        clearTimeout(nom._t);
+        nom._t = setTimeout(() => { nom.textContent = pages[actuel].nom; nom.style.opacity = 1; }, 160);
+      }
+    });
   }
 
   // Header et flèche : noirs francs sur un aplat de couleur (data-couleur, bloc
@@ -406,6 +495,15 @@
   function majEntete() {
     const sur = surCouleur();
     if (sur !== document.body.classList.contains('sur-couleur')) document.body.classList.toggle('sur-couleur', sur);
+    // Dugos : tant que la grille de photos est sous le header (la feuille blanche
+    // n'est pas encore montée), le menu est blanc franc sur un voile sombre
+    const feuille = document.querySelector('.p4 .feuille');
+    if (feuille) {
+      const h = entete.getBoundingClientRect();
+      const f = fleche ? fleche.getBoundingClientRect() : h;
+      const photo = feuille.getBoundingClientRect().top > Math.max(h.bottom, f.bottom);
+      if (photo !== document.body.classList.contains('sur-photo')) document.body.classList.toggle('sur-photo', photo);
+    }
   }
   if (entete) { effets.push(majEntete); majEntete(); }
 

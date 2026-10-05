@@ -12,12 +12,12 @@
     if (sessionStorage.getItem('preloaderShown')) return;
   } catch (e) { /* stockage indisponible : on joue le preloader */ }
 
-  const { grid, projects, cells } = window.Works;
+  const { grid, projects, cells, imageDe, caseW, caseH } = window.Works;
   const reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const mobile = window.innerWidth < 768;
   const speedBlur = document.getElementById('speedBlur');
   const W = window.innerWidth, H = window.innerHeight;
-  const CW = W / 5, CH = H / 5;
+  const CW = caseW(), CH = caseH();   // cases au ratio de l'image (script.js)
 
   document.body.classList.add('is-loading', 'is-assembling', 'menu-en-cours');
   window.Works.figer();
@@ -35,7 +35,7 @@
   const visibles = [];
   cells.forEach(c => {
     if (c.projet !== null) medias[c.projet].push(c.el.firstChild);
-    if (c.row < 5 && c.col < 5) {
+    if (c.row * CH < H && c.col * CW < W) {   // les cases qui touchent l'écran en 0,0
       visibles.push({ el: c.el, row: c.row, col: c.col, pi: c.projet, media: c.el.firstChild, pret: c.projet === null });
     } else {
       c.el.style.visibility = 'hidden';
@@ -123,7 +123,7 @@
     c.dist = Math.hypot(ddx / CW, ddy / CH) + alea(-0.6, 0.6);
     c.opPose = c.pi === null ? 0.15 : 0.55;
     c.opVol  = c.pi === null ? 0.35 : 1;
-    if (c.pi !== null) c.el.style.background = '#f4f4f4';
+    if (c.pi !== null) c.el.style.background = 'var(--case-pre)';
 
     if (reduit) { c.el.style.opacity = '0'; return; }
 
@@ -175,7 +175,7 @@
       ['transform', 'filter', 'opacity', 'border-color', 'will-change'].forEach(p => el.style.removeProperty(p));
       a.cancel();
       // Le filet se dessine au contact (décision 7)
-      el.animate([{ borderColor: 'transparent' }, { borderColor: 'rgba(0, 0, 0, 0.15)' }], { duration: 200, easing: 'ease' });
+      el.animate([{ borderColor: 'transparent' }, { borderColor: 'rgba(' + getComputedStyle(document.documentElement).getPropertyValue('--fg-rgb').trim() + ', 0.15)' }], { duration: 200, easing: 'ease' });
       poser();
     };
   }
@@ -205,7 +205,7 @@
   }
   for (let k = 0; k < N; k++) setTimeout(() => creneau(k), depart(k));
 
-  // Vrai chargement des 4 vitrines (décisions 10, 11)
+  // Vrai chargement des vitrines (variante d'orientation courante) (décisions 10, 11)
   projects.forEach((p, pi) => {
     const img = new Image();
     const fini = ok => {
@@ -224,7 +224,7 @@
     };
     img.onload = () => fini(true);
     img.onerror = () => fini(false);
-    img.src = p.image;
+    img.src = imageDe(p);
   });
 
   // Plafond 9 s : tout ce qui attend part ensemble (décision 16)

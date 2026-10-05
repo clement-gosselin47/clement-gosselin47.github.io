@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
   <meta name="robots" content="noindex">
   <title>Page introuvable, Clément Gosselin</title>
   <!-- Servie par GitHub Pages à n'importe quelle profondeur d'adresse :
@@ -37,18 +38,18 @@
     .perdu p {
       font-family: 'Source Sans 3', sans-serif;
       font-size: 20px;
-      color: #444;
+      color: var(--txt);
       margin: 0;
     }
 
     .perdu a {
-      color: #000;
+      color: var(--fg);
       text-decoration-thickness: 1.5px;
       text-underline-offset: 4px;
     }
 
     .perdu a:focus-visible {
-      outline: 2px solid #000;
+      outline: 2px solid var(--fg);
       outline-offset: 4px;
     }
 
@@ -69,6 +70,7 @@
       <a href="/Projets/index.html" data-dest="works">Works</a>
       <a href="/About/index.html" data-dest="about">About</a>
       <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+      <button type="button" class="theme-toggle" aria-pressed="false">Mode sombre</button>
     </nav>
   </header>
   <main class="perdu">

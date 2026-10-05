@@ -35,7 +35,7 @@
     var img = new Image();
     img.src = o.src;
     img.alt = '';
-    ov.style.background = '#ebebeb';
+    ov.style.background = 'var(--case)';
     ov.appendChild(img);
     ov.dataset.type = 'img';
   } else {

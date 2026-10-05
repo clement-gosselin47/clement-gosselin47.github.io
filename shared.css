@@ -1,3 +1,60 @@
+/* ═══ Thèmes : clair (par défaut) et sombre adouci ═══
+   Le thème est posé sur <html data-theme="light|dark"> par un petit script en <head>
+   (préférence système, puis choix mémorisé). Sombre : anthracite bleuté, jamais de noir
+   franc ni de blanc pur. Les couleurs vives du site ne changent pas. */
+:root {
+  --bg: #fff;
+  --bg-rgb: 255, 255, 255;
+  --fg: #000;
+  --fg-rgb: 0, 0, 0;
+  --ink: #111;          /* texte fort */
+  --ink-2: #333;        /* texte de récit */
+  --txt: #444;          /* texte courant */
+  --gris: #6b6b6b;      /* légendes, secondaire */
+  --muted: #777;
+  --soft: #999;         /* labels, mentions discrètes */
+  --line-c: #ddd;       /* filets de boutons */
+  --surface: #f2f2f2;   /* encadrés, fonds de vignettes */
+  --case: #ebebeb;      /* case en attente d'image */
+  --case-pre: #f4f4f4;  /* case du preloader */
+  --bg-salle: #000;     /* la salle noire de Redstone */
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  --bg: #24272d;
+  --bg-rgb: 36, 39, 45;
+  --fg: #e9e6df;
+  --fg-rgb: 233, 230, 223;
+  --ink: #e9e6df;
+  --ink-2: #d4d1ca;
+  --txt: #c4c1ba;
+  --gris: #a3a8b0;
+  --muted: #a3a8b0;
+  --soft: #9298a1;
+  --line-c: #3d424b;
+  --surface: #2c3037;
+  --case: #2c3037;
+  --case-pre: #2a2d34;
+  --bg-salle: #17191d;
+  color-scheme: dark;
+}
+
+/* --c-ui (posée sur body.projet) : couleur du projet pour traits et filets.
+   Bleu, magenta et rouge profonds manquent de contraste en trait sur l'anthracite : versions éclaircies */
+html[data-theme="dark"] body.p4 { --c-ui: #6c95f0; }
+html[data-theme="dark"] body.p7 { --c-ui: #e0509f; }
+html[data-theme="dark"] body.p2 { --c-ui: #e8625f; }
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +68,7 @@
   left: 0;
   width: 28px;
   height: 28px;
-  background: #000;
+  background: var(--fg);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
@@ -32,7 +89,7 @@
   width: 52px;
   height: 52px;
   background: transparent;
-  border: 1.5px solid #000;
+  border: 1.5px solid var(--fg);
 }
 
 header {
@@ -53,7 +110,7 @@ nav {
 
 nav a {
   text-decoration: none;
-  color: #000;
+  color: var(--fg);
   font-family: monospace;
   font-size: 20px;
   font-weight: 700;
@@ -74,6 +131,46 @@ nav a.active {
   margin-right: calc(-0.08em - 16px);
 }
 
+/* ── Bascule clair / sombre : un mot, dans la police du menu, sous CONTACT ──
+   Zone de clic de 44px (padding 14px compensé par les marges), aucune icône. */
+nav .theme-toggle {
+  margin: 10px -0.08em -14px 0;
+  padding: 14px 0;
+  border: 0;
+  background: none;
+  color: var(--fg);
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 16px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: transform 0.2s ease, opacity 0.2s ease, color 1.2s cubic-bezier(.16, 1, .3, 1);
+}
+
+nav .theme-toggle:hover {
+  transform: scale(1.12);
+  opacity: 1;
+}
+
+nav .theme-toggle:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: -4px;
+  opacity: 1;
+}
+
+/* Pendant le compteur du preloader, le menu n'est pas encore là */
+body.is-loading .theme-toggle,
+body.menu-en-cours .theme-toggle {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  nav .theme-toggle { transition: none; }
+}
+
 /* ── Composant contact (About + bloc contact des pages projet) ── */
 .contact-label {
   font-family: monospace;
@@ -81,7 +178,7 @@ nav a.active {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #999;
+  color: var(--soft);
 }
 
 .contact-value {
@@ -89,11 +186,11 @@ nav a.active {
   align-items: center;
   gap: 10px;
   font-size: 13px;
-  color: #111;
+  color: var(--ink);
 }
 
 .contact-link {
-  color: #111;
+  color: var(--ink);
   text-decoration: none;
   transition: opacity 0.2s ease;
 }
@@ -105,7 +202,7 @@ nav a.active {
 .link-icon {
   width: 12px;
   height: 12px;
-  color: #999;
+  color: var(--soft);
   flex-shrink: 0;
 }
 
@@ -115,9 +212,9 @@ nav a.active {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #777;
+  color: var(--muted);
   background: none;
-  border: 1px solid #ddd;
+  border: 1px solid var(--line-c);
   border-radius: 2px;
   padding: 3px 8px;
   cursor: pointer;
@@ -125,8 +222,8 @@ nav a.active {
 }
 
 .copy-btn:hover {
-  border-color: #111;
-  color: #111;
+  border-color: var(--ink);
+  color: var(--ink);
 }
 
 /* ── Curseur contextuel (motion C.8, direction I.48) ──
@@ -143,7 +240,7 @@ nav a.active {
   line-height: 1;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--bg);
   white-space: nowrap;
   opacity: 0;
   transition: opacity 0.15s ease;
@@ -152,7 +249,7 @@ nav a.active {
 .cursor.has-mot {
   width: 92px;
   height: 92px;
-  background: #000;
+  background: var(--fg);
   border: 0;
   transition: width 0.35s cubic-bezier(.16, 1, .3, 1), height 0.35s cubic-bezier(.16, 1, .3, 1), background 0.25s ease;
 }
@@ -164,6 +261,7 @@ nav a.active {
 
 /* Fond noir (salle de Redstone) : header, flèche et curseur passent en blanc */
 body.is-dark nav a,
+body.is-dark .theme-toggle,
 body.is-dark .back-nav a,
 body.is-dark .back-nav .arrow-icon {
   color: #fff;
@@ -196,8 +294,9 @@ nav a,
   }
 }
 
-/* Zone de clic du header : 5px de plus en haut et en bas (moitié de l'écart
-   entre ABOUT et CONTACT), sans changer le dessin (audit-ux-final 3) */
+/* Zone de clic du header : 5px de plus en haut et en bas, sans changer le dessin
+   (audit-ux-final 3). ABOUT et CONTACT (20px de haut, 24 avec l'interligne) passent
+   à 44px de haut : 20px de plus, répartis sans chevauchement (cohérence 2026-10-05, point 15). */
 header nav a {
   position: relative;
 }
@@ -206,6 +305,14 @@ header nav a::after {
   content: "";
   position: absolute;
   inset: -5px -8px;
+}
+
+header nav a[data-dest="about"]::after {
+  inset: -15px -10px -5px;      /* 44px, sans mordre sur la zone de CONTACT (10px d'écart entre les deux) */
+}
+
+header nav a[data-dest="contact"]::after {
+  inset: -5px -10px -15px;
 }
 
 /* Overlay Contact ouvert : CONTACT prend le style actif, la page d'origine redevient normale */
@@ -226,7 +333,7 @@ html.contact-ouvert header nav a[data-dest="contact"] {
 
 /* Focus clavier du header : contour noir 2px, comme les pages projet (audit-ux-final 4) */
 nav a:focus-visible {
-  outline: 2px solid #000;
+  outline: 2px solid var(--fg);
   outline-offset: 4px;
 }
 
@@ -269,12 +376,14 @@ nav a:focus-visible {
 /* Pendant un passage, le header change de couleur vite (0,2 s) : sinon il reste
    blanc sur la page claire le temps de la transition de 1,2 s (audit-ux-v3, 3) */
 html.passage-en-cours header nav a,
+html.passage-en-cours header .theme-toggle,
 html.passage-en-cours .back-nav a {
   transition: transform 0.2s ease, color 0.2s ease !important;
 }
 
-/* Header blanc le temps d'un aplat sombre (flèche retour depuis Redstone, Dugos, Sans titre) */
+/* Header blanc le temps d'un aplat sombre (flèche retour depuis Redstone, Dugos) */
 html.passage-sombre header nav a,
+html.passage-sombre header .theme-toggle,
 html.passage-sombre .back-nav a {
   color: #fff !important;
 }
@@ -326,7 +435,7 @@ html.passage-sombre .back-nav {
   font-family: 'Source Sans 3', sans-serif;
   font-size: 20px;
   line-height: 1.5;
-  color: #444;
+  color: var(--txt);
 }
 
 /* L'adresse : une ligne dès 900px, trois lignes dessous, jamais coupée ailleurs */
@@ -433,7 +542,7 @@ html.passage-sombre .back-nav {
 }
 
 .ov-contact :focus-visible {
-  outline: 2px solid #000;
+  outline: 2px solid var(--fg);
   outline-offset: 4px;
 }
 

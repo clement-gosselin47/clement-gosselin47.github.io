@@ -2,7 +2,8 @@
    Pages projet v2 (2026-10-02)
    Socle commun (direction.md B) puis une mise en page par projet :
    .p1 le portant, .p2 la salle s'éteint, .p3 les deux pages,
-   .p4 la planche-contact, .p5 le titre qui traverse, .p6 l'article.
+   .p4 la planche-contact, .p5 le titre qui traverse, .p7 le seuil, .p8 Relay.
+   (Le brouillon « Sans titre » est sorti du site : .portfolio/2026-10-05-coherence/retirees/projet-6/)
    Couleur du projet : --c sur <body>, encre lisible dessus : --c-ink.
    Le mouvement est dans project.js (un seul fichier, effets par attributs).
    La version précédente est gardée dans .portfolio/2026-10-02-pages-projet-v2/avant/
@@ -17,22 +18,23 @@
 body.projet {
   --c: #000;
   --c-ink: #fff;
-  --c-15: color-mix(in srgb, var(--c) 15%, #fff);
-  --c-55: color-mix(in srgb, var(--c) 55%, #fff);
+  --c-15: color-mix(in srgb, var(--c) 15%, var(--bg));
+  --c-55: color-mix(in srgb, var(--c) 55%, var(--bg));
+  --c-ui: var(--c);                     /* traits et filets : la couleur du projet (éclaircie en sombre, shared.css) */
   --next: #000;
   --next-ink: #fff;
   --m: 80px;                            /* marge */
   --g: 24px;                            /* gouttière */
   --col: calc((100vw - 2 * var(--m) - 11 * var(--g)) / 12);
-  --filet: 0.5px solid rgba(0, 0, 0, 0.15);
-  background: #fff;
-  color: #000;
+  --filet: 0.5px solid rgba(var(--fg-rgb), 0.15);
+  background: var(--bg);
+  color: var(--fg);
   font-family: 'Source Sans 3', sans-serif;
   transition: background-color 1.2s var(--out);
 }
 
 body.projet.is-dark {
-  background: #000;
+  background: var(--bg-salle);
 }
 
 main,
@@ -60,7 +62,7 @@ video {
 .projet a:focus-visible,
 .projet button:focus-visible,
 .projet [tabindex]:focus-visible {
-  outline: 2px solid #000;
+  outline: 2px solid var(--fg);
   outline-offset: 4px;
 }
 
@@ -80,7 +82,7 @@ video {
 
 .back-nav a {
   display: inline-flex;
-  color: #000;
+  color: var(--fg);
   text-decoration: none;
 }
 
@@ -127,7 +129,7 @@ video {
   letter-spacing: -0.025em;
   line-height: 0.8;
   white-space: nowrap;
-  color: #000;
+  color: var(--fg);
 }
 
 .fit {
@@ -155,11 +157,11 @@ html.js .titre .l + .l > .t {
 }
 
 html.ouv .titre .l > .t {
-  animation-delay: 0.65s;
+  animation-delay: 0.55s;
 }
 
 html.ouv .titre .l + .l > .t {
-  animation-delay: 0.74s;
+  animation-delay: 0.63s;
 }
 
 /* Le titre du bloc « Projet suivant » ne s'anime pas */
@@ -176,7 +178,7 @@ html.js .suivant .titre .l > .t {
 .colophon {
   font-size: 20px;
   line-height: 1.45;
-  color: #111;
+  color: var(--ink);
   max-width: 30ch;
 }
 
@@ -188,7 +190,7 @@ html.js .suivant .titre .l > .t {
   margin-top: 18px;
   font-size: 17px;
   font-weight: 600;
-  color: #000;
+  color: var(--fg);
   text-decoration: underline;
   text-decoration-thickness: 1.5px;
   text-underline-offset: 4px;
@@ -213,11 +215,10 @@ html.js .suivant .titre .l > .t {
 }
 
 /* Récit : 21px sur grand écran pour qu'il pèse face au décor (corrections passe 1) */
-.recit p,
-.article p {
+.recit p {
   font-size: 21px;
   line-height: 1.6;
-  color: #333;
+  color: var(--ink-2);
   max-width: 34em;
   margin-bottom: 1.1em;
   transition: color 1.2s var(--out);
@@ -234,7 +235,7 @@ html.js .suivant .titre .l > .t {
   font-weight: 400;
   font-size: 19px;
   letter-spacing: 0;
-  color: #000;
+  color: var(--fg);
   transition: color 1.2s var(--out);
 }
 
@@ -244,14 +245,56 @@ html.js .suivant .titre .l > .t {
 }
 
 .retiens p {
+  position: relative;
   grid-column: 2 / 10;
   font-family: 'Archivo Black', sans-serif;
   font-size: clamp(30px, 3.6vw, 54px);
   line-height: 1.06;
   letter-spacing: -0.015em;
-  color: #000;
+  color: var(--fg);
   max-width: 17em;
   transition: color 1.2s var(--out);
+}
+
+/* Le trait de marqueur (cohérence 2026-10-05) : le seul dispositif commun des sept pages.
+   Comme sur une planche-contact, on entoure la phrase retenue : un trait tracé à la main
+   (même famille que le cadre de la planche de Dugos), dans la couleur du projet, une seule fois. */
+.marque-fin {
+  position: absolute;
+  left: 0;
+  bottom: -0.26em;
+  width: min(100%, 11em);
+  height: 0.3em;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.marque-fin path {
+  fill: none;
+  stroke: var(--c-ui);
+  stroke-width: 5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1600;          /* en pixels d'écran (non-scaling-stroke) : plus long que le trait */
+  stroke-dashoffset: 0;
+}
+
+/* Il se dessine quand la phrase se révèle, 250 ms après le texte, puis ne bouge plus */
+html.js .retiens p:not(.in) .marque-fin path {
+  stroke-dashoffset: 1600;
+}
+
+html.js .retiens p.in .marque-fin path {
+  transition: stroke-dashoffset 0.9s var(--out) 0.25s;
+}
+
+/* Le trait dépasse sous la dernière ligne : pas de découpe sur la phrase révélée */
+html.js .retiens p[data-rv].in {
+  clip-path: none;
+}
+
+html.rv-secours .marque-fin path {
+  stroke-dashoffset: 0 !important;
 }
 
 /* Images et emplacements vides : sans cadre, sans arrondi, sans ombre */
@@ -278,7 +321,7 @@ html.js .suivant .titre .l > .t {
   max-width: 40ch;
   font-size: 14px;
   line-height: 1.4;
-  color: #6b6b6b;
+  color: var(--gris);
 }
 
 /* ── Révélations au scroll (motion B, project.js ajoute .in) ── */
@@ -326,7 +369,7 @@ html.rv-secours [data-rv] > * {
   min-height: 70vh;
   margin-top: 120px;
   padding: 28px var(--m) 40px;
-  color: #000;
+  color: var(--fg);
   text-decoration: none;
   overflow: hidden;
 }
@@ -350,13 +393,17 @@ html.rv-secours [data-rv] > * {
 
 .suivant-label {
   font-size: 16px;
-  color: #6b6b6b;
+  color: var(--gris);
   transition: color 0.4s ease;
 }
 
 .suivant .titre {
   display: block;
   transition: color 0.4s ease;
+}
+
+.is-dark .suivant-label {
+  color: #999;
 }
 
 .suivant:hover .suivant-label,
@@ -392,7 +439,7 @@ html.rv-secours [data-rv] > * {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 55%;
+  object-position: 80% 50%;   /* cale la capture de Works sur les mannequins */
 }
 
 .p1 .ouv-texte {
@@ -436,7 +483,7 @@ html.rv-secours [data-rv] > * {
   right: 0;
   top: calc(var(--haut) - 4px);
   height: 1px;
-  background: #000;
+  background: var(--fg);
 }
 
 .p1 .rail {
@@ -574,7 +621,7 @@ html.js .p2 .affiche-finale {
   right: calc(50% + 78vh * 0.352 + 32px);
   bottom: 11vh;
   font-size: 16px;
-  color: #999;
+  color: var(--soft);
   white-space: nowrap;
   transition: opacity 0.3s ease;
 }
@@ -591,7 +638,7 @@ html.js .p2 .affiche-finale {
   line-height: 1.6;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #000;
+  color: var(--fg);
   transition: color 1.2s var(--out);
 }
 
@@ -601,17 +648,6 @@ html.js .p2 .affiche-finale {
 
 .p2 .generique span {
   display: block;
-}
-
-.p2 .salle .retiens {
-  margin-top: 120px;
-  padding: 0 var(--m) 40px;
-  text-align: center;
-}
-
-.p2 .salle .retiens p {
-  max-width: 16em;
-  margin: 0 auto;
 }
 
 /* ═══ Projet 3, Unik : les deux pages qui défilent ensemble ═══ */
@@ -677,7 +713,7 @@ html.js .p2 .affiche-finale {
   grid-row: 1;
   padding-bottom: 14px;
   font-size: 14px;
-  color: #6b6b6b;
+  color: var(--gris);
 }
 
 .p3 .duo-legende + .duo-legende {
@@ -703,8 +739,8 @@ html.js .p2 .affiche-finale {
 }
 
 .p3 .page.nue > i {
-  background: #fff;
-  outline: 0.5px solid rgba(0, 0, 0, 0.25);
+  background: var(--bg);
+  outline: 0.5px solid rgba(var(--fg-rgb), 0.25);
   outline-offset: -0.5px;
 }
 
@@ -728,7 +764,7 @@ html.js .p2 .affiche-finale {
   margin: 0 auto;
   font-size: 15px;
   line-height: 1.35;
-  color: #111;
+  color: var(--ink);
   text-align: center;
 }
 
@@ -743,7 +779,9 @@ html.js .p2 .affiche-finale {
   flex: var(--r) 1 0;
   min-width: 0;
   height: 100%;
+  aspect-ratio: var(--r);
   object-fit: cover;
+  background: var(--c-15);          /* emplacement réservé tant que l'image n'est pas là */
 }
 
 /* ═══ Projet 4, Dugos Photographie : la planche-contact ═══ */
@@ -764,7 +802,7 @@ html.js .p2 .affiche-finale {
 .p4 .feuille {
   position: relative;
   z-index: 1;
-  background: #fff;
+  background: var(--bg);
   padding-top: 48px;
 }
 
@@ -781,7 +819,7 @@ html.js .p2 .affiche-finale {
 }
 
 .p4 .ouv-texte > div {
-  grid-column: 8 / 13;
+  grid-column: 1 / 7;
 }
 
 /* Le site est en ligne : le lien passe au premier plan, sous le colophon.
@@ -831,6 +869,7 @@ html.js .p2 .affiche-finale {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  background: var(--c-15);          /* emplacement réservé tant que l'image n'est pas là */
 }
 
 .p4 .vue:focus-visible {
@@ -849,7 +888,7 @@ html.js .p2 .affiche-finale {
 
 .p4 .marqueur path {
   fill: none;
-  stroke: var(--c);
+  stroke: var(--c-ui);
   stroke-width: 3px;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -871,6 +910,7 @@ html.js .p2 .affiche-finale {
 
 .p4 .grande-vue {
   aspect-ratio: 2000 / 1182;
+  background: var(--c-15);
   transition: opacity 0.4s ease;
 }
 
@@ -896,7 +936,7 @@ html.js .p2 .affiche-finale {
   width: 100%;
   padding: 0;
   border: 0;
-  background: #f2f2f2;
+  background: var(--surface);
 }
 
 .p4 .parcours-vue video {
@@ -1032,7 +1072,7 @@ html.js .p2 .affiche-finale {
   margin-top: 12px;
   font-size: 16px;
   font-weight: 600;
-  color: #000;
+  color: var(--fg);
 }
 
 .p5 .calque-legende {
@@ -1113,33 +1153,33 @@ html.calque-ok .p5 .calque-legende {
 .p5 .calque-nom {
   font-size: 16px;
   font-weight: 600;
-  color: #000;
+  color: var(--fg);
 }
 
 .p5 .calque-etat {
   font-size: 14px;
-  color: #777;
+  color: var(--muted);
   transition-duration: 0.2s;
 }
 
 /* Le prototype : un seul grand lien, souligné en jaune au survol, comme le trait du calque */
-.p5 .proto {
+.proto {
   margin-top: 160px;
 }
 
-.p5 .proto-lien {
+.proto-lien {
   grid-column: 1 / -1;
   justify-self: start;
   font-family: 'Archivo Black', sans-serif;
   font-size: clamp(40px, 6.4vw, 104px);
   line-height: 1;
   letter-spacing: -0.02em;
-  color: #000;
+  color: var(--fg);
   text-decoration: none;
 }
 
-.p5 .proto-texte {
-  background-image: linear-gradient(var(--c), var(--c));
+.proto-texte {
+  background-image: linear-gradient(var(--c-ui), var(--c-ui));
   background-repeat: no-repeat;
   background-position: 0 92%;
   background-size: 0 0.12em;
@@ -1148,11 +1188,11 @@ html.calque-ok .p5 .calque-legende {
   box-decoration-break: clone;
 }
 
-.p5 .proto-fin {
+.proto-fin {
   white-space: nowrap;
 }
 
-.p5 .proto-fin svg {
+.proto-fin svg {
   display: inline-block;
   width: 0.6em;
   height: 0.6em;
@@ -1161,17 +1201,17 @@ html.calque-ok .p5 .calque-legende {
   transition: transform 0.7s var(--out);
 }
 
-.p5 .proto-fin svg path {
+.proto-fin svg path {
   stroke-width: 2.4;
 }
 
-.p5 .proto-lien:hover .proto-texte,
-.p5 .proto-lien:focus-visible .proto-texte {
+.proto-lien:hover .proto-texte,
+.proto-lien:focus-visible .proto-texte {
   background-size: 100% 0.12em;
 }
 
-.p5 .proto-lien:hover svg,
-.p5 .proto-lien:focus-visible svg {
+.proto-lien:hover svg,
+.proto-lien:focus-visible svg {
   transform: translate(6px, -6px);
 }
 
@@ -1190,117 +1230,6 @@ html.calque-ok .p5 .calque-legende {
   object-fit: cover;
 }
 
-/* ═══ Projet 6, Sans titre : l'article ═══ */
-.p6 .ouv {
-  padding-top: 200px;
-}
-
-.p6 .ouv .titre {
-  grid-column: 1 / -1;
-}
-
-.p6 .chapeau {
-  grid-column: 1 / 9;
-  margin-top: 72px;
-  font-size: clamp(28px, 2.6vw, 38px);
-  font-weight: 300;
-  line-height: 1.3;
-  color: #111;
-}
-
-.p6 .ouv .colophon {
-  grid-column: 10 / 13;
-  margin-top: 72px;
-  font-size: 16px;
-  color: #6b6b6b;
-}
-
-.p6 .article {
-  margin-top: 160px;
-  align-items: start;
-}
-
-.p6 .article > * {
-  grid-column: 4 / 10;
-}
-
-.p6 .article .marge-g {
-  grid-column: 1 / 4;
-  grid-row: span 2;
-  margin-top: 6px;
-}
-
-.p6 .article .marge-d {
-  grid-column: 10 / 13;
-  grid-row: span 2;
-  margin-top: 6px;
-}
-
-.p6 .cadre {
-  position: relative;
-  overflow: hidden;
-}
-
-.p6 .marge-g .cadre,
-.p6 .marge-d .cadre {
-  aspect-ratio: 4 / 5;
-}
-
-.p6 .article .large {
-  grid-column: 1 / -1;
-  margin: 72px 0 88px;
-}
-
-.p6 .large .cadre {
-  aspect-ratio: 21 / 9;
-}
-
-.p6 .exergue {
-  margin: 56px 0 72px;
-  font-family: 'Archivo Black', sans-serif;
-  font-size: clamp(32px, 4vw, 60px);
-  line-height: 1.04;
-  letter-spacing: -0.015em;
-  color: var(--c);
-}
-
-.p6 .article .exergue {
-  grid-column: 2 / 12;
-}
-
-/* Lettrine : la seule touche de couleur dans le texte du site */
-.p6 .lettrine::first-letter {
-  -webkit-initial-letter: 4;
-  initial-letter: 4;
-  font-family: 'Archivo Black', sans-serif;
-  color: var(--c);
-  margin-right: 0.1em;
-}
-
-/* Un paragraphe qui commence par une attaque en gras n'a pas de lettrine :
-   elle couperait le premier mot (« L / a demande. »). Elle revient d'elle-même
-   quand le premier paragraphe commence par du texte simple. */
-.p6 .lettrine:has(> .lead:first-child)::first-letter {
-  -webkit-initial-letter: normal;
-  initial-letter: normal;
-  font-family: inherit;
-  color: inherit;
-  margin-right: 0;
-}
-
-@supports not ((initial-letter: 4) or (-webkit-initial-letter: 4)) {
-  .p6 .lettrine::first-letter {
-    float: left;
-    font-size: 92px;
-    line-height: 0.8;
-    margin: 6px 12px 0 0;
-  }
-}
-
-.p6 .retiens p {
-  grid-column: 4 / 12;
-}
-
 /* ═══ Tablette (768 à 1099) ═══ */
 @media (max-width: 1099px) {
   body.projet {
@@ -1311,8 +1240,7 @@ html.calque-ok .p5 .calque-legende {
     grid-column: 1 / 9;
   }
 
-  .recit p,
-  .article p {
+  .recit p {
     font-size: 19px;
   }
 
@@ -1354,8 +1282,7 @@ html.calque-ok .p5 .calque-legende {
     padding: 0 var(--m);
   }
 
-  .retiens p,
-  .p6 .retiens p {
+  .retiens p {
     grid-column: 1 / -1;
   }
 
@@ -1365,18 +1292,6 @@ html.calque-ok .p5 .calque-legende {
 
   .p2 .ouv-img {
     grid-column: 8 / 13;
-  }
-
-  .p6 .article > * {
-    grid-column: 4 / 11;
-  }
-
-  .p6 .article .marge-d {
-    grid-column: 11 / 13;
-  }
-
-  .p6 .ouv .colophon {
-    grid-column: 9 / 13;
   }
 }
 
@@ -1410,13 +1325,11 @@ html.calque-ok .p5 .calque-legende {
   }
 
   .recit-col,
-  .retiens p,
-  .p6 .retiens p {
+  .retiens p {
     grid-column: 1 / -1;
   }
 
-  .recit p,
-  .article p {
+  .recit p {
     font-size: 17px;
   }
 
@@ -1436,6 +1349,14 @@ html.calque-ok .p5 .calque-legende {
     font-size: 28px;
   }
 
+  .marque-fin {
+    width: min(100%, 9em);
+  }
+
+  .marque-fin path {
+    stroke-width: 4px;
+  }
+
   .suivant {
     min-height: 52vh;
     padding-bottom: 24px;
@@ -1451,7 +1372,12 @@ html.calque-ok .p5 .calque-legende {
     color: var(--next-ink);
   }
 
-  /* Projet 1 : ouverture, voir la règle tablette (jusqu'à 1099px) */
+  /* Projet 1 : ouverture, voir la règle tablette (jusqu'à 1099px).
+     Sous 768px le titre démarre sous la vitrine : le bas de la capture portrait porte
+     un bouton noir où les lettres noires se perdaient (cohérence 2026-10-05, point 17). */
+  .p1 .ouv .titre {
+    margin: 12px var(--m) 0;
+  }
 
   .p1 .portant {
     height: auto !important;
@@ -1587,9 +1513,9 @@ html.calque-ok .p5 .calque-legende {
   /* Projet 4 */
   /* La vitrine entière, pleine largeur, sous le header */
   .p4 .heros {
-    height: auto;
-    aspect-ratio: 4 / 3;
-    margin-top: 190px;
+    height: 100vh;
+    height: 100svh;
+    margin-top: 0;
   }
 
   .p4 .ouv-texte > div {
@@ -1640,16 +1566,9 @@ html.calque-ok .p5 .calque-legende {
     top: auto;
     left: auto;
     right: auto;
-    width: max-content;
-    margin-left: var(--m);
-    font-size: 48vw;
+    margin: 0 var(--m);
+    font-size: var(--fit, 20vw);   /* le mot entier, au cadrage, comme les six autres pages */
     transform: none;
-    /* Un aller et un retour, puis il s'arrête ; un toucher le met en pause (WCAG 2.2.2) */
-    animation: defile 14s linear 1s 2 alternate both;
-  }
-
-  .p5 .traverse .titre.en-pause {
-    animation-play-state: paused;
   }
 
   .p5 .carton {
@@ -1712,74 +1631,13 @@ html.calque-ok .p5 .calque-legende {
     width: calc(100vw - 2 * var(--m));
   }
 
-  .p5 .proto {
+  .proto {
     margin-top: 96px;
   }
 
-  .p5 .proto-texte {
+  .proto-texte {
     background-size: 100% 0.12em;
   }
-
-  /* Projet 6 */
-  .p6 .ouv {
-    padding-top: 190px;
-  }
-
-  .p6 .chapeau,
-  .p6 .ouv .colophon {
-    grid-column: 1 / -1;
-  }
-
-  .p6 .chapeau {
-    margin-top: 40px;
-    font-size: 24px;
-  }
-
-  .p6 .ouv .colophon {
-    margin-top: 24px;
-  }
-
-  .p6 .article {
-    margin-top: 96px;
-  }
-
-  .p6 .article > *,
-  .p6 .article .large,
-  .p6 .article .exergue {
-    grid-column: 1 / -1;
-  }
-
-  .p6 .article .marge-g,
-  .p6 .article .marge-d {
-    grid-column: 1 / -1;
-    grid-row: auto;
-    width: 70%;
-    margin: 16px 0 40px;
-  }
-
-  .p6 .article .marge-d {
-    justify-self: end;
-  }
-
-  .p6 .article .large {
-    margin: 40px calc(-1 * var(--m)) 56px;
-  }
-
-  .p6 .lettrine::first-letter {
-    -webkit-initial-letter: 3;
-    initial-letter: 3;
-  }
-
-  .p6 .exergue {
-    font-size: 30px;
-    margin: 32px 0 48px;
-  }
-}
-
-/* Mobile : le titre de Queen défile tout seul, très lentement */
-@keyframes defile {
-  from { transform: none; }
-  to   { transform: translateX(calc(-100% + 100vw - 2 * var(--m))); }
 }
 
 /* Mobile et mouvement réduit : la salle se déplie en lecture verticale */
@@ -1879,6 +1737,22 @@ html.calque-ok .p5 .calque-legende {
     animation: fondu 0.25s linear both;
   }
 
+  /* Le trait de marqueur est déjà tracé, il apparaît en fondu avec la phrase */
+  html.js .retiens p .marque-fin {
+    opacity: 0;
+    transition: opacity 0.2s linear;
+  }
+
+  html.js .retiens p.in .marque-fin {
+    opacity: 1;
+  }
+
+  html.js .retiens p .marque-fin path,
+  html.js .retiens p.in .marque-fin path {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
   body.projet,
   .suivant::before,
   .p1 .rail figure,
@@ -1961,12 +1835,14 @@ body.projet .back-nav {
 }
 
 body.projet nav a,
+body.projet nav .theme-toggle,
 body.projet .back-nav a {
   color: #fff;
   transition: transform 0.2s ease;
 }
 
 body.projet header a:focus-visible,
+body.projet header .theme-toggle:focus-visible,
 body.projet .back-nav a:focus-visible {
   outline-color: #fff;
 }
@@ -1979,13 +1855,38 @@ body.projet.is-dark .back-nav {
 }
 
 body.projet.sur-couleur nav a,
+body.projet.sur-couleur nav .theme-toggle,
 body.projet.sur-couleur .back-nav a {
   color: #000;
 }
 
 body.projet.sur-couleur header a:focus-visible,
+body.projet.sur-couleur header .theme-toggle:focus-visible,
 body.projet.sur-couleur .back-nav a:focus-visible {
   outline-color: #000;
+}
+
+/* Dugos : le hero est une grille de portraits, la « différence » rend le menu
+   illisible (audit-ux 1). Sur la photo : blanc franc sur un voile sombre en haut
+   du hero ; dès que la feuille blanche passe sous le header, retour à la règle. */
+body.p4.sur-photo header,
+body.p4.sur-photo .back-nav {
+  mix-blend-mode: normal;
+}
+
+body.p4.sur-photo nav a,
+body.p4.sur-photo nav .theme-toggle,
+body.p4.sur-photo .back-nav a {
+  color: #fff;
+}
+
+.p4 .heros::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 240px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.3) 55%, rgba(0, 0, 0, 0));
+  pointer-events: none;
 }
 
 /* Cibles tactiles de 44px sans changer le dessin (audit-ux 9).
@@ -1995,7 +1896,12 @@ body.projet.sur-couleur .back-nav a:focus-visible {
   position: relative;
 }
 
-.back-nav a::after,
+.back-nav a::after {
+  content: "";
+  position: absolute;
+  inset: -14px -10px;          /* au moins 44 px de haut et de large, même à 40 × 20 en mobile */
+}
+
 .site-lien::after {
   content: "";
   position: absolute;
@@ -2010,4 +1916,333 @@ body.projet.sur-couleur .back-nav a:focus-visible {
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* ═══ Projet 6, Passage Secret : le seuil (2026-10-05) ═══
+   Classe de page .p7.
+   Une fente d'une colonne s'ouvre au centre, s'élargit jusqu'au plein cadre,
+   puis les pages se relaient par lanières. project.js pose les découpes (--k).
+   Sans JavaScript ou en mouvement réduit : les pages s'empilent avec leur légende. */
+
+/* Ouverture : titre au cadrage, colophon, mention */
+.p7 .ouv-ps {
+  padding: 170px var(--m) 0;
+}
+
+.p7 .ouv-ps-texte {
+  margin-top: 36px;
+  max-width: 620px;
+}
+
+/* La mention de cadre : une note de colophon, en 600, au filet de la couleur de la page */
+.p7 .mention {
+  margin-top: 28px;
+  max-width: 620px;
+  padding-left: 16px;
+  border-left: 3px solid var(--c-ui);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--fg);
+}
+
+/* Repli : pages empilées, chacune avec sa légende */
+.p7 .seuil {
+  margin-top: 140px;
+}
+
+.p7 .seuil-scene {
+  padding: 0 var(--m);
+}
+
+.p7 .seuil-page {
+  margin: 0 0 24px;
+}
+
+.p7 .seuil-page figcaption {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.p7 .seuil-bande {
+  display: none;
+}
+
+/* Épinglé : la scène remplit l'écran, la bande basse porte la légende */
+html.seuil-ok .p7 .seuil {
+  position: relative;
+  height: 460vh;
+  margin-top: 120px;
+}
+
+html.seuil-ok .p7 .seuil-scene {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 0;
+  overflow: hidden;
+}
+
+html.seuil-ok .p7 .seuil-cadre {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 56px);
+  /* La fente : project.js pose --t, --r, --l (en px) selon le défilement */
+  clip-path: inset(var(--t, 0px) var(--r, 0px) 0 var(--l, 0px));
+  will-change: clip-path;
+}
+
+html.seuil-ok .p7 .seuil-page {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+}
+
+html.seuil-ok .p7 .seuil-page img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* Le nom de chaque page reste pour les lecteurs d'écran ; à l'œil, la bande basse */
+html.seuil-ok .p7 .seuil-page figcaption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+html.seuil-ok .p7 .seuil-bande {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 56px;
+  padding: 0 var(--m);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: var(--bg);
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.p7 .seuil-nom {
+  font-weight: 600;
+  color: var(--fg);
+  transition: opacity 0.3s ease;
+}
+
+/* Le mobile : la plongée et la version téléphone, décalées en hauteur */
+.p7 .mobile-ps {
+  margin-top: 160px;
+  align-items: start;
+}
+
+.p7 .mobile-ps figure {
+  margin: 0;
+}
+
+.p7 .mobile-ps-a {
+  grid-column: 1 / 9;
+}
+
+.p7 .mobile-ps-b {
+  grid-column: 9 / 12;
+  margin-top: 120px;
+}
+
+@media (max-width: 1099px) {
+  .p7 .mobile-ps-a { grid-column: 1 / 8; }
+  .p7 .mobile-ps-b { grid-column: 8 / 13; margin-top: 80px; }
+}
+
+@media (max-width: 767px) {
+  .p7 .ouv-ps {
+    padding-top: 190px;
+  }
+
+  .p7 .mention {
+    font-size: 17px;
+  }
+
+  .p7 .seuil {
+    margin-top: 88px;
+  }
+
+  html.seuil-ok .p7 .seuil {
+    height: 380vh;
+    margin-top: 88px;
+  }
+
+  .p7 .mobile-ps {
+    margin-top: 88px;
+  }
+
+  .p7 .mobile-ps-a { grid-column: 1 / 13; }
+  .p7 .mobile-ps-b { grid-column: 5 / 13; margin-top: 24px; }
+}
+
+/* Le parcours en vidéo : à la largeur des marges, sans cadre ni arrondi */
+.p7 .parcours {
+  margin-top: 140px;
+  padding: 0 var(--m);
+}
+
+.p7 .parcours figure {
+  margin: 0;
+}
+
+.p7 .parcours-vue {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: #172232;
+}
+
+.p7 .parcours-vue video {
+  width: 100%;
+  aspect-ratio: 1280 / 800;
+  object-fit: cover;
+}
+
+@media (max-width: 767px) {
+  .p7 .parcours { margin-top: 88px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p7 .seuil-nom { transition: none; }
+}
+
+/* ═══ Projet 8, Relay : le titre posé sur l'application ═══
+   Classe de page .p8. Le titre au cadrage, puis la capture de l'application
+   bord à bord (même fichier que la case de Works : le calque se recadre dessus).
+   Le lien « Tester l'app » et la phrase de fin reprennent le dessin de Queen (.proto). */
+.p8 .ouv-relay {
+  padding-top: 150px;
+}
+
+.p8 .ouv-relay .titre {
+  margin: 0 var(--m);
+}
+
+.p8 .ouv-relay-img {
+  margin-top: 40px;
+}
+
+.p8 .ouv-relay-img img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1600 / 1000;
+}
+
+/* Téléphone en portrait : la source portrait (740 × 1600) garde son ratio, sans être écrasée dans 1600 / 1000 */
+@media (max-aspect-ratio: 3/5) {
+  .p8 .ouv-relay-img img {
+    aspect-ratio: 740 / 1600;
+  }
+}
+
+.p8 .ouv-relay-texte {
+  margin-top: 40px;
+}
+
+.p8 .ouv-relay-texte > div {
+  grid-column: 1 / 6;
+}
+
+/* Le feed sur ordinateur, bord à bord, sous les vues mobiles */
+.p8 .bureau {
+  margin-top: 160px;
+}
+
+.p8 .bureau img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1600 / 1000;
+  background: var(--c-15);   /* emplacement réservé tant que l'image n'est pas là */
+}
+
+.p8 .bureau .legende {
+  padding: 0 var(--m);
+}
+
+/* Cibles tactiles du lien du colophon (audit-ux 3) : le dessin ne bouge pas */
+.p8 .site-lien {
+  min-height: 44px;
+  margin-top: 6px;
+}
+
+/* Les vues : captures mobiles collées, à la même hauteur, centrées, fond blanc de chaque côté */
+.p8 .vues {
+  --h: min(70vh, 69vw);      /* trois écrans collés tiennent toujours dans la largeur */
+  display: flex;
+  justify-content: center;
+  padding-bottom: 64px;      /* la place des légendes, sous les écrans */
+  margin-top: 160px;
+}
+
+.p8 .vues > figure {
+  position: relative;
+  flex: none;
+  height: var(--h);
+  width: calc(var(--h) * var(--r));
+  background: var(--c-15);   /* emplacement réservé tant que l'image n'est pas là */
+}
+
+.p8 .vues > figure > img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+.p8 .vues .legende {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: max-content;
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .p8 .ouv-relay {
+    padding-top: 190px;
+  }
+
+  .p8 .bureau {
+    margin-top: 96px;
+  }
+
+  .p8 .proto-lien {
+    min-height: 44px;
+  }
+
+  .p8 .ouv-relay-texte > div {
+    grid-column: 1 / -1;
+  }
+
+  /* Rail horizontal natif, accroché au bord gauche, le dernier écran déborde */
+  .p8 .vues {
+    --h: 60svh;
+    justify-content: flex-start;
+    margin-top: 96px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .p8 .vues > figure {
+    scroll-snap-align: start;
+  }
 }

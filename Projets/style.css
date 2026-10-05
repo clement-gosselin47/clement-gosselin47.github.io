@@ -2,7 +2,7 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: #fff;
+  background: var(--bg);
 }
 
 .wrapper {
@@ -14,17 +14,18 @@ body {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(15, calc(100vw / 5));
-  grid-template-rows: repeat(15, calc(100vh / 5));
-  width: calc(3 * 100vw);
-  height: calc(3 * 100vh);
+  grid-template-columns: repeat(15, var(--cw, calc(100vw / 5)));
+  grid-template-rows: repeat(15, var(--ch, calc(100vw / 8)));
+  width: calc(15 * var(--cw, 20vw));
+  height: calc(15 * var(--ch, 12.5vw));
+  background: var(--bg);
   will-change: transform;
 }
 
 .cell {
   position: relative;
   overflow: hidden;
-  border: 0.5px solid rgba(0,0,0,0.15);
+  /* Pas de filet : les cases se touchent à 100 % (retour de Clément) */
   opacity: 0.15;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -32,7 +33,12 @@ body {
 .cell-media {
   position: absolute;
   inset: 0;
+  /* Capture entière : la case a le ratio de l'image (script.js), cover ne
+     coupe donc rien. Gris clair tant que l'image n'est pas arrivée. */
+  background-color: var(--case);
   background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .cell:hover {
@@ -98,11 +104,20 @@ body {
   width: 100vw;
   height: 100vh;
   z-index: 95;
-  background-color: #ebebeb;
+  background-color: var(--case);
   background-size: cover;
   background-position: center;
   transform-origin: 0 0;
   pointer-events: none;
+  overflow: hidden;
+}
+
+.ouverture-calque img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: none;
+  display: block;
 }
 
 body.ouvre .cell {
@@ -123,7 +138,7 @@ body.ouvre .wrapper {
   z-index: 101;
   align-items: flex-start;
   padding: 28px 40px 32px 48px;
-  background: #fff;
+  background: var(--bg);
   clip-path: inset(50%);
   opacity: 0;
 }
@@ -134,7 +149,7 @@ body.ouvre .wrapper {
 }
 
 .projets-clavier a:focus-visible {
-  outline: 2px solid #000;
+  outline: 2px solid var(--fg);
   outline-offset: 4px;
 }
 

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
   <title>Clément Gosselin, alternance chef de projet digital à Bordeaux</title>
   <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
   <meta name="description" content="Je cherche une alternance en 2j / 3j à Bordeaux, dès maintenant. Bachelor Chef de Projet Digital à Ynov, certifié Google Analytics 4. CV et contact.">
@@ -41,6 +42,7 @@
       <a href="../Projets/index.html" data-dest="works">Works</a>
       <a href="../About/index.html" class="active" data-dest="about">About</a>
       <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+      <button type="button" class="theme-toggle" aria-pressed="false">Mode sombre</button>
     </nav>
   </header>
 

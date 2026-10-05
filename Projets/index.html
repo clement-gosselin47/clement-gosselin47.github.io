@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
   <title>Clément Gosselin, portfolio de chef de projet digital</title>
   <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
   <meta name="description" content="Portfolio de Clément Gosselin, en Bachelor Chef de Projet Digital à Ynov Bordeaux. Sites, prototypes Figma et affiche. Je cherche une alternance 2j / 3j.">
@@ -38,6 +39,7 @@
       <a href="../Projets/index.html" class="active" data-dest="works">Works</a>
       <a href="../About/index.html" data-dest="about">About</a>
       <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+      <button type="button" class="theme-toggle" aria-pressed="false">Mode sombre</button>
     </nav>
   </header>
   <!-- Accès aux projets au clavier et au lecteur d'écran : invisible, la liste
@@ -48,6 +50,8 @@
     <a href="./Unik/index.html">Unik</a>
     <a href="./dugos-photographie/index.html">Dugos Photographie</a>
     <a href="./Queen/index.html">Queen</a>
+    <a href="./passage-secret/index.html">Passage Secret</a>
+    <a href="./relay/index.html">Relay</a>
   </nav>
   <div class="wrapper">
     <div class="grid" id="grid"></div>

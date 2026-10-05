@@ -1,7 +1,7 @@
 /* Hauteur minimale de l'écran ; sous 900 × 560 la page grandit et défile.
    Au-dessus, elle est figée à la hauteur de la fenêtre (bloc « Ordinateur ») */
 body {
-  background: #fff;
+  background: var(--bg);
   min-height: 100vh;
   overflow-x: hidden;
   font-family: 'Source Sans 3', sans-serif;
@@ -10,7 +10,7 @@ body {
 .content {
   position: relative;
   z-index: 1;
-  background: #fff;
+  background: var(--bg);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -29,6 +29,24 @@ body {
   z-index: 0;
 }
 
+/* Voile blanc derrière le menu : une vitrine sombre ou chargée (logo Relay,
+   Passage Secret) qui passe sous WORKS / ABOUT / CONTACT reste discrète */
+.side-grid::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 560px;
+  height: 300px;
+  background: radial-gradient(
+    ellipse 100% 100% at 100% 0%,
+    rgba(var(--bg-rgb), 0.94) 0%,
+    rgba(var(--bg-rgb), 0.92) 60%,
+    rgba(var(--bg-rgb), 0.5) 85%,
+    rgba(var(--bg-rgb), 0) 100%
+  );
+}
+
 /* Fondu blanc à la jonction entre le texte et la grille, pour une
    transition progressive plutôt qu'une coupe nette. */
 .side-grid-fade {
@@ -41,10 +59,10 @@ body {
   pointer-events: none;
   background: linear-gradient(
     to right,
-    #fff 0%,
-    rgba(255, 255, 255, 0.9) 20%,
-    rgba(255, 255, 255, 0.55) 50%,
-    rgba(255, 255, 255, 0.15) 80%,
+    var(--bg) 0%,
+    rgba(var(--bg-rgb), 0.9) 20%,
+    rgba(var(--bg-rgb), 0.55) 50%,
+    rgba(var(--bg-rgb), 0.15) 80%,
     transparent 100%
   );
 }
@@ -55,11 +73,12 @@ body {
   left: 0;
   display: grid;
   will-change: transform;
+  background: var(--bg);   /* sous la grille : aucun jour blanc entre les cases */
   filter: grayscale(1);
 }
 
 .side-grid .cell {
-  border: 0.5px solid rgba(0,0,0,0.15);
+  /* pas de filet : les cases se touchent (comme Works) */
   opacity: 0.1;
   position: relative;
   overflow: hidden;
@@ -72,7 +91,11 @@ body {
 .side-grid .cell-media-bg {
   position: absolute;
   inset: 0;
+  /* la case a le ratio de la capture (side-grid.js) : cover ne coupe rien */
+  background-color: var(--case);
   background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .identity h1 {
@@ -80,7 +103,7 @@ body {
   font-size: clamp(34px, 4vw, 52px);
   font-weight: 400;
   line-height: 1.05;
-  color: #111;
+  color: var(--ink);
   margin-bottom: 10px;
 }
 
@@ -88,7 +111,7 @@ body {
   font-size: 18px;
   font-weight: 400;
   line-height: 1.35;
-  color: #444;
+  color: var(--txt);
 }
 
 .bio {
@@ -101,13 +124,13 @@ body {
   font-size: 16px;
   font-weight: 300;
   line-height: 1.65;
-  color: #333;
+  color: var(--ink-2);
 }
 
 .bio em {
   font-style: italic;
   font-weight: 400;
-  color: #111;
+  color: var(--ink);
 }
 
 .bottom {
@@ -152,14 +175,14 @@ body {
   background: none;
   font-family: 'Source Sans 3', sans-serif;
   font-size: 15px;
-  color: #6b6b6b;
+  color: var(--gris);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
 .contact-link:focus-visible,
 .copier-lien:focus-visible {
-  outline: 2px solid #000;
+  outline: 2px solid var(--fg);
   outline-offset: 4px;
 }
 
@@ -175,7 +198,7 @@ body {
 .available {
   font-size: 18px;
   font-weight: 600;
-  color: #111;
+  color: var(--ink);
 }
 
 /* ═══ Arrivée sur About (motion-transitions.md 5) ═══

@@ -13,39 +13,41 @@
     '#D5D8DC', '#7FB3D3', '#76D7C4', '#F9E79F', '#E59866',
   ];
 
-  // Les mêmes vitrines WebP que Works (4:3, même gabarit, même échelle) :
-  // plus de zoom correctif, et 5,7 Mo de PNG en moins
+  // Mêmes projets, mêmes positions dans la tuile 5×5 et mêmes captures plein
+  // cadre que la grille de Projets/script.js (liste dupliquée : ce script n'est
+  // pas un module). Paysage 1600×1000 (16:10) ; portrait 740×1600 sous le ratio 3/5.
   const projects = [
-    { patternIndexes: [1, 13, 24], image: '../Projets/Ethikwear/web/ethikwear-vitrine.webp' },
-    { patternIndexes: [5, 19, 22], image: '../Projets/redstone/web/redstone-vitrine.webp' },
-    { patternIndexes: [3, 10, 18], image: '../Projets/Unik/web/unik-vitrine.webp' },
-    { patternIndexes: [2, 9, 16], image: '../Projets/dugos-photographie/web/dugos-vitrine.webp' },
-    { patternIndexes: [7, 11, 20], image: '../Projets/Queen/web/queen-vitrine.webp' },
+    { patternIndexes: [1, 13, 24], image: '../Projets/Ethikwear/web/ethikwear-vitrine-plein.jpg', imagePortrait: '../Projets/Ethikwear/web/ethikwear-vitrine-portrait.jpg' },
+    { patternIndexes: [5, 19, 22], image: '../Projets/redstone/web/redstone-vitrine-plein.jpg', imagePortrait: '../Projets/redstone/web/redstone-vitrine-portrait.jpg' },
+    { patternIndexes: [3, 10, 18], image: '../Projets/Unik/web/unik-vitrine-plein.jpg', imagePortrait: '../Projets/Unik/web/unik-vitrine-portrait.jpg' },
+    { patternIndexes: [2, 9, 16], image: '../Projets/dugos-photographie/web/dugos-vitrine-plein.jpg', imagePortrait: '../Projets/dugos-photographie/web/dugos-vitrine-portrait.jpg' },
+    { patternIndexes: [7, 11, 20], image: '../Projets/Queen/web/queen-vitrine-plein.jpg', imagePortrait: '../Projets/Queen/web/queen-vitrine-portrait.jpg' },
+    { patternIndexes: [0, 12, 23], image: '../Projets/passage-secret/web/passage-secret-hero.jpg', imagePortrait: '../Projets/passage-secret/web/passage-secret-mobile.jpg' },
+    { patternIndexes: [4, 6, 15], image: '../Projets/relay/web/relay-vitrine-plein.jpg', imagePortrait: '../Projets/relay/web/relay-vitrine-portrait.jpg' },
   ];
   const projectMap = {};
   projects.forEach(p => p.patternIndexes.forEach(idx => { projectMap[idx] = p; }));
 
-  // On calcule les tuiles sur la taille du viewport entier (pas du conteneur
-  // visible) pour garder exactement les mêmes proportions que la grille de
-  // la page Works, même si elle n'est visible que sur la partie droite.
-  function tileW() { return window.innerWidth || 1; }
-  function tileH() { return window.innerHeight || 1; }
+  const portraitMQ = window.matchMedia('(max-aspect-ratio: 3/5)');
+  function imageDe(p) { return portraitMQ.matches ? p.imagePortrait : p.image; }
+
+  // Cases en pixels entiers (aucun trait entre deux cases) et au ratio de la
+  // capture : image entière, sans coupe. Même calcul que Projets/script.js.
+  function caseW() { return Math.ceil((window.innerWidth || 1) / 5); }
+  function caseH() {
+    return Math.round(caseW() * (portraitMQ.matches ? 1600 / 740 : 10 / 16));
+  }
+  function tileW() { return 5 * caseW(); }
+  function tileH() { return 5 * caseH(); }
 
   function build() {
-    const w = tileW(), h = tileH();
-    const cellAspect = w / h;
-
-    projects.forEach(p => {
-      if (p.backgroundSize === 'contain' && p.imageAspect) {
-        p.scale = Math.max(p.scale ?? 1, cellAspect / p.imageAspect);
-      }
-    });
+    const cw = caseW(), ch = caseH();
 
     grid.innerHTML = '';
-    grid.style.gridTemplateColumns = `repeat(15, ${w / 5}px)`;
-    grid.style.gridTemplateRows = `repeat(15, ${h / 5}px)`;
-    grid.style.width = `${3 * w}px`;
-    grid.style.height = `${3 * h}px`;
+    grid.style.gridTemplateColumns = `repeat(15, ${cw}px)`;
+    grid.style.gridTemplateRows = `repeat(15, ${ch}px)`;
+    grid.style.width = `${15 * cw}px`;
+    grid.style.height = `${15 * ch}px`;
 
     for (let row = 0; row < 15; row++) {
       for (let col = 0; col < 15; col++) {
@@ -58,10 +60,7 @@
         if (project) {
           const media = document.createElement('div');
           media.className = 'cell-media-bg';
-          media.style.backgroundImage = `url('${project.image}')`;
-          media.style.backgroundSize = project.backgroundSize ?? 'cover';
-          media.style.backgroundPosition = 'center';
-          media.style.transform = `scale(${project.scale ?? 1})`;
+          media.style.backgroundImage = `url('${imageDe(project)}')`;
           cell.appendChild(media);
           cell.classList.add('project-cell');
         } else {
@@ -76,7 +75,7 @@
   build();
 
   let posX = 0, posY = 0;
-  const DRIFT_SPEED = 0.35;
+  const DRIFT_SPEED = 0.35;   // plus lent que Works (0,6) : fond discret
   const angle = Math.random() * Math.PI * 2;
   const velX = Math.cos(angle) * DRIFT_SPEED;
   const velY = Math.sin(angle) * DRIFT_SPEED;
@@ -88,7 +87,7 @@
   }
 
   function render() {
-    grid.style.transform = `translate(${posX}px, ${posY}px)`;
+    grid.style.transform = `translate3d(${Math.round(posX)}px, ${Math.round(posY)}px, 0)`;
   }
 
   (function loop() {
@@ -99,9 +98,8 @@
     requestAnimationFrame(loop);
   })();
 
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(build, 200);
-  });
+  // Redimensionnement ou changement d'orientation : cases recalculées tout de suite
+  // (pas de trait entre les cases pendant le redimensionnement)
+  window.addEventListener('resize', () => { build(); normalize(); render(); });
+  portraitMQ.addEventListener('change', () => { build(); normalize(); render(); });
 })();

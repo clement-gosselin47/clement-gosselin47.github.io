@@ -41,11 +41,14 @@
     if (o.type === 'img' && o.src) {
       // Même image que la case cliquée, déjà en cache
       var img = new Image();
+      img.decoding = 'sync';
       img.src = o.src;
       img.alt = '';
-      ov.style.background = '#ebebeb';
+      ov.style.background = 'var(--case)';
       ov.appendChild(img);
       ov.dataset.type = 'img';
+      // Capture sombre en haut à droite : header blanc tant que le calque est là
+      if (o.ton === 'sombre') doc.classList.add('passage-sombre');
     } else {
       ov.style.background = o.c || '#000';
       ov.dataset.type = 'aplat';
@@ -76,7 +79,7 @@
   cal.dataset.vers = p.vers || 'lien';
   cal.dataset.page = p.page || '';
   cal.style.background = p.c;
-  cal.style.color = p.ink || '#000';
+  cal.style.color = p.ink || 'var(--fg)';
 
   var marge = innerWidth >= 1100 ? 80 : innerWidth >= 768 ? 48 : 20;
   var mot = document.createElement('div');

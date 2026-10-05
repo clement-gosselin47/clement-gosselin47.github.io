@@ -70,7 +70,7 @@ const Passage = (function () {
   const DEST = {
     works:   { mot: 'Works', c: '#FFD400', ink: '#000' },
     about:   { mot: 'About', c: '#F26FD6', ink: '#000' },
-    contact: { c: '#fff', ink: '#000' },
+    contact: { c: 'var(--bg)', ink: 'var(--fg)' },
   };
 
   let stockage = true;
@@ -129,7 +129,7 @@ const Passage = (function () {
     if (reduit) {
       const voile = document.createElement('div');
       voile.className = 'ov ov-passage ov-voile';
-      voile.style.background = '#fff';
+      voile.style.background = 'var(--bg)';
       document.body.appendChild(voile);
       enCours.push(voile.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: 'linear', fill: 'forwards' }));
       setTimeout(() => {
@@ -472,4 +472,45 @@ const Passage = (function () {
 
   arriver();
   return { partir, ouvrirContact, fermerContact };
+})();
+
+
+// ═══ Thème clair / sombre ═══
+// Le script de <head> pose data-theme avant le rendu ; ici : la bascule du menu,
+// le choix mémorisé (localStorage, seulement si Clément ou le visiteur clique)
+// et le suivi de la préférence système tant qu'aucun choix n'est mémorisé.
+(function () {
+  const racine = document.documentElement;
+  const bouton = document.querySelector('.theme-toggle');
+  const systeme = window.matchMedia('(prefers-color-scheme: dark)');
+  const sombre = () => racine.getAttribute('data-theme') === 'dark';
+
+  function afficher() {
+    if (!bouton) return;
+    bouton.setAttribute('aria-pressed', sombre() ? 'true' : 'false');
+    bouton.textContent = sombre() ? 'Mode clair' : 'Mode sombre';
+  }
+
+  function poser(theme) {
+    racine.setAttribute('data-theme', theme);
+    afficher();
+    // Les pages dont le curseur ou des aplats dépendent de --fg se mettent à jour seules (variables CSS)
+    window.dispatchEvent(new CustomEvent('themechange', { detail: theme }));
+  }
+
+  afficher();
+  if (bouton) {
+    bouton.addEventListener('click', () => {
+      const suivant = sombre() ? 'light' : 'dark';
+      poser(suivant);
+      try { localStorage.setItem('theme', suivant); } catch (e) { /* mode privé : le choix vaut pour la page */ }
+    });
+  }
+
+  const suivreSysteme = (e) => {
+    let choix = null;
+    try { choix = localStorage.getItem('theme'); } catch (err) { /* rien */ }
+    if (choix !== 'light' && choix !== 'dark') poser(e.matches ? 'dark' : 'light');
+  };
+  if (systeme.addEventListener) systeme.addEventListener('change', suivreSysteme);
 })();
