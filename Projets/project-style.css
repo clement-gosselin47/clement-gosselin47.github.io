@@ -77,7 +77,9 @@ video {
   top: 0;
   left: 0;
   z-index: 100;
-  padding: 48px 48px 40px 60px;
+  /* Sous la bascule de thème (zone de clic de 18 à 62px, trait à 48px du bord) : flèche
+     alignée sur le même bord, sa propre zone de clic (14px autour) commence à 66px (arrow à 80px) */
+  padding: 80px 48px 40px 48px;
 }
 
 .back-nav a {
@@ -1310,13 +1312,7 @@ html.calque-ok .p5 .calque-legende {
   }
 
   .back-nav {
-    padding: 32px 20px;
-  }
-
-  /* Bascule de thème : à droite de la flèche (20 + 40px), à sa hauteur */
-  body.projet .theme-nav {
-    top: 20px;
-    left: 66px;
+    padding: 80px 20px 20px 48px;
   }
 
   .arrow-icon {
@@ -2258,29 +2254,3 @@ html.seuil-ok .p7 .seuil-bande {
   }
 }
 
-/* ═══ Bascule de thème : à droite de la flèche retour, à sa hauteur (flèche : 60px de marge, 56px de large, centre à 62px) ═══ */
-body.projet .theme-nav {
-  top: 40px;
-  left: 130px;
-}
-
-@media (max-width: 767px) {
-  body.projet .theme-nav {
-    top: 20px;
-    left: 66px;
-  }
-}
-
-/* ═══ Cadre des visuels (2026-10-05, retouche 5) ═══
-   Les captures d'écran ont souvent un fond blanc qui se confond avec la page : filet net de
-   1,5px (1px sur écran standard), coins droits, sans ombre. Dessiné en outline rentrant
-   (offset négatif) : il ne décale rien, ne change pas la taille des visuels et reste visible
-   même quand un parent coupe le débordement. Variable --cadre (shared.css), claire en sombre.
-   Hors cadre : ouvertures plein cadre (déjà sur photo ou aplat de couleur), la salle de
-   Redstone (calques détourés sur noir), logos, icônes, flèche et bouton thème. */
-body.projet:not(.p2) main :is(img, video):not(
-  .ouv *, .ouv-relay *, .ouv-ps *, .heros *, .traverse *, .ouv-img
-) {
-  outline: 1.5px solid var(--cadre);
-  outline-offset: -1.5px;
-}
