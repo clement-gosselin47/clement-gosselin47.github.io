@@ -4,30 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
-  <title>Dugos Photographie, Clément Gosselin</title>
+  <title>Dugos Photographie, refonte de site, Clément Gosselin</title>
   <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
   <meta name="description" content="Refonte du site vitrine de Dugos Photographie, photographe de mariage et de portrait à Marmande. Galeries, avis Google et formulaire de contact.">
   <link rel="canonical" href="https://clement-gosselin47.github.io/Projets/dugos-photographie/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Clément Gosselin">
   <meta property="og:locale" content="fr_FR">
-  <meta property="og:title" content="Dugos Photographie, Clément Gosselin">
+  <meta property="og:title" content="Dugos Photographie, refonte de site, Clément Gosselin">
   <meta property="og:description" content="Refonte du site vitrine de Dugos Photographie, photographe de mariage et de portrait à Marmande. Galeries, avis Google et formulaire de contact.">
   <meta property="og:url" content="https://clement-gosselin47.github.io/Projets/dugos-photographie/">
-  <meta property="og:image" content="https://clement-gosselin47.github.io/og-image.jpg?v=2">
+  <meta property="og:image" content="https://clement-gosselin47.github.io/Projets/dugos-photographie/web/og-dugos-photographie.jpg?v=2">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Les projets de Clément Gosselin sur la grille de son portfolio.">
+  <meta property="og:image:alt" content="Le site vitrine de Dugos Photographie, photographe à Marmande, refait par Clément Gosselin.">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://clement-gosselin47.github.io/Projets/dugos-photographie/web/og-dugos-photographie.jpg?v=2">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.ico" sizes="32x32">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <script src="../../passage.js?v=20261006a"></script>
+  <script src="../../passage.js?v=20261006e"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../shared.css?v=20261006a">
-  <link rel="stylesheet" href="../project-style.css?v=20261006a">
+  <link rel="stylesheet" href="../../shared.css?v=20261006e">
+  <link rel="stylesheet" href="../project-style.css?v=20261006e">
 </head>
 <!-- MODE D'EMPLOI
      Textes : tout est dans <main>, dans l'ordre de la page (colophon, récit, légendes, phrase de fin).
@@ -67,7 +68,7 @@
     <div class="heros">
       <picture>
         <source media="(max-aspect-ratio: 3/5)" srcset="web/dugos-vitrine-portrait.jpg">
-        <img class="heros-media" src="web/dugos-vitrine-plein.jpg" alt="La page d'accueil du site de Dugos Photographie&nbsp;: une grille de huit portraits." width="1600" height="1000" fetchpriority="high" data-ov>
+        <img class="heros-media" src="web/dugos-vitrine-plein.jpg" alt="La page d'accueil du site de Dugos Photographie : une grille de huit portraits." width="1600" height="1000" fetchpriority="high" data-ov>
       </picture>
     </div>
 
@@ -81,7 +82,7 @@
       <section class="ouv-texte g12">
         <div data-rv="txt">
           <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
-          <p class="colophon">Refonte du site vitrine de Dugos Photographie, photographe de mariage et de portrait à Marmande. Seul, de la conception à la mise en ligne.</p>
+          <p class="colophon">Refonte du site vitrine de Dugos Photographie, photographe de mariage et de portrait à Marmande. Seul, de la conception à la mise en ligne. Projet réalisé par <a href="../../About/index.html">Clément Gosselin</a>, Product Builder no-code et IA à Ynov Bordeaux.</p>
           <!-- À CONFIRMER PAR CLÉMENT : année et outils. Suite prête : « 2026. Figma et WordPress. » -->
           <!-- Lien en ligne. ADRESSE DU SITE : c'est le seul endroit à changer quand le nom de domaine changera. -->
           <a class="site-lien" href="https://clement-gosselin47.github.io/dugos-photo/" target="_blank" rel="noopener" data-cur="Voir">
@@ -110,20 +111,20 @@
            aria-label = ce que montre la vue, en quelques mots (« La page Galeries », pas « Vue 1 »). -->
       <section class="planche-zone" aria-label="Les pages du site, en planche-contact">
         <div class="planche">
-          <button type="button" class="vue" data-cur="Choisir" data-legende="L'accueil, en une phrase." aria-pressed="false" aria-label="L'accueil"><img src="web/dugos-accueil.webp" alt="Accueil du site&nbsp;: Photographe Marmande à votre service, au-dessus d'une silhouette en contre-jour." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
+          <button type="button" class="vue" data-cur="Choisir" data-legende="L'accueil, en une phrase." aria-pressed="false" aria-label="L'accueil"><img src="web/dugos-accueil.webp" alt="Accueil du site : Photographe Marmande à votre service, au-dessus d'une silhouette en contre-jour." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
           <button type="button" class="vue" data-cur="Choisir" data-legende="Les photos, bord à bord." aria-pressed="false" aria-label="La grille de photos"><img src="web/dugos-grille.webp" alt="Grille de huit photos de mariage et de portrait, bord à bord." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue" data-cur="Choisir" data-legende="Les avis Google, sur la page." aria-pressed="false" aria-label="Les avis"><img src="web/dugos-avis.webp" alt="Bloc avis clients&nbsp;: note de 5,0 sur 25 avis Google et un avis en carrousel." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue" data-cur="Choisir" data-legende="Le pied de page, en grand." aria-pressed="false" aria-label="Le pied de page"><img src="web/dugos-pied.webp" alt="Pied de page sombre&nbsp;: DUGOS en très grand, l'adresse email et les réseaux, sur une photo de bouquet." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue choisie" data-cur="Choisir" data-legende="Mariages d'un côté, portraits de l'autre." aria-pressed="true" aria-label="Les deux galeries"><img src="web/dugos-galeries.webp" alt="Deux grandes photos côte à côte&nbsp;: une mariée qui lance son bouquet et un portrait d'homme en noir et blanc." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue" data-cur="Choisir" data-legende="Une galerie, en grille." aria-pressed="false" aria-label="Une galerie en grille"><img src="web/dugos-galerie-grid.webp" alt="Galerie Portraits en grille&nbsp;: trois grands portraits en colonnes." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue" data-cur="Choisir" data-legende="La même, en bandeau." aria-pressed="false" aria-label="La même galerie en bandeau"><img src="web/dugos-galerie-flow.webp" alt="La même galerie en bandeau&nbsp;: des portraits de tailles variées, à faire défiler." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue" data-cur="Choisir" data-legende="Laurent se présente." aria-pressed="false" aria-label="La page À propos"><img src="web/dugos-a-propos.webp" alt="Page À propos&nbsp;: le portrait de Laurent et le texte Bonjour, moi c'est Laurent." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue" data-cur="Choisir" data-legende="Le formulaire, pour écrire." aria-pressed="false" aria-label="Le contact"><img src="web/dugos-contact.webp" alt="Page Contact&nbsp;: une mariée avec deux enfants en noir et blanc, et le formulaire nom, email, sujet, message." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
+          <button type="button" class="vue" data-cur="Choisir" data-legende="Les avis Google, sur la page." aria-pressed="false" aria-label="Les avis"><img src="web/dugos-avis.webp" alt="Bloc avis clients : note de 5,0 sur 25 avis Google et un avis en carrousel." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
+          <button type="button" class="vue" data-cur="Choisir" data-legende="Le pied de page, en grand." aria-pressed="false" aria-label="Le pied de page"><img src="web/dugos-pied.webp" alt="Pied de page sombre : DUGOS en très grand, l'adresse email et les réseaux, sur une photo de bouquet." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
+          <button type="button" class="vue choisie" data-cur="Choisir" data-legende="Mariages d'un côté, portraits de l'autre." aria-pressed="true" aria-label="Les deux galeries"><img src="web/dugos-galeries.webp" alt="Deux grandes photos côte à côte : une mariée qui lance son bouquet et un portrait d'homme en noir et blanc." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
+          <button type="button" class="vue" data-cur="Choisir" data-legende="Une galerie, en grille." aria-pressed="false" aria-label="Une galerie en grille"><img src="web/dugos-galerie-grid.webp" alt="Galerie Portraits en grille : trois grands portraits en colonnes." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
+          <button type="button" class="vue" data-cur="Choisir" data-legende="La même, en bandeau." aria-pressed="false" aria-label="La même galerie en bandeau"><img src="web/dugos-galerie-flow.webp" alt="La même galerie en bandeau : des portraits de tailles variées, à faire défiler." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
+          <button type="button" class="vue" data-cur="Choisir" data-legende="Laurent se présente." aria-pressed="false" aria-label="La page À propos"><img src="web/dugos-a-propos.webp" alt="Page À propos : le portrait de Laurent et le texte Bonjour, moi c'est Laurent." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
+          <button type="button" class="vue" data-cur="Choisir" data-legende="Le formulaire, pour écrire." aria-pressed="false" aria-label="Le contact"><img src="web/dugos-contact.webp" alt="Page Contact : une mariée avec deux enfants en noir et blanc, et le formulaire nom, email, sujet, message." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
         </div>
 
         <!-- La vue choisie, en grand : au chargement, la même image que la vue « choisie » ; ensuite le script reprend l'image du bouton cliqué -->
         <figure class="grande">
-          <div class="grande-vue"><img src="web/dugos-galeries.webp" alt="Deux grandes photos côte à côte&nbsp;: une mariée qui lance son bouquet et un portrait d'homme en noir et blanc." width="2000" height="1182" loading="lazy"></div>
+          <div class="grande-vue"><img src="web/dugos-galeries.webp" alt="Deux grandes photos côte à côte : une mariée qui lance son bouquet et un portrait d'homme en noir et blanc." width="2000" height="1182" loading="lazy"></div>
           <figcaption class="legende">Mariages d'un côté, portraits de l'autre.</figcaption>
         </figure>
       </section>
@@ -133,7 +134,7 @@
       <section class="parcours">
         <figure>
           <button type="button" class="parcours-vue" data-cur="Lire" aria-label="Lire la vidéo">
-            <video src="web/dugos-navigation.mp4" poster="web/dugos-navigation-poster.webp" width="1280" height="756" muted loop playsinline preload="metadata" data-auto aria-label="Navigation sur le site&nbsp;: accueil, photos, avis, galeries, page À propos et formulaire de contact."></video>
+            <video src="web/dugos-navigation-web.mp4" poster="web/dugos-navigation-poster.webp" width="1280" height="756" muted loop playsinline preload="none" data-auto aria-label="Navigation sur le site&nbsp;: accueil, photos, avis, galeries, page À propos et formulaire de contact."></video>
           </button>
           <figcaption class="legende">Une visite du site, de l'accueil au formulaire.</figcaption>
         </figure>
@@ -164,7 +165,7 @@
     </a>
   </footer>
 
-  <script src="../../shared.js?v=20261006a"></script>
-  <script src="../project.js?v=20261006a"></script>
+  <script src="../../shared.js?v=20261006e"></script>
+  <script src="../project.js?v=20261006e"></script>
 </body>
 </html>

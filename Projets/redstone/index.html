@@ -4,30 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
-  <title>Redstone, Clément Gosselin</title>
+  <title>Redstone, affiche de film sous Photoshop, Clément Gosselin</title>
   <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
-  <meta name="description" content="Redstone, l&#x27;affiche d&#x27;un film de super-héros inventé. Trois images générées par IA, fondues à la main sous Photoshop&nbsp;: détourage, lumière, fumée et titre.">
+  <meta name="description" content="Redstone, affiche d'un film de super-héros inventé. Images générées par IA, fondues à la main sous Photoshop : détourage, lumière, fumée et titre.">
   <link rel="canonical" href="https://clement-gosselin47.github.io/Projets/redstone/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Clément Gosselin">
   <meta property="og:locale" content="fr_FR">
-  <meta property="og:title" content="Redstone, Clément Gosselin">
-  <meta property="og:description" content="Redstone, l&#x27;affiche d&#x27;un film de super-héros inventé. Trois images générées par IA, fondues à la main sous Photoshop&nbsp;: détourage, lumière, fumée et titre.">
+  <meta property="og:title" content="Redstone, affiche de film sous Photoshop, Clément Gosselin">
+  <meta property="og:description" content="Redstone, affiche d'un film de super-héros inventé. Images générées par IA, fondues à la main sous Photoshop : détourage, lumière, fumée et titre.">
   <meta property="og:url" content="https://clement-gosselin47.github.io/Projets/redstone/">
-  <meta property="og:image" content="https://clement-gosselin47.github.io/og-image.jpg?v=2">
+  <meta property="og:image" content="https://clement-gosselin47.github.io/Projets/redstone/web/og-redstone.jpg?v=2">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Les projets de Clément Gosselin sur la grille de son portfolio.">
+  <meta property="og:image:alt" content="L'affiche du film Redstone, réalisée sous Photoshop par Clément Gosselin.">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://clement-gosselin47.github.io/Projets/redstone/web/og-redstone.jpg?v=2">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.ico" sizes="32x32">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <script src="../../passage.js?v=20261006a"></script>
+  <script src="../../passage.js?v=20261006e"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../shared.css?v=20261006a">
-  <link rel="stylesheet" href="../project-style.css?v=20261006a">
+  <link rel="stylesheet" href="../../shared.css?v=20261006e">
+  <link rel="stylesheet" href="../project-style.css?v=20261006e">
 </head>
 <!-- MODE D'EMPLOI
      Textes : tout est dans <main>, dans l'ordre de la page (colophon, récit, générique, phrase de fin).
@@ -69,7 +70,7 @@
         <h1 class="titre fit"><span class="l"><span class="t">Redstone</span></span></h1>
         <div data-rv="txt">
           <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
-          <p class="colophon">Un cours d'Ynov, Photoshop, et trois images à fondre en une.</p>
+          <p class="colophon">Un cours d'Ynov, Photoshop, et trois images à fondre en une. Projet réalisé par <a href="../../About/index.html">Clément Gosselin</a>, Product Builder no-code et IA à Ynov Bordeaux.</p>
           <!-- Lien en ligne : mettre l'adresse dans href et retirer hidden -->
           <a class="site-lien" href="" target="_blank" rel="noopener" hidden>
             Voir le site
@@ -101,9 +102,9 @@
             <!-- Les calques se construisent par fondus, dans l'ordre du DOM : le personnage seul,
                  puis le décor (qui le contient déjà), le premier plan, le titre, l'affiche finale.
                  Tous sur le même canevas de 1144 × 1626, alignés au pixel. data-nom = le nom affiché à côté. -->
-            <div class="calque calque-perso" data-nom="Le personnage"><img src="web/redstone-personnage.webp" alt="Le personnage de Redstone, détouré&nbsp;: costume rouge, cape et poing levé en roche." width="1144" height="1626" loading="lazy"></div>
-            <div class="calque calque-fond" data-nom="Le décor"><img src="web/redstone-etape-2-calee.webp" alt="Le héros posé dans le décor&nbsp;: ville en feu, fumée et lave." width="1144" height="1626" loading="lazy"></div>
-            <div class="calque calque-avant" data-nom="Le premier plan"><img src="web/redstone-etape-3-calee.webp" alt="Le premier plan ajouté&nbsp;: créatures, braises et fumée devant le héros." width="1144" height="1626" loading="lazy"></div>
+            <div class="calque calque-perso" data-nom="Le personnage"><img src="web/redstone-personnage.webp" alt="Le personnage de Redstone, détouré : costume rouge, cape et poing levé en roche." width="1144" height="1626" loading="lazy"></div>
+            <div class="calque calque-fond" data-nom="Le décor"><img src="web/redstone-etape-2-calee.webp" alt="Le héros posé dans le décor : ville en feu, fumée et lave." width="1144" height="1626" loading="lazy"></div>
+            <div class="calque calque-avant" data-nom="Le premier plan"><img src="web/redstone-etape-3-calee.webp" alt="Le premier plan ajouté : créatures, braises et fumée devant le héros." width="1144" height="1626" loading="lazy"></div>
             <div class="calque calque-titre" data-nom="Le titre"><img src="web/redstone-titre.webp" alt="Le titre Redstone, les noms et les crédits, détourés." width="1144" height="1626" loading="lazy"></div>
             <div class="affiche-finale" data-nom="L'affiche"><img src="web/redstone-affiche.webp" alt="L'affiche Redstone terminée." width="1144" height="1626" loading="lazy"></div>
             <!-- À CONFIRMER PAR CLÉMENT : avec les vrais calques fond seul et premier plan seul exportés du PSD de travail,
@@ -137,7 +138,7 @@
     </a>
   </footer>
 
-  <script src="../../shared.js?v=20261006a"></script>
-  <script src="../project.js?v=20261006a"></script>
+  <script src="../../shared.js?v=20261006e"></script>
+  <script src="../project.js?v=20261006e"></script>
 </body>
 </html>

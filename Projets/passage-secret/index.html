@@ -4,30 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
-  <title>Passage Secret, Clément Gosselin</title>
+  <title>Passage Secret, refonte de site restaurant, Clément Gosselin</title>
   <!-- Référencement et partage (LinkedIn) : URL absolues, image commune du portfolio (jamais un visuel du restaurant) -->
-  <meta name="description" content="Passage Secret, refonte du site d&#x27;un restaurant bordelais. Projet personnel, non commandé, sans lien avec le restaurant, jamais mis en ligne.">
+  <meta name="description" content="Passage Secret, refonte du site d'un restaurant bordelais : arborescence, parcours de réservation, maquette. Projet personnel, non commandé.">
   <link rel="canonical" href="https://clement-gosselin47.github.io/Projets/passage-secret/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Clément Gosselin">
   <meta property="og:locale" content="fr_FR">
-  <meta property="og:title" content="Passage Secret, Clément Gosselin">
-  <meta property="og:description" content="Passage Secret, refonte du site d&#x27;un restaurant bordelais. Projet personnel, non commandé, sans lien avec le restaurant, jamais mis en ligne.">
+  <meta property="og:title" content="Passage Secret, refonte de site restaurant, Clément Gosselin">
+  <meta property="og:description" content="Passage Secret, refonte du site d'un restaurant bordelais : arborescence, parcours de réservation, maquette. Projet personnel, non commandé.">
   <meta property="og:url" content="https://clement-gosselin47.github.io/Projets/passage-secret/">
-  <meta property="og:image" content="https://clement-gosselin47.github.io/og-image.jpg?v=2">
+  <meta property="og:image" content="https://clement-gosselin47.github.io/Projets/passage-secret/web/og-passage-secret.jpg?v=2">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Les projets de Clément Gosselin sur la grille de son portfolio.">
+  <meta property="og:image:alt" content="La maquette du site de Passage Secret, restaurant bordelais, par Clément Gosselin.">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://clement-gosselin47.github.io/Projets/passage-secret/web/og-passage-secret.jpg?v=2">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.ico" sizes="32x32">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <script src="../../passage.js?v=20261006a"></script>
+  <script src="../../passage.js?v=20261006e"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../shared.css?v=20261006a">
-  <link rel="stylesheet" href="../project-style.css?v=20261006a">
+  <link rel="stylesheet" href="../../shared.css?v=20261006e">
+  <link rel="stylesheet" href="../project-style.css?v=20261006e">
 </head>
 <!-- MODE D'EMPLOI
      Textes : tout est dans <main>, dans l'ordre de la page (titre, colophon, mention, récit, phrase de fin).
@@ -70,7 +71,7 @@
       <h1 class="titre fit"><span class="l"><span class="t">Passage Secret</span></span></h1>
       <div class="ouv-ps-texte">
         <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
-        <p class="colophon">Refonte du site d'un restaurant gastronomique de Bordeaux, 2026. Projet personnel, mené seul. Mon rôle&nbsp;: arborescence, parcours de réservation, direction artistique, intégration, version française et anglaise. HTML, CSS, JavaScript.</p>
+        <p class="colophon">Refonte du site d'un restaurant gastronomique de Bordeaux, 2026. Projet personnel, mené seul. Mon rôle&nbsp;: arborescence, parcours de réservation, direction artistique, intégration, version française et anglaise. HTML, CSS, JavaScript. Projet réalisé par <a href="../../About/index.html">Clément Gosselin</a>, Product Builder no-code et IA à Ynov Bordeaux.</p>
         <!-- Mention de cadre, exigée : visible dès le premier écran, jamais en petit, jamais animée -->
         <p class="mention">Projet personnel, non commandé, sans lien avec le restaurant, jamais mis en ligne.</p>
       </div>
@@ -91,15 +92,15 @@
       <div class="seuil-scene">
         <div class="seuil-cadre">
           <figure class="seuil-page">
-            <img src="web/passage-secret-hero.jpg" alt="Accueil de la maquette&nbsp;: le mot Secret en grandes lettres crème et laiton sur fond bleu nuit, le bouton Réserver en rouge." width="1600" height="1000" fetchpriority="high" decoding="async">
+            <img src="web/passage-secret-hero.jpg" alt="Accueil de la maquette : le mot Secret en grandes lettres crème et laiton sur fond bleu nuit, le bouton Réserver en rouge." width="1600" height="1000" fetchpriority="high" decoding="async">
             <figcaption>L'accueil</figcaption>
           </figure>
           <figure class="seuil-page">
-            <img src="web/passage-secret-menus.jpg" alt="Page Menus de la maquette&nbsp;: une introduction, deux boutons, un cadre image et le titre Les menus en grand sur fond pierre." width="1600" height="1000" loading="lazy" decoding="async">
+            <img src="web/passage-secret-menus.jpg" alt="Page Menus de la maquette : une introduction, deux boutons, un cadre image et le titre Les menus en grand sur fond pierre." width="1600" height="1000" loading="lazy" decoding="async">
             <figcaption>Le menu</figcaption>
           </figure>
           <figure class="seuil-page">
-            <img src="web/passage-secret-lieu.jpg" alt="Section Le lieu de la maquette&nbsp;: deux façons de dîner, la terrasse et la salle à l'étage, une arche à droite et quatre étapes numérotées." width="1600" height="1000" loading="lazy" decoding="async">
+            <img src="web/passage-secret-lieu.jpg" alt="Section Le lieu de la maquette : deux façons de dîner, la terrasse et la salle à l'étage, une arche à droite et quatre étapes numérotées." width="1600" height="1000" loading="lazy" decoding="async">
             <figcaption>Le lieu</figcaption>
           </figure>
         </div>
@@ -128,7 +129,7 @@
         <img src="web/passage-secret-hero-detail.jpg" alt="Les lettres du titre de l'accueil en gros plan, laiton sur bleu nuit." width="1600" height="1000" loading="lazy" decoding="async">
       </figure>
       <figure class="mobile-ps-b">
-        <img src="web/passage-secret-mobile.jpg" alt="L'accueil en version mobile&nbsp;: Passage et Secret empilés sur fond bleu nuit, le bouton Réserver une table en bas." width="739" height="1600" loading="lazy" decoding="async">
+        <img src="web/passage-secret-mobile.jpg" alt="L'accueil en version mobile : Passage et Secret empilés sur fond bleu nuit, le bouton Réserver une table en bas." width="739" height="1600" loading="lazy" decoding="async">
       </figure>
     </section>
 
@@ -147,7 +148,7 @@
     </a>
   </footer>
 
-  <script src="../../shared.js?v=20261006a"></script>
-  <script src="../project.js?v=20261006a"></script>
+  <script src="../../shared.js?v=20261006e"></script>
+  <script src="../project.js?v=20261006e"></script>
 </body>
 </html>

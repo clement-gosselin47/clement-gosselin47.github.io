@@ -184,6 +184,14 @@ html.js .suivant .titre .l > .t {
   max-width: 30ch;
 }
 
+/* Signature du colophon : lien vers About, couleur du texte, souligné fin */
+.colophon a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 /* Lien en ligne, masqué tant que href est vide */
 .site-lien {
   display: inline-flex;
