@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <title>Hecto, site de brasserie et admin, Clément Gosselin</title>
+  <!-- Référencement et partage (LinkedIn) : URL absolues, image commune du portfolio -->
+  <meta name="description" content="Hecto, brasserie fictive : un site vitrine en français et en anglais, et un espace de gestion pour tout mettre à jour depuis son téléphone. Projet d'entraînement.">
+  <link rel="canonical" href="https://clement-gosselin47.github.io/Projets/hecto/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Clément Gosselin">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Hecto, site de brasserie et admin, Clément Gosselin">
+  <meta property="og:description" content="Hecto, brasserie fictive : un site vitrine en français et en anglais, et un espace de gestion pour tout mettre à jour depuis son téléphone. Projet d'entraînement.">
+  <meta property="og:url" content="https://clement-gosselin47.github.io/Projets/hecto/">
+  <meta property="og:image" content="https://clement-gosselin47.github.io/Projets/hecto/web/og-hecto.jpg?v=3">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Le logo de Hecto, brasserie fictive : le mot HECT en jaune lumineux suivi d'un O à deux anneaux, sur fond nuit.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://clement-gosselin47.github.io/Projets/hecto/web/og-hecto.jpg?v=3">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <script src="../../passage.js?v=20261007d"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared.css?v=20261007d">
+  <link rel="stylesheet" href="../project-style.css?v=20261007d">
+</head>
+<!-- MODE D'EMPLOI
+     Textes : tout est dans <main>, dans l'ordre de la page (titre, mention de cadre, colophon, récit, vitrine, admin, schéma, phrase de fin).
+     Images : dans le dossier web/ de ce projet. Aucune capture ne montre de nom, d'adresse, de téléphone ni de lien : les données de l'admin sont masquées par des aplats.
+     Couleur du projet : --c dans le style du body (--c-ink = encre lisible sur la couleur).
+     Aucun lien externe : le site Hecto n'a jamais été en ligne (la mention de cadre le dit, une seule fois). -->
+<body class="projet p9" style="--c: #EE7B3F; --c-ink: #1D1650">
+  <div class="cursor" id="cursor"></div>
+
+  <div class="back-nav">
+    <a href="../index.html" aria-label="Retour aux projets" data-cur="Retour">
+      <svg class="arrow-icon" viewBox="0 0 64 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M0 16H56M42 2L56 16L42 30" stroke="currentColor" stroke-width="8" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="theme-nav">
+    <button type="button" class="theme-toggle" aria-pressed="false" aria-label="Passer en mode sombre">
+      <svg class="icone-lune" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="butt" stroke-linejoin="miter" aria-hidden="true" focusable="false"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+      <svg class="icone-soleil" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="butt" stroke-linejoin="miter" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 1.8v3.4M12 18.8v3.4M1.8 12h3.4M18.8 12h3.4M4.8 4.8l2.4 2.4M16.8 16.8l2.4 2.4M4.8 19.2l2.4-2.4M16.8 7.2l2.4-2.4"/></svg>
+    </button>
+  </div>
+
+  <header>
+    <nav>
+      <a href="../index.html" class="active" data-dest="works">Works</a>
+      <a href="../../About/index.html" data-dest="about">About</a>
+      <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Ouverture : l'aplat orange, le titre au cadrage, la mention de cadre, puis la capture de la vitrine bord à bord.
+         C'est le même fichier que la case de Works (data-ov) : depuis la grille le calque se recadre dessus et le niveau
+         ne rejoue pas. À l'arrivée directe, la capture se révèle par le bas (project-style.css, .p9). -->
+    <section class="ouv-hecto">
+      <div class="ouv-hecto-haut" data-couleur>
+        <h1 class="titre fit"><span class="l"><span class="t">Hecto</span></span></h1>
+        <!-- Mention de cadre : exigée, visible dès le premier écran, dite une seule fois sur la page -->
+        <p class="cadre">Projet d'entraînement, client fictif, jamais mis en ligne.</p>
+        <div class="ouv-hecto-img">
+          <picture>
+            <source media="(max-aspect-ratio: 3/5)" srcset="web/hecto-vitrine-portrait.jpg" width="740" height="1600">
+            <img src="web/hecto-vitrine-plein.jpg" alt="Le logo de Hecto : le mot HECT en jaune lumineux suivi d'un O formé de deux anneaux, violet et orange, sur fond nuit." width="1600" height="1000" fetchpriority="high" data-ov>
+          </picture>
+        </div>
+      </div>
+      <div class="ouv-hecto-texte g12">
+        <div data-rv="txt">
+          <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
+          <p class="colophon">Site vitrine et espace de gestion pour une brasserie, 2026. J'ai cadré, dirigé, testé et fait construire le projet par une équipe d'agents Claude Code pilotés dans cmux, un agent par rôle, de la stratégie à la livraison. HTML, CSS et JavaScript sans framework, Supabase, Cloudflare Pages. Projet réalisé par <a href="../../About/index.html">Clément Gosselin</a>, Product Builder no-code et IA à Ynov Bordeaux.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Récit : deux paragraphes courts, attaque en Archivo Black -->
+    <section class="recit g12">
+      <h2 class="lecteur">Le projet</h2>
+      <div class="recit-col">
+        <p data-rv="txt"><strong class="lead">Le site.</strong> Une brasserie et bar à bières, avec sa vitrine en français et en anglais&nbsp;: accueil, carte des bières à la tireuse, événements, privatisation de la salle, la brasserie, infos pratiques. Elle charge vite et se lit même sans JavaScript. J'ai défini l'arborescence, la charte et les maquettes avant de faire construire les pages.</p>
+        <p data-rv="txt"><strong class="lead">La gestion.</strong> Un espace pensé pour un gérant qui n'a pas le temps, d'abord sur téléphone&nbsp;: il change une bière quand un fût est vide, ajoute un événement, règle ses horaires, remplace une photo et répond aux demandes de privatisation. Il vérifie l'aperçu, puis appuie sur Mettre en ligne. La base garde le contenu et l'historique des versions, avec un retour en arrière possible. Les mêmes règles de validation s'appliquent côté site, côté gestion et côté base&nbsp;: une erreur de saisie ne casse jamais une page. Chaque rôle, du design à la recette, avait son agent, et c'est moi qui testais le résultat.</p>
+      </div>
+    </section>
+
+    <!-- Vitrine sur ordinateur : la page Carte, une image 16/10 bord à bord -->
+    <section class="bureau">
+      <figure>
+        <img src="web/hecto-vitrine-carte.jpg" alt="La page Carte du site de Hecto sur ordinateur : le titre La carte à la tireuse, trois étiquettes inclinées, dont 15 tireuses, et le début de la liste des bières avec leurs prix." width="1600" height="1000" loading="lazy">
+        <figcaption class="legende">La carte, avec les trois étiquettes de la charte.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Vitrine sur mobile : trois écrans collés, à la même hauteur, d'un bord à l'autre (--r = largeur / hauteur) -->
+    <section class="vues vues-vitrine" data-profondeur data-rail aria-label="Trois écrans de la vitrine sur téléphone">
+      <figure style="--r: 0.462"><img src="web/hecto-mobile-evenements.jpg" alt="La page Événements du site de Hecto sur téléphone : le titre Événements sur fond nuit, la tuile orange Quiz, DJ sets, jeux de société, le bouton Voir l'agenda, puis le début de l'agenda À venir." width="585" height="1266" loading="lazy"><figcaption class="legende">Événements</figcaption></figure>
+      <figure style="--r: 0.462"><img src="web/hecto-mobile-carte.jpg" alt="La page Carte du site de Hecto sur téléphone : le titre La carte à la tireuse et la liste des bières avec leurs prix." width="585" height="1266" loading="lazy"><figcaption class="legende">La carte</figcaption></figure>
+      <figure style="--r: 0.462"><img src="web/hecto-mobile-privatiser.jpg" alt="La page Privatiser du site de Hecto sur téléphone : le titre La salle sur une étiquette orange, le bouton Faire une demande, et l'étiquette jaune 15 tireuses pour la bande posée sur un aplat indigo." width="585" height="1266" loading="lazy"><figcaption class="legende">Privatiser la salle</figcaption></figure>
+    </section>
+
+    <!-- Admin sur téléphone : quatre écrans sur une bande orange bord à bord, légèrement décalés.
+         L'admin est conçu mobile d'abord, d'où le téléphone avant le bureau. Demandes : noms et dates masqués à l'aplat. -->
+    <section class="vues admin-tel" data-profondeur data-rail data-couleur aria-label="Quatre écrans de l'espace de gestion sur téléphone">
+      <figure style="--r: 0.462"><img src="web/hecto-admin-tel-accueil.jpg" alt="L'accueil de l'espace de gestion de Hecto sur téléphone : quatre grosses actions (ajouter un événement, changer une bière, fermer exceptionnellement, remplacer une photo), la rubrique En ce moment sur le site et la liste À faire." width="585" height="1266" loading="lazy"><figcaption class="legende">Accueil&nbsp;: ce qu'il y a à faire aujourd'hui.</figcaption></figure>
+      <figure style="--r: 0.462"><img src="web/hecto-admin-tel-evenements.jpg" alt="L'écran Événements de l'espace de gestion de Hecto sur téléphone : la liste des soirées à venir avec leur date et un bouton pour en ajouter une." width="585" height="1266" loading="lazy"><figcaption class="legende">Événements&nbsp;: ajouter, modifier, retirer.</figcaption></figure>
+      <figure style="--r: 0.462"><img src="web/hecto-admin-tel-carte.jpg" alt="L'écran Carte de l'espace de gestion de Hecto sur téléphone : la liste des bières avec leur prix et un interrupteur pour les retirer quand le fût est vide." width="585" height="1266" loading="lazy"><figcaption class="legende">Carte&nbsp;: une bière change en deux touches.</figcaption></figure>
+      <figure style="--r: 0.462"><img src="web/hecto-admin-tel-demandes.jpg" alt="L'écran Demandes de l'espace de gestion de Hecto sur téléphone : un champ de recherche, trois filtres Nouvelles, Traitées et Archivées, et deux demandes dont les noms et les dates sont masqués par des aplats." width="585" height="1266" loading="lazy"><figcaption class="legende">Demandes&nbsp;: nouvelles, traitées, archivées.</figcaption></figure>
+    </section>
+
+    <!-- Admin sur ordinateur : la même gestion avec la barre latérale -->
+    <section class="bureau">
+      <figure>
+        <img src="web/hecto-admin-bureau.jpg" alt="L'espace de gestion de Hecto sur ordinateur : une barre latérale indigo avec les rubriques à gauche et, à droite, un écran de gestion avec la liste de la carte." width="1600" height="1000" loading="lazy">
+        <figcaption class="legende">Sur ordinateur, la même gestion avec la barre latérale.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Schéma du fonctionnement : un trait de marqueur, quatre mots posés dessus. Il se dessine une fois, au passage à l'écran.
+         Deux tracés (horizontal, vertical sur mobile), décoratifs : seul l'aria-label compte pour les lecteurs d'écran. -->
+    <section class="schema" data-rv="schema" role="img" aria-label="Schéma : une ligne tracée au marqueur relie quatre mots, de gauche à droite. Le gérant, La base, Le site, Le visiteur. Le gérant modifie depuis son téléphone. Le site se refait tout seul avec les changements, et la page affiche déjà la dernière version en attendant.">
+      <span class="mot" style="--i: 0">Le gérant</span>
+      <span class="mot" style="--i: 1">La base</span>
+      <span class="mot" style="--i: 2">Le site</span>
+      <span class="mot" style="--i: 3">Le visiteur</span>
+      <svg class="trait trait-h" viewBox="0 0 1000 22" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2 14C120 9 230 17 380 12C520 7 640 16 780 11C880 8 950 14 998 9"/></svg>
+      <svg class="trait trait-v" viewBox="0 0 22 1000" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M9 2C14 120 6 230 11 380C16 520 7 640 12 780C15 880 9 950 13 998"/></svg>
+      <div class="phrase phrase-1" style="--i: 1"><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M1 7.5C7 6.5 13 7.5 20 7M15 2L20.5 7L15 12"/></svg><span>Il modifie depuis son téléphone.</span></div>
+      <div class="phrase phrase-2" style="--i: 2"><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M1 7.5C7 6.5 13 7.5 20 7M15 2L20.5 7L15 12"/></svg><span>Le site se refait tout seul avec les changements. En attendant, la page affiche déjà la dernière version.</span></div>
+    </section>
+
+    <!-- Ce que j'en retiens : une seule phrase, un fait sur le produit -->
+    <section class="retiens g12">
+      <p data-rv="txt">Le gérant touche une bière, appuie sur Mettre en ligne, et le site suit tout seul, sans développeur.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
+    </section>
+  </main>
+
+  <footer class="fin">
+    <!-- Projet suivant : tout le bloc est le lien. --next = couleur du projet suivant, --next-ink = encre lisible dessus -->
+    <!-- Circuit : Ethikwear, Redstone, Unik, Dugos, Queen, Passage Secret, Relay, Hecto, puis retour à Ethikwear. -->
+    <a class="suivant" href="../Ethikwear/index.html" style="--next: #4CAF1E; --next-ink: #000" data-cur="Suivant">
+      <span class="suivant-label">Projet suivant</span>
+      <span class="titre fit"><span class="t">Ethikwear</span></span>
+    </a>
+  </footer>
+
+  <script src="../../shared.js?v=20261007d"></script>
+  <script src="../project.js?v=20261007d"></script>
+</body>
+</html>

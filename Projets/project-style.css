@@ -2,7 +2,7 @@
    Pages projet v2 (2026-10-02)
    Socle commun (direction.md B) puis une mise en page par projet :
    .p1 le portant, .p2 la salle s'éteint, .p3 les deux pages,
-   .p4 la planche-contact, .p5 le titre qui traverse, .p7 le seuil, .p8 Relay.
+   .p4 la planche-contact, .p5 le titre qui traverse, .p7 le seuil, .p8 Relay, .p9 Hecto.
    (Le brouillon « Sans titre » est sorti du site : .portfolio/2026-10-05-coherence/retirees/projet-6/)
    Couleur du projet : --c sur <body>, encre lisible dessus : --c-ink.
    Le mouvement est dans project.js (un seul fichier, effets par attributs).
@@ -2262,3 +2262,411 @@ html.seuil-ok .p7 .seuil-bande {
   }
 }
 
+
+/* ═══ Projet 9, Hecto : le niveau qui monte ═══
+   Classe de page .p9. Couleur du projet : orange #EE7B3F, encre indigo #1D1650
+   (posées sur <body>). Le titre est posé sur un aplat orange, la capture de la
+   vitrine se révèle par le bas comme une pinte qui se remplit. Puis la vitrine,
+   l'admin sur téléphone (bande orange), l'admin sur bureau et le schéma tracé
+   au marqueur. Même fichier que la case de Works : depuis la grille, le calque
+   se recadre dessus et le niveau ne rejoue pas (html.ouv). */
+.p9 {
+  --mousse: #F5E6DC;                 /* la ligne de mousse, seulement pendant la montée */
+}
+
+/* L'aplat orange : le titre, la mention de cadre, la capture */
+.p9 .ouv-hecto-haut {
+  padding-top: 150px;
+  background: var(--c);
+}
+
+.p9 .ouv-hecto .titre {
+  margin: 0 var(--m);
+  color: var(--c-ink);
+  /* Taille de départ proche du cadrage final (project.js affine avec --fit) : le bloc ne saute pas
+     quand le calque de Works se recadre dessus (audit-ux 2) */
+  font-size: var(--fit, calc((100vw - 2 * var(--m)) * 0.264));
+}
+
+/* Arrivée depuis Works : le niveau ne rejoue pas, la mousse n'existe pas */
+html.ouv .p9 .ouv-hecto-img::after {
+  display: none;
+}
+
+/* La mention de cadre, dite une seule fois, sur l'orange, dès le premier écran */
+.p9 .cadre {
+  margin: 28px var(--m) 0;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 18px;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--c-ink);
+  padding-bottom: 28px;
+}
+
+.p9 .ouv-hecto-img {
+  position: relative;
+  overflow: hidden;
+}
+
+.p9 .ouv-hecto-img img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1600 / 1000;
+}
+
+/* Téléphone en portrait : la source portrait (740 × 1600) garde son ratio */
+@media (max-aspect-ratio: 3/5) {
+  .p9 .ouv-hecto-img img {
+    aspect-ratio: 740 / 1600;
+  }
+}
+
+/* Le niveau : la capture se révèle par le bas, un trait de mousse en accompagne le bord.
+   Seulement à l'arrivée directe (pas de calque #ov, donc pas html.ouv). Fill backwards :
+   une fois joué, plus aucune découpe sur l'image. */
+html.js:not(.ouv) .p9 .ouv-hecto-img img {
+  animation: hecto-niveau 1.1s var(--out) 0.3s backwards;
+}
+
+.p9 .ouv-hecto-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-top: 4px solid var(--mousse);
+  pointer-events: none;
+  opacity: 0;
+}
+
+html.js:not(.ouv) .p9 .ouv-hecto-img::after {
+  animation: hecto-mousse 1.1s var(--out) 0.3s backwards,
+             hecto-mousse-fin 1.1s linear 0.3s backwards;
+}
+
+@keyframes hecto-niveau {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0); }
+}
+
+@keyframes hecto-mousse {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+/* Visible pendant la montée, disparaît sur les 200 dernières ms (18 % de 1,1 s) */
+@keyframes hecto-mousse-fin {
+  0%, 82% { opacity: 1; }
+  100%    { opacity: 0; }
+}
+
+.p9 .ouv-hecto-texte {
+  margin-top: 40px;
+}
+
+.p9 .ouv-hecto-texte > div {
+  grid-column: 1 / 6;
+}
+
+/* Vitrine et admin sur bureau : une image 16/10 bord à bord */
+.p9 .bureau {
+  margin-top: 160px;
+}
+
+.p9 .bureau img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1600 / 1000;
+  background: var(--c-15);   /* emplacement réservé tant que l'image n'est pas là */
+}
+
+.p9 .bureau .legende {
+  padding: 0 var(--m);
+}
+
+/* Rails de téléphones : écrans à la même hauteur, sans cadre. --r = largeur / hauteur de l'image.
+   La profondeur : au survol d'un rail, l'écran le plus proche du pointeur reste à 1,
+   les autres passent à .55 (project.js, pointeur fin seulement). */
+.p9 .vues > figure {
+  position: relative;
+  flex: none;
+  height: var(--h);
+  width: calc(var(--h) * var(--r));
+  background: var(--c-15);
+}
+
+.p9 .vues > figure > img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+html.js .p9 [data-profondeur] figure.loin > img {
+  opacity: 0.55;
+  transition: opacity 0.3s ease, clip-path 1.1s var(--out);
+}
+
+/* La vitrine sur mobile : trois écrans collés, d'un bord à l'autre */
+.p9 .vues-vitrine {
+  --h: min(76vh, 70vw);
+  display: flex;
+  justify-content: center;
+  padding-bottom: 64px;       /* la place des légendes, sous les écrans */
+  margin-top: 160px;
+}
+
+.p9 .vues-vitrine .legende {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: max-content;
+  max-width: 100%;
+}
+
+/* L'admin sur téléphone : quatre écrans sur une bande orange bord à bord, légèrement décalés */
+.p9 .admin-tel {
+  /* Les quatre écrans + trois gouttières tiennent toujours entre les marges (ratio 0,462 × 4 = 1,848) */
+  --h: min(52vh, calc((100vw - 2 * var(--m) - 3 * var(--g)) / 1.848));
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--g);
+  min-height: 70vh;
+  padding: 6vh var(--m);
+  margin-top: 160px;
+  background: var(--c);
+  color: var(--c-ink);
+}
+
+.p9 .admin-tel > figure:nth-child(even) {
+  margin-top: 24px;
+}
+
+.p9 .admin-tel .legende {
+  max-width: calc(var(--h) * var(--r));
+  color: var(--c-ink);
+}
+
+.p9 .admin-tel:focus-visible {
+  outline-color: var(--c-ink);
+  outline-offset: -6px;
+}
+
+/* Le schéma : une ligne tracée au marqueur, quatre mots posés dessus, deux phrases dessous */
+.p9 .schema {
+  position: relative;
+  margin-top: 160px;
+  padding: 0 var(--m);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--g);
+}
+
+.p9 .schema .mot {
+  grid-row: 1;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.1;
+  color: var(--fg);
+  padding-bottom: 12px;
+}
+
+.p9 .schema .mot:nth-of-type(1) { grid-column: 1; }
+.p9 .schema .mot:nth-of-type(2) { grid-column: 2; }
+.p9 .schema .mot:nth-of-type(3) { grid-column: 3; }
+.p9 .schema .mot:nth-of-type(4) { grid-column: 4; }
+
+.p9 .schema .trait {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  display: block;
+  width: 100%;
+  height: 22px;
+  overflow: visible;
+}
+
+.p9 .schema .trait-v {
+  display: none;
+}
+
+.p9 .schema .trait path {
+  fill: none;
+  stroke: var(--c-ui);
+  stroke-width: 5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 2600;          /* pixels d'écran (non-scaling-stroke) : plus long que le trait */
+  stroke-dashoffset: 0;
+}
+
+.p9 .schema .phrase {
+  grid-row: 3;
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.p9 .schema .phrase-1 { grid-column: 1; }
+.p9 .schema .phrase-2 { grid-column: 2 / 5; max-width: 34ch; }
+
+.p9 .schema .phrase svg {
+  flex: none;
+  width: 22px;
+  height: 14px;
+  margin-top: 5px;
+  overflow: visible;
+}
+
+.p9 .schema .phrase svg path {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 1.8px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Au passage à l'écran : le trait se dessine de gauche à droite, chaque mot apparaît quand le trait l'atteint */
+html.js .p9 .schema:not(.in) .trait path {
+  stroke-dashoffset: 2600;
+}
+
+html.js .p9 .schema.in .trait path {
+  transition: stroke-dashoffset 1.2s var(--out);
+}
+
+html.js .p9 .schema:not(.in) .mot,
+html.js .p9 .schema:not(.in) .phrase {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+html.js .p9 .schema.in .mot,
+html.js .p9 .schema.in .phrase {
+  transition: opacity 0.7s var(--out), transform 0.7s var(--out);
+  transition-delay: calc(var(--i, 0) * 240ms + 0.1s);
+}
+
+@media (max-width: 767px) {
+  .p9 .ouv-hecto-haut {
+    padding-top: 190px;
+  }
+
+  .p9 .cadre {
+    font-size: 16px;
+    margin-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  .p9 .ouv-hecto-texte > div {
+    grid-column: 1 / -1;
+  }
+
+  .p9 .bureau {
+    margin-top: 96px;
+  }
+
+  /* Rails horizontaux natifs, sans barre : le visuel suivant dépasse, on peut glisser */
+  .p9 .vues-vitrine,
+  .p9 .admin-tel {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .p9 .vues-vitrine {
+    --h: 60svh;
+    margin-top: 96px;
+  }
+
+  .p9 .admin-tel {
+    --h: 52svh;
+    min-height: 78vh;
+    margin-top: 96px;
+    padding: 6vh var(--m);
+  }
+
+  .p9 .vues > figure {
+    scroll-snap-align: start;
+  }
+
+  .p9 .admin-tel {
+    scroll-padding-left: var(--m);   /* le premier écran s'arrête sur la marge, pas au bord */
+  }
+
+  .p9 .admin-tel > figure:last-child {
+    margin-right: 40px;
+  }
+
+  /* Le schéma à la verticale : même trait, quatre mots empilés */
+  .p9 .schema {
+    margin-top: 96px;
+    grid-template-columns: 22px minmax(0, 1fr);
+    column-gap: 18px;
+  }
+
+  .p9 .schema .trait-h {
+    display: none;
+  }
+
+  /* Le trait vertical longe les quatre mots, sur toute la hauteur du schéma */
+  .p9 .schema .trait-v {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--m);
+    width: 22px;
+    height: 100%;
+  }
+
+  .p9 .schema .mot {
+    grid-column: 2 !important;
+    font-size: 24px;
+    padding-bottom: 0;
+  }
+
+  .p9 .schema .mot:nth-of-type(1) { grid-row: 1; }
+  .p9 .schema .phrase-1          { grid-row: 2; grid-column: 2; margin: 10px 0 34px; }
+  .p9 .schema .mot:nth-of-type(2) { grid-row: 3; margin-bottom: 34px; }
+  .p9 .schema .mot:nth-of-type(3) { grid-row: 4; }
+  .p9 .schema .phrase-2          { grid-row: 5; grid-column: 2; margin: 10px 0 34px; }
+  .p9 .schema .mot:nth-of-type(4) { grid-row: 6; }
+}
+
+/* Mouvement réduit : le niveau devient un fondu de 300 ms, le trait est déjà tracé, les mots sont là */
+@media (prefers-reduced-motion: reduce) {
+  html.js:not(.ouv) .p9 .ouv-hecto-img img {
+    animation: fondu 0.3s linear backwards;
+  }
+
+  html.js:not(.ouv) .p9 .ouv-hecto-img::after {
+    animation: none;
+    display: none;
+  }
+
+  html.js .p9 .schema:not(.in) .trait path,
+  html.js .p9 .schema.in .trait path {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
+  html.js .p9 .schema:not(.in) .mot,
+  html.js .p9 .schema:not(.in) .phrase {
+    opacity: 1;
+    transform: none;
+  }
+
+  html.js .p9 .schema.in .mot,
+  html.js .p9 .schema.in .phrase {
+    transition: none;
+  }
+
+  html.js .p9 [data-profondeur] figure.loin > img {
+    opacity: 1;
+    transition: none;
+  }
+}

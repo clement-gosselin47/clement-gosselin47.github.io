@@ -15,7 +15,7 @@ const colors = [
 //   tonPortrait   idem pour la variante portrait, si elle diffère (Redstone)
 //                 (tons mesurés le 2026-10-05 sur le quart haut droit : Dugos 71/255,
 //                 Queen 130, Passage Secret 31 = sombre ; Ethikwear 194, Unik 148,
-//                 Redstone paysage 226 = clair)
+//                 Redstone paysage 226 = clair ; Hecto 48 paysage, 55 portrait = sombre, mesuré le 2026-10-07)
 //   position      cadrage optionnel de cover (défaut : center)
 const projects = [
   {
@@ -67,6 +67,13 @@ const projects = [
     imagePortrait: './relay/web/relay-vitrine-portrait.jpg',
     ton: 'sombre',           // vitrine : aplat noir avec logo, header blanc
     url: './relay/index.html'
+  },
+  {
+    patternIndexes: [8, 14, 21],
+    image: './hecto/web/hecto-vitrine-plein.jpg',
+    imagePortrait: './hecto/web/hecto-vitrine-portrait.jpg',
+    ton: 'sombre',           // logo sur aplat nuit (mesuré 48 et 55) : header blanc
+    url: './hecto/index.html'
   },
 ];
 

@@ -507,6 +507,38 @@
   }
   if (entete) { effets.push(majEntete); majEntete(); }
 
+  // Profondeur des rails de téléphones (Hecto) : au survol, l'écran le plus proche du
+  // pointeur reste net, les autres passent à .55 (la profondeur de Works). Pointeur
+  // fin seulement : au tactile et en mouvement réduit, les écrans restent tous à 1.
+  if (!reduit && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('[data-profondeur]').forEach(rail => {
+      const ecrans = [...rail.querySelectorAll('figure')];
+      const regler = (x) => {
+        let proche = null, d = Infinity;
+        ecrans.forEach(f => {
+          const r = f.getBoundingClientRect();
+          const ecart = Math.abs(r.left + r.width / 2 - x);
+          if (ecart < d) { d = ecart; proche = f; }
+        });
+        ecrans.forEach(f => f.classList.toggle('loin', f !== proche));
+      };
+      rail.addEventListener('pointermove', (e) => regler(e.clientX));
+      rail.addEventListener('pointerleave', () => ecrans.forEach(f => f.classList.remove('loin')));
+    });
+  }
+
+  // Rails de téléphones (Hecto) : arrêt de tabulation et région nommée seulement
+  // quand le rail défile vraiment (sinon un arrêt de clavier sans effet)
+  const rails = [...document.querySelectorAll('[data-rail]')];
+  function majRails() {
+    rails.forEach(r => {
+      const defile = r.scrollWidth > r.clientWidth + 1;
+      if (defile) { r.setAttribute('tabindex', '0'); r.setAttribute('role', 'region'); }
+      else { r.removeAttribute('tabindex'); r.removeAttribute('role'); }
+    });
+  }
+  if (rails.length) { retailles.push(majRails); majRails(); addEventListener('load', majRails); }
+
   /* ── 6. Projet 4 : planche-contact ── */
   const planche = document.querySelector('.planche');
   if (planche) {
