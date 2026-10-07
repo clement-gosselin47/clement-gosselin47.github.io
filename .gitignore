@@ -14,6 +14,7 @@ node_modules/
 # Exception : la vidéo web de Dugos, publiée sur sa page
 !Projets/dugos-photographie/web/dugos-navigation.mp4
 !Projets/dugos-photographie/web/dugos-navigation-web.mp4
+!Projets/passage-secret/web/passage-secret-navigation.mp4
 /Preloader*.png
 About/Img/
 Projets/*/Img vitrine.png
