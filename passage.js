@@ -96,9 +96,9 @@
 
   if (p.ink === '#fff') doc.classList.add('passage-sombre');
 
-  // Premier passage de la session sur Works : le preloader garde la main,
+  // Premier passage de la session sur Works (racine / ou /Projets/) : le preloader garde la main,
   // le calque s'efface simplement (motion-transitions.md 4)
-  if (p.page === 'works' && !preloaderVu && /\/Projets\/(index\.html)?$/.test(location.pathname)) {
+  if (p.page === 'works' && !preloaderVu && /^\/$|\/Projets\/(index\.html)?$/.test(location.pathname)) {
     cal.dataset.fondre = '';
   } else {
     // Les entrées de page attendent que l'aplat commence à se refermer

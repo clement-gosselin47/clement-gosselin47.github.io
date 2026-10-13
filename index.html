@@ -2,34 +2,89 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <!-- Accueil du domaine : copie de Projets/index.html (Works). Google ne lit le nom du
+       site et le favicon que sur la racine, d'où une vraie page ici et non une redirection.
+       Ce base fait résoudre tous les chemins relatifs (CSS, JS, images, liens) comme sur
+       /Projets/ : sans lui, rien ne se charge. Toute modification de Projets/index.html
+       est à reporter ici. -->
+  <base href="/Projets/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
   <title>Clément Gosselin, portfolio Product Builder no-code et IA</title>
   <meta name="google-site-verification" content="NV2Rv-Lvx8fYGyfE_BUwwyLOJkzFC1RxBUqDfHWDemc" />
-  <!-- Accueil du domaine : renvoie vers Works (Projets/). GitHub Pages ne fait pas de
-       redirection serveur. location.replace n'ajoute rien à l'historique (le bouton
-       retour ne revient pas ici) ; le meta refresh prend le relais sans JavaScript.
-       Les balises de partage restent ici : LinkedIn lit cette page sans exécuter le JS. -->
-  <script>location.replace('Projets/' + location.search + location.hash);</script>
-  <meta http-equiv="refresh" content="0; url=Projets/">
+  <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
   <meta name="description" content="Portfolio de Clément Gosselin, Product Builder no-code et IA à Ynov Bordeaux. Sites, prototypes Figma, webapp et affiche. Alternance 2j / 3j recherchée.">
-  <link rel="canonical" href="https://clement-gosselin47.github.io/Projets/">
+  <link rel="canonical" href="https://clement-gosselin47.github.io/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Clément Gosselin">
+  <meta name="application-name" content="Clément Gosselin">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:title" content="Clément Gosselin, portfolio Product Builder no-code et IA">
   <meta property="og:description" content="Portfolio de Clément Gosselin, Product Builder no-code et IA à Ynov Bordeaux. Sites, prototypes Figma, webapp et affiche. Alternance 2j / 3j recherchée.">
-  <meta property="og:url" content="https://clement-gosselin47.github.io/Projets/">
+  <meta property="og:url" content="https://clement-gosselin47.github.io/">
   <meta property="og:image" content="https://clement-gosselin47.github.io/og-image.jpg?v=2">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Les projets de Clément Gosselin sur la grille de son portfolio.">
   <meta name="twitter:card" content="summary_large_image">
+  <!-- Favicons : PNG en premier (Google n'accepte pas le SVG, veut 48 px ou plus). URL stables, ne pas les renommer -->
+  <link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">
+  <link rel="icon" href="/favicon-96.png" type="image/png" sizes="96x96">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <style>html, body { margin: 0; background: #fff; }</style>
+  <!-- Données structurées : la personne (relie le site à son nom) et le site -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Clément Gosselin","jobTitle":"Product Builder no-code et IA","description":"Étudiant en Bachelor Product Builder no-code et IA à Ynov Bordeaux, en recherche d'alternance en 2j / 3j à Bordeaux.","url":"https://clement-gosselin47.github.io/About/","image":"https://clement-gosselin47.github.io/og-image.jpg","sameAs":"https://www.linkedin.com/in/clementgosselin","alumniOf":{"@type":"CollegeOrUniversity","name":"Ynov Campus Bordeaux"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Clément Gosselin","alternateName":["Portfolio de Clément Gosselin","clement-gosselin47.github.io"],"url":"https://clement-gosselin47.github.io/"}</script>
+  <script src="../passage.js?v=20261013"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css?v=20261007d">
+  <link rel="stylesheet" href="style.css?v=20261007d">
+  <link rel="stylesheet" href="preloader.css?v=20261007d">
 </head>
 <body>
-  <noscript><p>Clément Gosselin, Product Builder no-code et IA à Ynov Bordeaux, en recherche d'alternance en 2j / 3j. <a href="Projets/">Voir ses projets</a> ou <a href="About/">son parcours</a>.</p></noscript>
+  <div class="cursor" id="cursor"></div>
+  <h1 class="lecteur">Clément Gosselin, Product Builder no-code et IA</h1>
+
+  <div class="theme-nav">
+    <button type="button" class="theme-toggle" aria-pressed="false" aria-label="Passer en mode sombre">
+      <svg class="icone-lune" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+      <svg class="icone-soleil" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 1.8v3.4M12 18.8v3.4M1.8 12h3.4M18.8 12h3.4M4.8 4.8l2.4 2.4M16.8 16.8l2.4 2.4M4.8 19.2l2.4-2.4M16.8 7.2l2.4-2.4"/></svg>
+    </button>
+  </div>
+
+  <header>
+    <nav>
+      <a href="../Projets/index.html" class="active" data-dest="works">Works</a>
+      <a href="../About/index.html" data-dest="about">About</a>
+      <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
+    </nav>
+  </header>
+  <!-- Accès aux projets au clavier et au lecteur d'écran : invisible, la liste
+       apparaît en haut à gauche dès qu'un lien reçoit le focus (touche Tab) -->
+  <nav class="projets-clavier" aria-label="Projets">
+    <a href="./Ethikwear/index.html">Ethikwear</a>
+    <a href="./redstone/index.html">Redstone</a>
+    <a href="./Unik/index.html">Unik</a>
+    <a href="./dugos-photographie/index.html">Dugos Photographie</a>
+    <a href="./Queen/index.html">Queen</a>
+    <a href="./passage-secret/index.html">Passage Secret</a>
+    <a href="./relay/index.html">Relay</a>
+    <a href="./hecto/index.html">Hecto</a>
+  </nav>
+  <div class="wrapper">
+    <div class="grid" id="grid"></div>
+  </div>
+  <div class="speed-blur" id="speedBlur">
+    <div class="blur-edge blur-left"></div>
+    <div class="blur-edge blur-right"></div>
+    <div class="blur-edge blur-top"></div>
+    <div class="blur-edge blur-bottom"></div>
+  </div>
+  <script src="script.js?v=20261013"></script>
+  <script src="preloader.js?v=20261007d"></script>
+  <script src="../shared.js?v=20261013"></script>
 </body>
 </html>

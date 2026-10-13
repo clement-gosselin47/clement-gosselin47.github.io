@@ -342,7 +342,8 @@ function ouvrirProjet(cell) {
   const r = cell.getBoundingClientRect();
   const W = window.innerWidth, H = window.innerHeight;
   const projet = projects.find(p => p.url === url);
-  const src = new URL(imageDe(projet), window.location.href).href;
+  // Résolu sur l'adresse de base du document : la racine / déclare <base href="/Projets/">
+  const src = new URL(imageDe(projet), document.baseURI).href;
 
   // Départ en transform et clip-path (pas de left / top / width / height : pas de
   // recalcul de mise en page, 60 images/s). Le calque est plein écran, l'image y est
@@ -407,7 +408,7 @@ document.querySelectorAll('.projets-clavier a').forEach(lien => {
     const W = window.innerWidth, H = window.innerHeight;
     let meilleure = null, distance = Infinity;
     document.querySelectorAll('.project-cell').forEach(c => {
-      if (new URL(c.dataset.url, window.location.href).href !== cible) return;
+      if (new URL(c.dataset.url, document.baseURI).href !== cible) return;
       const r = c.getBoundingClientRect();
       if (r.left < 0 || r.top < 0 || r.right > W || r.bottom > H) return;
       const d = Math.hypot(r.left + r.width / 2 - W / 2, r.top + r.height / 2 - H / 2);
