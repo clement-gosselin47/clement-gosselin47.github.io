@@ -7,9 +7,12 @@
 (function () {
   if (!window.Works) return;
 
-  // Une seule fois par session : au retour sur Works, grille et menu tout de suite
+  // Une seule fois par session : au retour sur Works, grille et menu tout de suite.
+  // Jamais en vue liste (2026-10-23-accueil-liste, décision 22) : elle ne peut être
+  // mémorisée qu'après le preloader, et elle se montre sans lui.
   try {
     if (sessionStorage.getItem('preloaderShown')) return;
+    if (sessionStorage.getItem('vue') === 'liste') return;
   } catch (e) { /* stockage indisponible : on joue le preloader */ }
 
   const { grid, projects, cells, imageDe, caseW, caseH } = window.Works;

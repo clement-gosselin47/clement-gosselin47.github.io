@@ -21,6 +21,8 @@
   }, 2500);
 
   var reduit = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Page sombre : l'accueil (Works) porte data-theme="dark" en dur sur <html> (2026-10-24)
+  var sombre = doc.getAttribute('data-theme') === 'dark';
   var lire = function (cle) {
     try {
       var v = JSON.parse(sessionStorage.getItem(cle));
@@ -47,8 +49,11 @@
       ov.style.background = 'var(--case)';
       ov.appendChild(img);
       ov.dataset.type = 'img';
-      // Capture sombre en haut à droite : header blanc tant que le calque est là
+      // Capture sombre en haut à droite : header blanc tant que le calque est là ;
+      // capture claire sur une page sombre : header noir (jamais le cas aujourd'hui,
+      // seul l'accueil est sombre, gardé par symétrie)
       if (o.ton === 'sombre') doc.classList.add('passage-sombre');
+      else if (sombre) doc.classList.add('passage-clair');
     } else {
       ov.style.background = o.c || '#000';
       ov.dataset.type = 'aplat';
@@ -95,6 +100,8 @@
   cal.appendChild(mot);
 
   if (p.ink === '#fff') doc.classList.add('passage-sombre');
+  // Aplat clair (WORKS jaune) sur l'accueil sombre : header noir tant qu'il couvre la page
+  else if (p.ink === '#000' && sombre) doc.classList.add('passage-clair');
 
   // Premier passage de la session sur Works (racine / ou /Projets/) : le preloader garde la main,
   // le calque s'efface simplement (motion-transitions.md 4)

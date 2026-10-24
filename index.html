@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <!-- Ancienne adresse GitHub Pages : on renvoie vers le domaine, même page -->
@@ -11,7 +11,6 @@
        est à reporter ici. -->
   <base href="/Projets/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>/* Thème : choix mémorisé, sinon préférence système (avant le premier rendu, pas de flash) */try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
   <title>Clément Gosselin, portfolio Product Builder no-code et IA</title>
   <meta name="google-site-verification" content="NV2Rv-Lvx8fYGyfE_BUwwyLOJkzFC1RxBUqDfHWDemc" />
   <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
@@ -38,22 +37,27 @@
   <!-- Données structurées : la personne (relie le site à son nom) et le site -->
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Clément Gosselin","jobTitle":"Product Builder no-code et IA","description":"Étudiant en Bachelor Product Builder no-code et IA à Ynov Bordeaux, en recherche d'alternance en 2j / 3j à Bordeaux.","url":"https://clement-gosselin.com/About/","image":"https://clement-gosselin.com/og-image.jpg","sameAs":"https://www.linkedin.com/in/clementgosselin","alumniOf":{"@type":"CollegeOrUniversity","name":"Ynov Campus Bordeaux"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Clément Gosselin","alternateName":["Portfolio de Clément Gosselin","clement-gosselin.com"],"url":"https://clement-gosselin.com/"}</script>
-  <script src="../passage.js?v=20261013"></script>
+  <script src="../passage.js?v=20261024"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../shared.css?v=20261007d">
-  <link rel="stylesheet" href="style.css?v=20261007d">
+  <!-- Archivo Black pour le site ; Archivo ExtraBold (800) pour les noms de la vue liste seulement (septième retour, 2026-10-23) -->
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css?v=20261024">
+  <link rel="stylesheet" href="style.css?v=20261024b">
   <link rel="stylesheet" href="preloader.css?v=20261007d">
 </head>
 <body>
   <div class="cursor" id="cursor"></div>
   <h1 class="lecteur">Clément Gosselin, Product Builder no-code et IA</h1>
 
-  <div class="theme-nav">
-    <button type="button" class="theme-toggle" aria-pressed="false" aria-label="Passer en mode sombre">
-      <svg class="icone-lune" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
-      <svg class="icone-soleil" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 1.8v3.4M12 18.8v3.4M1.8 12h3.4M18.8 12h3.4M4.8 4.8l2.4 2.4M16.8 16.8l2.4 2.4M4.8 19.2l2.4-2.4M16.8 7.2l2.4-2.4"/></svg>
+  <!-- Bascule grille / liste (2026-10-23-accueil-liste, décision A), à la place de l'ancienne
+       lune (bascule de thème retirée le 2026-10-24 : l'accueil est toujours sombre, voir
+       data-theme sur <html>). En vue grille le symbole montre la liste (ce qu'on obtient),
+       en vue liste la grille. -->
+  <div class="vue-nav">
+    <button type="button" class="vue-toggle" aria-pressed="false" aria-label="Voir les projets en liste">
+      <svg class="icone-liste" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 6h17M3 12h11M3 18h15"/></svg>
+      <svg class="icone-grille" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
     </button>
   </div>
 
@@ -85,8 +89,26 @@
     <div class="blur-edge blur-top"></div>
     <div class="blur-edge blur-bottom"></div>
   </div>
-  <script src="script.js?v=20261013"></script>
-  <script src="preloader.js?v=20261007d"></script>
-  <script src="../shared.js?v=20261013"></script>
+  <!-- Vue liste (2026-10-23-accueil-liste, décision B) : les huit noms empilés et un cadre
+       fixe qui montre la capture du projet actif (images posées par script.js). Masquée tant
+       que l'icône à côté de la lune n'est pas cliquée : la grille reste la vue par défaut. -->
+  <section class="liste" hidden aria-label="Projets en liste">
+    <!-- À mettre à jour quand un projet s'ajoute. Ces huit li sont la seule copie écrite :
+         script.js les recopie au-dessus et au-dessous pour que la liste boucle sans fin. -->
+    <ul class="liste-noms">
+      <li><span class="liste-masque"><a href="./Ethikwear/index.html" data-cur="Voir">Ethikwear</a></span></li>
+      <li><span class="liste-masque"><a href="./redstone/index.html" data-cur="Voir">Redstone</a></span></li>
+      <li><span class="liste-masque"><a href="./Unik/index.html" data-cur="Voir">Unik</a></span></li>
+      <li><span class="liste-masque"><a href="./dugos-photographie/index.html" data-cur="Voir">Dugos Photographie</a></span></li>
+      <li><span class="liste-masque"><a href="./Queen/index.html" data-cur="Voir">Queen</a></span></li>
+      <li><span class="liste-masque"><a href="./passage-secret/index.html" data-cur="Voir">Passage Secret</a></span></li>
+      <li><span class="liste-masque"><a href="./relay/index.html" data-cur="Voir">Relay</a></span></li>
+      <li><span class="liste-masque"><a href="./hecto/index.html" data-cur="Voir">Hecto</a></span></li>
+    </ul>
+    <div class="liste-cadre" data-cur="Voir"></div>
+  </section>
+  <script src="script.js?v=20261024b"></script>
+  <script src="preloader.js?v=20261023"></script>
+  <script src="../shared.js?v=20261024"></script>
 </body>
 </html>

@@ -65,6 +65,8 @@ const Passage = (function () {
   const mobile = () => window.innerWidth < 768;
   const marge = () => window.innerWidth >= 1100 ? 80 : window.innerWidth >= 768 ? 48 : 20;
   const animer = !!Element.prototype.animate;
+  // La page est-elle sombre (l'accueil, data-theme="dark" posé en dur sur <html>) ?
+  const sombreIci = () => doc.getAttribute('data-theme') === 'dark';
 
   // Une couleur par destination, encre noire : le header reste lisible
   const DEST = {
@@ -111,7 +113,7 @@ const Passage = (function () {
   // Tout sauf le header, la flèche, le curseur et les calques devient inerte
   function inerte(oui, garder) {
     Array.from(document.body.children).forEach(el => {
-      if (el.matches('header, .theme-nav, .back-nav, .cursor, script, .ov') || el === garder) return;
+      if (el.matches('header, .back-nav, .cursor, script, .ov') || el === garder) return;
       if (oui) el.setAttribute('inert', ''); else el.removeAttribute('inert');
     });
   }
@@ -162,8 +164,10 @@ const Passage = (function () {
       { duration: d * 0.8, delay: d * 0.3, easing: OUT, fill: 'both' }));
     const a = ov.animate([{ clipPath: rectDe(depuis) }, { clipPath: PLEIN }], { duration: d, easing: IO, fill: 'forwards' });
     enCours.push(a);
-    // Header blanc sur un aplat sombre, mais seulement quand l'aplat le couvre (mi-course)
+    // Header blanc sur un aplat sombre, mais seulement quand l'aplat le couvre (mi-course) ;
+    // sur l'accueil sombre, header noir sur un aplat clair (encre noire) au même moment
     if (ink === '#fff') setTimeout(() => { if (ov.isConnected) doc.classList.add('passage-sombre'); }, d * 0.5);
+    else if (ink === '#000' && sombreIci()) setTimeout(() => { if (ov.isConnected) doc.classList.add('passage-clair'); }, d * 0.5);
     a.finished.then(() => {
       const fsFinal = parseFloat(boite.style.fontSize) || fs;
       try { sessionStorage.setItem('passage', JSON.stringify({ c, ink, mot, fs: fsFinal, vers, page })); } catch (e) { /* rien */ }
@@ -182,7 +186,7 @@ const Passage = (function () {
     // commencé entre-temps (le menu est libéré dès le début de la fermeture)
     const fin = () => {
       ov.remove();
-      if (!document.querySelector('.ov-passage')) doc.classList.remove('passage-sombre', 'passage-en-cours');
+      if (!document.querySelector('.ov-passage')) doc.classList.remove('passage-sombre', 'passage-clair', 'passage-en-cours');
     };
     const go = () => {
       // Premier passage sur Works : le preloader garde la main
@@ -203,7 +207,7 @@ const Passage = (function () {
       // Le menu redevient cliquable dès que l'aplat se referme, et le header
       // reprend son encre au même moment (audit-ux-v3, 3 et 5)
       occupe = false;
-      setTimeout(() => doc.classList.remove('passage-sombre'), 120);
+      setTimeout(() => doc.classList.remove('passage-sombre', 'passage-clair'), 120);
       ov.animate([{ clipPath: PLEIN }, { clipPath: cible }], { duration: d, delay: 120, easing: IO, fill: 'forwards' })
         .finished.then(fin);
     };
@@ -464,7 +468,7 @@ const Passage = (function () {
     if (!e.persisted) return;
     enCours.splice(0).forEach(an => an.cancel());
     document.querySelectorAll('.ov-passage, .ov-voile, .ov-contact').forEach(o => o.remove());
-    doc.classList.remove('passage-sombre', 'passage-attente', 'passage-fondu', 'passage-en-cours');
+    doc.classList.remove('passage-sombre', 'passage-clair', 'passage-attente', 'passage-fondu', 'passage-en-cours');
     contact = null;
     doc.classList.remove('contact-ouvert');
     inerte(false);
@@ -476,43 +480,7 @@ const Passage = (function () {
 })();
 
 
-// ═══ Thème clair / sombre ═══
-// Le script de <head> pose data-theme avant le rendu ; ici : la bascule du menu,
-// le choix mémorisé (localStorage, seulement si Clément ou le visiteur clique)
-// et le suivi de la préférence système tant qu'aucun choix n'est mémorisé.
-(function () {
-  const racine = document.documentElement;
-  const bouton = document.querySelector('.theme-toggle');
-  const systeme = window.matchMedia('(prefers-color-scheme: dark)');
-  const sombre = () => racine.getAttribute('data-theme') === 'dark';
-
-  function afficher() {
-    if (!bouton) return;
-    bouton.setAttribute('aria-pressed', sombre() ? 'true' : 'false');
-    // Le symbole (lune / soleil) est choisi en CSS selon data-theme ; ici le nom accessible
-    bouton.setAttribute('aria-label', sombre() ? 'Passer en mode clair' : 'Passer en mode sombre');
-  }
-
-  function poser(theme) {
-    racine.setAttribute('data-theme', theme);
-    afficher();
-    // Les pages dont le curseur ou des aplats dépendent de --fg se mettent à jour seules (variables CSS)
-    window.dispatchEvent(new CustomEvent('themechange', { detail: theme }));
-  }
-
-  afficher();
-  if (bouton) {
-    bouton.addEventListener('click', () => {
-      const suivant = sombre() ? 'light' : 'dark';
-      poser(suivant);
-      try { localStorage.setItem('theme', suivant); } catch (e) { /* mode privé : le choix vaut pour la page */ }
-    });
-  }
-
-  const suivreSysteme = (e) => {
-    let choix = null;
-    try { choix = localStorage.getItem('theme'); } catch (err) { /* rien */ }
-    if (choix !== 'light' && choix !== 'dark') poser(e.matches ? 'dark' : 'light');
-  };
-  if (systeme.addEventListener) systeme.addEventListener('change', suivreSysteme);
-})();
+// ═══ Thème ═══
+// Plus de bascule clair / sombre depuis le 2026-10-24 (demande de Clément) : l'accueil
+// (Works) porte data-theme="dark" en dur sur <html>, le reste du site est clair. Rien à
+// faire ici ; les couleurs passent par les variables de shared.css.

@@ -133,7 +133,7 @@ body.ouvre .wrapper {
    Même typo que le header, en colonne en haut à gauche. */
 .projets-clavier {
   position: fixed;
-  top: 62px;                   /* sous la bascule de thème (en haut à gauche) */
+  top: 62px;                   /* sous l'icône grille / liste (en haut à gauche) */
   left: 0;
   z-index: 101;
   align-items: flex-start;
@@ -181,6 +181,359 @@ html.passage-attente .wrapper {
 
 @media (prefers-reduced-motion: reduce) {
   html.passage-vers-works .wrapper {
+    animation: none;
+  }
+}
+
+/* ═══ Vue liste (2026-10-23-accueil-liste) ═══
+   Seconde vue de Works, en plus de la grille (qui reste la vue par défaut) : les
+   huit noms empilés en Archivo Black à gauche, un seul au noir (celui qui coupe la
+   ligne --ligne), un cadre fixe à droite qui montre la capture du projet actif.
+   Tout passe par les variables du thème (décision 21) : aucune valeur en dur. */
+
+/* L'icône de bascule (décisions 1 à 3) : dessinée comme la lune (24px, trait 2,75, zone de
+   clic 44px) dont elle était la jumelle à 82px. La lune retirée (accueil toujours sombre,
+   2026-10-24), elle prend sa place : trait du symbole à 48px du bord, même marge que le
+   menu à droite. Traits = liste, carrés = grille. */
+.vue-nav {
+  position: fixed;
+  top: 18px;                   /* centre du symbole à la hauteur de la première ligne du menu */
+  left: 38px;
+  z-index: 100;
+}
+
+.vue-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--fg);
+  line-height: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 1.2s cubic-bezier(.16, 1, .3, 1);
+}
+
+.vue-toggle svg { display: block; }
+.vue-toggle .icone-grille { display: none; }
+.vue-toggle[aria-pressed="true"] .icone-liste { display: none; }
+.vue-toggle[aria-pressed="true"] .icone-grille { display: block; }
+
+.vue-toggle:hover {
+  transform: scale(1.12);
+}
+
+.vue-toggle:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: -4px;
+}
+
+/* Cachée pendant le preloader : on ne bascule pas pendant l'assemblage */
+body.is-loading .vue-toggle,
+body.menu-en-cours .vue-toggle {
+  visibility: hidden;
+}
+
+/* Mêmes règles de passage que le header (shared.css) : encre blanche sur un calque sombre,
+   noire sur un calque ou une capture claire (l'accueil est sombre), couleur qui change vite
+   pendant un passage */
+html.passage-en-cours .vue-toggle {
+  transition: transform 0.2s ease, color 0.2s ease !important;
+}
+
+html.passage-sombre .vue-toggle {
+  color: #fff !important;
+}
+
+html.passage-clair .vue-toggle {
+  color: #000 !important;
+}
+
+html.passage-sombre .vue-nav,
+html.passage-clair .vue-nav {
+  mix-blend-mode: normal !important;
+}
+
+/* État liste (décision 7) : la page défile naturellement, c'est le navigateur qui
+   défile (la molette est seulement amortie et ralentie par script.js, second retour de
+   Clément). La grille et le flou de bord sont masqués, pas retirés ; les liens clavier
+   aussi (les noms visibles sont les liens clavier). */
+body.vue-liste {
+  width: auto;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+body.vue-liste .wrapper,
+body.vue-liste .speed-blur {
+  display: none;
+}
+
+/* Boucle infinie (sixième retour) : la liste n'a plus ni début ni fin, une barre de
+   défilement n'aurait aucun sens et son curseur sauterait à chaque recalage. Elle
+   est masquée en vue liste seulement ; la page défile comme avant. */
+html:has(body.vue-liste),
+body.vue-liste {
+  scrollbar-width: none;
+}
+
+html:has(body.vue-liste)::-webkit-scrollbar,
+body.vue-liste::-webkit-scrollbar {
+  display: none;
+}
+
+.projets-clavier[hidden] {
+  display: none;
+}
+
+.liste[hidden] {
+  display: none;
+}
+
+/* Variables de la section (décision 8, troisième retour de Clément 2026-10-23) : marges
+   des pages projet, cadre de 640px à 1440 (44,5vw en dessous, jamais sous 480px), ligne
+   active à mi-hauteur (jamais sous le menu sur un écran bas). Les deux micro-textes
+   « Huit projets » et « Sites, prototypes Figma… » ont été retirés à sa demande. */
+.liste {
+  --m: 80px;
+  --cadre-w: clamp(480px, 44.5vw, 640px);
+  --ligne: max(50vh, 350px);
+  --ecart: 48px;               /* entre la colonne des noms et le cadre (60 → 48, troisième
+                                  retour : « DUGOS PHOTOGRAPHIE » tient sur une ligne à 1440) */
+  --agrandi: 1.15;             /* le nom actif est agrandi d'autant (cinquième retour) */
+  --reserve: calc(8px + 0.15em);   /* réserve haute et basse du masque de chaque nom : contour
+                                      de focus (8px) + dépassement du nom agrandi, même sur
+                                      deux lignes (7,5 % de 1,8em = 0,135em) */
+}
+
+/* Les noms (décisions 9 et 10, troisième retour) : la colonne de gauche ne recouvre
+   jamais le cadre (592px à 1440, boîte en content-box pour que ce soit la largeur du
+   texte). Les deux noms longs peuvent passer sur deux lignes, jamais de taille réduite
+   ni de coupure dans un mot. Le padding haut pose le premier Ethikwear sur la ligne à
+   scrollY 0 (ligne moins une demi-ligne de texte) ; depuis la boucle infinie (sixième
+   retour) la page démarre plus bas, sur la copie d'origine, et les paddings ne se
+   voient plus : script.js recale la page avant d'atteindre le haut ou le bas. */
+.liste-noms {
+  box-sizing: content-box;
+  list-style: none;
+  margin: 0;
+  width: calc(100vw - 2 * var(--m) - var(--cadre-w) - var(--ecart));
+  padding: calc(var(--ligne) - 0.45em) var(--m) calc(100vh - var(--ligne) - 0.45em);
+  /* Archivo ExtraBold (800) et non Archivo Black : « la typo est un peu trop grasse »
+     (septième retour). Pour la liste seulement ; Archivo Black reste en repli et partout
+     ailleurs sur le site. */
+  font-family: 'Archivo', 'Archivo Black', sans-serif;
+  font-weight: 800;
+  /* 52px à 1440, 54 au-delà (cinquième retour : « un tout petit peu plus grand » que les
+     46 d'avant). Deuxième borne (audit qualité) : « PHOTOGRAPHIE » (8,64em) tient dans la
+     colonne à toute largeur, même agrandi de 15 % (9,94em, d'où le diviseur 10), calculée
+     sur les mêmes variables que la largeur de la colonne. Mobile : règle plus bas. */
+  font-size: min(clamp(26px, 3.6vw, 54px), calc((100vw - 2 * var(--m) - var(--cadre-w) - var(--ecart)) / 10));
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  color: var(--fg);
+  overflow-wrap: normal;
+  word-break: normal;
+  /* Boucle infinie (sixième retour) : script.js ajoute des copies au-dessus et recale
+     la page lui-même ; l'ancrage de défilement du navigateur ne doit pas s'en mêler */
+  overflow-anchor: none;
+}
+
+/* Espace entre les noms. Les marges négatives du masque (--reserve, règle suivante)
+   fusionnent avec celle-ci : l'espace visible entre le bas d'un nom et le haut du
+   suivant vaut marge + une réserve. Quatrième retour : 55px à 1440. Sixième retour
+   (« rapproche les textes ») : 32px à 1440. Septième retour (« rapproche en plus ») :
+   20px à 1440, au prorata ailleurs, soit 0,08em de marge + la réserve (20px à 1440,
+   14 à 390, valeurs arrondies au pixel par le bloc @supports plus bas ; 20,1 / 14 sans
+   round()). Le nom actif agrandi (1,15 depuis la gauche) déborde de sa boîte de 3,5px
+   en haut et en bas à 1440 (7px pour Dugos sur deux lignes) : ses capitales restent à
+   plus de 20px de celles du voisin (l'encre d'une capitale occupe 0,7em d'une ligne de
+   0,9em), aucun contact.
+   Les paddings haut et bas de .liste-noms ne dépendent pas de cette marge. */
+.liste-noms li {
+  margin: 0 0 0.08em;
+}
+
+/* Le tout dernier nom du document n'a pas de marge (le bas de page ne se voit jamais :
+   la liste boucle, script.js recopie les huit li au-dessus et au-dessous) */
+.liste-noms li:last-child {
+  margin-bottom: 0;
+}
+
+/* Boucle infinie (sixième retour) : la page est recalée d'une période (la hauteur d'une
+   copie des huit noms) à la fois, et Chrome défile au pixel entier. Pour que le recalage
+   soit invisible, la période doit être un nombre entier de pixels : interligne, marge et
+   réserve sont arrondis au pixel là où round() existe (Chrome 125, Safari 15.4, Firefox
+   118). Ailleurs les valeurs fractionnaires restent et le recalage peut bouger d'une
+   fraction de pixel : c'est le seul écart. */
+@supports (width: round(1px, 1px)) {
+  .liste {
+    --reserve: round(8px + 0.15em, 1px);
+  }
+
+  .liste-noms {
+    line-height: round(0.9em, 1px);
+  }
+
+  .liste-noms li {
+    margin-bottom: round(0.08em, 1px);
+  }
+}
+
+/* Masque de chaque nom (M1, M2) : le texte monte et redescend dedans sans que les
+   jambages soient coupés (le .ov-masque du site). Marges négatives symétriques : la
+   boîte du li garde exactement la hauteur de la ligne, et le contour de focus (8px)
+   n'est pas rogné, même sur le nom agrandi (--reserve, haut et bas). Le rognage n'est
+   que vertical (overflow-y: clip ; hidden en repli pour les navigateurs sans clip) : le
+   nom agrandi depuis la gauche dépasse librement à droite de sa colonne. */
+.liste-masque {
+  display: block;
+  overflow: hidden;
+  overflow: visible clip;
+  padding: var(--reserve) 10px;
+  margin: calc(-1 * var(--reserve)) -10px;
+}
+
+/* Profondeur (décision 11) : les trois niveaux du site, .15 inactif, .55 survol, 1 actif.
+   Le lien s'arrête au bout du mot (relecture DA) : survol, « Voir » et contour de focus
+   ne s'étendent pas sur le blanc à droite. */
+.liste-noms a {
+  display: block;
+  width: fit-content;
+  /* Un lien ne prend jamais plus de 1 / 1,15 de la colonne : agrandi, le nom actif (boîte,
+     survol, contour de focus) reste dans sa colonne, jamais sur le cadre. Un nom sur deux
+     lignes garde ainsi une boîte à sa mesure au lieu de toute la colonne. */
+  max-width: calc(100% / var(--agrandi));
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.1;      /* .15 avant : « encore un peu plus clair » (septième retour) ; l'accueil est sombre, c'est .10 sur #24272d */
+  /* Le nom actif grandit depuis la gauche (cinquième retour) : propriété scale et non
+     transform, pour se composer avec le translateY des montées / descentes M1, M2 (WAAPI)
+     sans l'écraser ni sauter à la fin de l'entrée. L'échelle ne change pas la boîte dans
+     le flux : espacements et padding de la colonne restent ceux d'un nom à 1. */
+  scale: 1;
+  transform-origin: left center;
+  transition: opacity 0.35s ease, scale 0.35s cubic-bezier(.16, 1, .3, 1);
+}
+
+@media (hover: hover) {
+  .liste-noms a:hover {
+    opacity: 0.55;
+  }
+}
+
+.liste-noms a.actif {
+  opacity: 1;
+  scale: var(--agrandi);
+}
+
+/* Recalage de la boucle (script.js) : le nom actif et le précédent passent à leurs
+   doubles de la copie voisine le temps d'un calcul de style, sans transition, sinon on
+   les verrait s'éteindre et se rallumer */
+.liste-noms.recale a {
+  transition: none;
+}
+
+.liste-noms a:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 6px;
+}
+
+/* Le cadre (décision 13) : fixe, centré sur la ligne, 16 : 10, capture entière, sans
+   arrondi ni filet. Les huit images y sont empilées, l'active au-dessus (script.js). */
+.liste-cadre {
+  position: fixed;
+  z-index: 1;
+  right: var(--m);
+  top: var(--ligne);
+  transform: translateY(-50%);
+  width: var(--cadre-w);
+  aspect-ratio: 16 / 10;
+  background: var(--case);
+  overflow: hidden;
+}
+
+.liste-cadre img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Ouverture d'un projet depuis la liste (M5) : les noms s'effacent comme les cases ;
+   le cadre reste jusqu'à la navigation */
+body.ouvre .liste-noms {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+body.ouvre .liste {
+  pointer-events: none;
+}
+
+/* Arrivée par le menu avec la liste mémorisée (décision 23) : même entrée que la grille */
+html.passage-vers-works .liste {
+  animation: grille-entree 0.7s cubic-bezier(.16, 1, .3, 1) var(--entree, 0ms) backwards;
+}
+
+html.passage-attente .liste {
+  animation-play-state: paused;
+}
+
+/* Tablette (décision 16, troisième retour) : marges de 48px, cadre à 48vw ; les noms
+   suivent la formule du bureau (24,6px à 768, 35px à 1099) */
+@media (min-width: 768px) and (max-width: 1099px) {
+  .liste {
+    --m: 48px;
+    --cadre-w: 48vw;
+    --ecart: 40px;
+  }
+}
+
+/* Mobile (décisions 17 à 19) : le cadre passe en bas, pleine largeur ; les noms gardent
+   toute la largeur au-dessus ; la ligne active est au centre de la zone libre */
+@media (max-width: 767px) {
+  .liste {
+    --m: 20px;
+    --ligne: calc((100vh - (100vw - 40px) * 10 / 16 - 80px) / 2);
+  }
+
+  /* Plancher lisible (cinquième retour) : 26px. Agrandi, le nom actif reste dans l'écran
+     (max-width des liens) : « DUGOS PHOTOGRAPHIE » passe sur deux lignes, comme sur grand
+     écran, sans rognage ni défilement horizontal. */
+  .liste-noms {
+    width: auto;
+    font-size: 26px;
+  }
+
+  .liste-cadre {
+    left: 20px;
+    right: 20px;
+    width: auto;
+    top: auto;
+    bottom: 56px;
+    transform: none;
+  }
+}
+
+/* Mouvement réduit : opacités en .15s linéaire, pas d'échelle sur l'icône, pas d'entrée */
+@media (prefers-reduced-motion: reduce) {
+  .vue-toggle {
+    transition: none;
+  }
+
+  .liste-noms a {
+    transition: opacity 0.15s linear, scale 0.15s linear;
+  }
+
+  html.passage-vers-works .liste {
     animation: none;
   }
 }
