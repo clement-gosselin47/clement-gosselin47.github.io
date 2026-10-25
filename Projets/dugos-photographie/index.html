@@ -7,14 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dugos Photographie, refonte de site, Clément Gosselin</title>
   <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
-  <meta name="description" content="Refonte du site vitrine de Dugos Photographie, photographe de mariage et de portrait à Marmande. Galeries, avis Google et formulaire de contact.">
+  <meta name="description" content="Refonte du site de Dugos Photographie, photographe à Marmande : moodboard, prototype Figma, puis un site sobre développé avec une équipe d'agents IA.">
   <link rel="canonical" href="https://clement-gosselin.com/Projets/dugos-photographie/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Clément Gosselin">
   <meta name="application-name" content="Clément Gosselin">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:title" content="Dugos Photographie, refonte de site, Clément Gosselin">
-  <meta property="og:description" content="Refonte du site vitrine de Dugos Photographie, photographe de mariage et de portrait à Marmande. Galeries, avis Google et formulaire de contact.">
+  <meta property="og:description" content="Refonte du site de Dugos Photographie, photographe à Marmande : moodboard, prototype Figma, puis un site sobre développé avec une équipe d'agents IA.">
   <meta property="og:url" content="https://clement-gosselin.com/Projets/dugos-photographie/">
   <meta property="og:image" content="https://clement-gosselin.com/Projets/dugos-photographie/web/og-dugos-photographie.jpg?v=2">
   <meta property="og:image:width" content="1200">
@@ -33,15 +33,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../shared.css?v=20261025">
-  <link rel="stylesheet" href="../project-style.css?v=20261007d">
+  <link rel="stylesheet" href="../project-style.css?v=20261025b">
 </head>
 <!-- MODE D'EMPLOI
-     Textes : tout est dans <main>, dans l'ordre de la page (colophon, récit, légendes, phrase de fin).
-     Case de couleur = emplacement vide : la remplacer par l'<img> écrite dans le commentaire juste au-dessus.
-     Images : dans le dossier web/ de ce projet, en .webp ; une phrase simple dans alt.
+     Textes : tout est dans <main>, dans l'ordre de la page (colophon, titres et paragraphes des sections, phrase de fin).
+     Images : dans le dossier web/ de ce projet, en .webp ; une phrase simple dans alt. Pas de légende : le paragraphe d'à côté raconte l'image.
      Couleur du projet : --c dans le style de <body> (--c-ink = encre lisible sur la couleur).
-     Lien en ligne : mettre l'adresse dans href du lien « Voir le site » et retirer hidden.
-     Mise en scène de cette page : la planche-contact, un cadre bleu au marqueur autour de la vue choisie. -->
+     Lien en ligne : la même adresse dans le petit lien du colophon et dans le grand lien « Voir le site », changer les deux.
+     Mise en scène de cette page (récit en regard, gabarit de la série de reprises, charte §16) : un haut de page titre et intro,
+     un grand visuel, puis trois sections texte et image côte à côte (l'ancien site, le prototype Figma, la page About),
+     et ce que j'en retiens. -->
 <body class="projet p4" style="--c: #0038B8; --c-ink: #fff">
   <div class="cursor" id="cursor"></div>
 
@@ -62,96 +63,92 @@
   </header>
 
   <main>
-    <!-- Ouverture plein cadre, rien posé sur les photos du client : la vitrine de Works -->
-    <div class="heros">
-      <picture>
-        <source media="(max-aspect-ratio: 3/5)" srcset="web/dugos-vitrine-portrait.jpg">
-        <img class="heros-media" src="web/dugos-vitrine-plein.jpg" alt="La page d'accueil du site de Dugos Photographie : une grille de huit portraits." width="1600" height="1000" fetchpriority="high" data-ov>
-      </picture>
-    </div>
+    <!-- Titre au cadrage, à 150 px du haut (socle) -->
+    <h1 class="titre ouv-titre">
+      <span class="l fit"><span class="t">Dugos</span></span>
+      <span class="l fit"><span class="t">Photographie</span></span>
+    </h1>
 
-    <!-- La feuille blanche passe sur l'image au défilement -->
-    <div class="feuille">
-      <h1 class="titre ouv-titre">
-        <span class="l fit"><span class="t">Dugos</span></span>
-        <span class="l fit"><span class="t">Photographie</span></span>
-      </h1>
-
-      <section class="ouv-texte g12">
-        <div data-rv="txt">
-          <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
-          <p class="colophon">Refonte du site vitrine de Dugos Photographie, photographe de mariage et de portrait à Marmande. Seul, de la conception à la mise en ligne. Projet réalisé par <a href="../../About/index.html">Clément Gosselin</a>, Product Builder no-code et IA à Ynov Bordeaux.</p>
-          <!-- À CONFIRMER PAR CLÉMENT : année et outils. Suite prête : « 2026. Figma et WordPress. » -->
-          <!-- Lien en ligne. ADRESSE DU SITE : c'est le seul endroit à changer quand le nom de domaine changera. -->
-          <a class="site-lien" href="https://clement-gosselin.com/dugos-photo/" target="_blank" rel="noopener" data-cur="Voir">
-            Voir le site
-            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
-        </div>
-      </section>
-
-      <!-- Récit : trois à cinq paragraphes courts, chacun commence par une attaque en gras -->
-      <section class="recit g12">
-      <h2 class="lecteur">Le projet</h2>
-        <div class="recit-col">
-          <p data-rv="txt"><b class="lead">Une refonte.</b> Laurent est photographe de mariage et de portrait à Marmande. J'ai refait son site seul, de A à Z&nbsp;: conception, design, développement et mise en ligne. La refonte devait mettre son travail en avant, rassurer les futurs clients et générer des demandes de contact.</p>
-          <p data-rv="txt"><b class="lead">Les images d'abord.</b> J'ai mis la direction en retrait derrière les images&nbsp;: mosaïque en page d'accueil, dominante noir et blanc, typographie à empattements, interface discrète. Le portfolio est rangé en deux galeries, Mariages et Portraits, consultables en grille ou en défilement horizontal. Les avis Google servent de preuve sociale, et le formulaire de contact qualifie la demande par type de prestation.</p>
-          <!-- À CONFIRMER PAR CLÉMENT : adresse définitive, date de mise en ligne, retour du client. Phrase prête : « Le site est en ligne depuis septembre 2026. » -->
-        </div>
-      </section>
-
-      <!-- La planche-contact : 9 vues du site, dans l'ordre d'une visite (accueil, photos, avis, pied de page,
-           galeries, À propos, contact). Une seule porte la classe « choisie » au départ.
-           Dans chaque bouton : l'image de la vue en premier, puis le trait au marqueur (svg).
-           data-legende = la légende affichée sous la grande vue ; data-grande = une version plus grande de l'image (facultatif).
-           aria-label = ce que montre la vue, en quelques mots (« La page Galeries », pas « Vue 1 »). -->
-      <section class="planche-zone" aria-label="Les pages du site, en planche-contact">
-        <div class="planche">
-          <button type="button" class="vue" data-cur="Choisir" data-legende="L'accueil, en une phrase." aria-pressed="false" aria-label="L'accueil"><img src="web/dugos-accueil.webp" alt="Accueil du site : Photographe Marmande à votre service, au-dessus d'une silhouette en contre-jour." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue" data-cur="Choisir" data-legende="Les photos, bord à bord." aria-pressed="false" aria-label="La grille de photos"><img src="web/dugos-grille.webp" alt="Grille de huit photos de mariage et de portrait, bord à bord." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue" data-cur="Choisir" data-legende="Les avis Google, sur la page." aria-pressed="false" aria-label="Les avis"><img src="web/dugos-avis.webp" alt="Bloc avis clients : note de 5,0 sur 25 avis Google et un avis en carrousel." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue" data-cur="Choisir" data-legende="Le pied de page, en grand." aria-pressed="false" aria-label="Le pied de page"><img src="web/dugos-pied.webp" alt="Pied de page sombre : DUGOS en très grand, l'adresse email et les réseaux, sur une photo de bouquet." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue choisie" data-cur="Choisir" data-legende="Mariages d'un côté, portraits de l'autre." aria-pressed="true" aria-label="Les deux galeries"><img src="web/dugos-galeries.webp" alt="Deux grandes photos côte à côte : une mariée qui lance son bouquet et un portrait d'homme en noir et blanc." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue" data-cur="Choisir" data-legende="Une galerie, en grille." aria-pressed="false" aria-label="Une galerie en grille"><img src="web/dugos-galerie-grid.webp" alt="Galerie Portraits en grille : trois grands portraits en colonnes." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue" data-cur="Choisir" data-legende="La même, en bandeau." aria-pressed="false" aria-label="La même galerie en bandeau"><img src="web/dugos-galerie-flow.webp" alt="La même galerie en bandeau : des portraits de tailles variées, à faire défiler." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue" data-cur="Choisir" data-legende="Laurent se présente." aria-pressed="false" aria-label="La page À propos"><img src="web/dugos-a-propos.webp" alt="Page À propos : le portrait de Laurent et le texte Bonjour, moi c'est Laurent." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-          <button type="button" class="vue" data-cur="Choisir" data-legende="Le formulaire, pour écrire." aria-pressed="false" aria-label="Le contact"><img src="web/dugos-contact.webp" alt="Page Contact : une mariée avec deux enfants en noir et blanc, et le formulaire nom, email, sujet, message." width="2000" height="1182" loading="lazy"><svg class="marqueur" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2.6 3.4C30 1.2 70 2.6 97.8 1.6C98.9 30 97.6 70 98.6 97.4C70 98.8 30 97.2 1.4 98.4C2.6 70 1.2 30 3.6 0.8"/></svg></button>
-        </div>
-
-        <!-- La vue choisie, en grand : au chargement, la même image que la vue « choisie » ; ensuite le script reprend l'image du bouton cliqué -->
-        <figure class="grande">
-          <div class="grande-vue"><img src="web/dugos-galeries.webp" alt="Deux grandes photos côte à côte : une mariée qui lance son bouquet et un portrait d'homme en noir et blanc." width="2000" height="1182" loading="lazy"></div>
-          <figcaption class="legende">Mariages d'un côté, portraits de l'autre.</figcaption>
-        </figure>
-      </section>
-
-      <!-- Le parcours en vidéo : muette, en boucle, lancée quand elle est à l'écran, arrêtée hors écran (project.js, partie 4).
-           Un clic met en pause ou relance. En mouvement réduit, elle attend un clic. -->
-      <section class="parcours">
-        <figure>
-          <button type="button" class="parcours-vue" data-cur="Lire" aria-label="Lire la vidéo">
-            <video src="web/dugos-navigation-web.mp4" poster="web/dugos-navigation-poster.webp" width="1280" height="756" muted loop playsinline preload="none" data-auto aria-label="Navigation sur le site&nbsp;: accueil, photos, avis, galeries, page À propos et formulaire de contact."></video>
-          </button>
-          <figcaption class="legende">Une visite du site, de l'accueil au formulaire.</figcaption>
-        </figure>
-      </section>
-
-      <!-- Le site : un seul grand lien. Même adresse que le lien du colophon, changer les deux. -->
-      <section class="proto g12">
-        <a class="proto-lien" href="https://clement-gosselin.com/dugos-photo/" target="_blank" rel="noopener" data-cur="Voir" data-rv="txt">
-          <span class="proto-texte">Voir le <span class="proto-fin">site<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+    <section class="ouv-texte g12">
+      <div data-rv="txt">
+        <!-- Colophon : une phrase, le type, l'année, la méthode. Sans signature (décision de Clément, 2026-10-25) -->
+        <p class="colophon">Refonte du site de Dugos Photographie, photographe de mariage et de portrait à Marmande, en 2026. Un site qui existait déjà, refait de A à Z&nbsp;: moodboard, prototype Figma, puis développement avec une équipe d'agents IA que je pilote.</p>
+        <!-- Lien en ligne. ADRESSE DU SITE : même adresse que le grand lien plus bas, changer les deux. -->
+        <a class="site-lien" href="https://clement-gosselin47.github.io/dugos-photo/" target="_blank" rel="noopener" data-cur="Voir">
+          Voir le site
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </a>
-      </section>
+      </div>
+    </section>
 
-      <!-- Ce que j'en retiens : une seule phrase (le fait de la page).
-           À CONFIRMER PAR CLÉMENT : si cet avis est validé, il remplace la phrase ci-dessous (une seule phrase de fin par page) :
-           « Sur le site d'un photographe, le meilleur choix était de m'effacer derrière ses images. » -->
-      <section class="retiens g12">
-        <p data-rv="txt">Le portfolio est rangé en deux galeries, Mariages et Portraits.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
-      </section>
+    <!-- Le grand visuel, dans les marges : l'accueil du site de Laurent qui défile tout seul.
+         Vidéo muette en boucle, lecture quand elle est à l'écran, pause hors écran (project.js,
+         partie 4) ; un clic ou Espace met en pause ou relance. En mouvement réduit, le poster
+         reste et la vidéo attend un clic. Se révèle comme une image (data-rv="img" sur la figure). -->
+    <div class="vitrine-cadre g12">
+      <figure class="vitrine" data-rv="img">
+        <button type="button" class="heros-vue" data-cur="Pause" aria-label="Mettre la vidéo en pause">
+          <video class="heros-media ecran" src="web/dugos-parallaxe-web.mp4" poster="web/dugos-parallaxe-poster.webp" width="1600" height="904" muted loop playsinline autoplay preload="metadata" data-auto aria-label="L'accueil du site en cours de défilement, le titre et la photo ne bougent pas à la même vitesse."></video>
+        </button>
+      </figure>
     </div>
+
+    <h2 class="lecteur">Le projet</h2>
+
+    <!-- Section 1 : texte à gauche, l'ancien site à droite. Dans le DOM, toujours le texte
+         d'abord (mobile et lecteurs d'écran) ; la grille place l'image. Rien n'est cliquable. -->
+    <section class="regard g12">
+      <div class="regard-texte" data-rv="txt">
+        <h2 class="regard-titre">Un site qui existait déjà.</h2>
+        <p>Laurent est photographe de mariage et de portrait à Marmande. Il avait monté son site lui-même sur WordPress&nbsp;: fond noir, texte jaune, un bouton vert. Il tenait debout, mais ce n'était ni un site ergonomique ni un site qui convertit, et ce n'est pas son métier de le savoir. C'est là que je me suis positionné. Plutôt que de retoucher l'existant, je l'ai refait de A à Z&nbsp;: la structure des pages, le parcours jusqu'au contact, la direction artistique et le développement. L'ancien site m'a surtout servi de point de départ&nbsp;: tout ce qu'il ne faisait pas pour ses clients, le nouveau devait le faire.</p>
+      </div>
+      <figure class="regard-image">
+        <img class="ecran" src="web/dugos-avant.webp" alt="L'ancienne page d'accueil du site, faite sur WordPress : fond noir, texte jaune, bouton vert Prendre rendez-vous." width="2000" height="1182" loading="lazy" decoding="async">
+      </figure>
+    </section>
+
+    <!-- Section 2 : le prototype Figma à gauche, texte à droite (côté alterné) -->
+    <section class="regard regard-inverse g12">
+      <div class="regard-texte" data-rv="txt">
+        <h2 class="regard-titre">Une direction avant une ligne de code.</h2>
+        <p>J'ai commencé par regarder ce qui se faisait chez les photographes, et j'en ai tiré mes propres moodboards. Puis j'ai posé la structure dans Figma&nbsp;: les wireframes de l'accueil, de la page des catégories et des deux galeries, Mariage et Portrait, et un prototype pour tester le parcours. À la sortie, j'avais une direction artistique, un sens dans lequel aller. Les typographies ont été choisies pour son offre et pour la personne qu'il est&nbsp;: un photographe, ce n'est pas que des photos, c'est aussi quelqu'un qu'on a en face de soi pendant tout un événement. Le site devait montrer les deux.</p>
+      </div>
+      <figure class="regard-image">
+        <img class="ecran" src="web/dugos-figma.webp" alt="Le fichier Figma du site : quatre écrans en wireframe alignés, Homepage, Categories, Mariage, Portrait." width="2000" height="1392" loading="lazy" decoding="async">
+      </figure>
+    </section>
+
+    <!-- Section 3 : texte à gauche, la page About à droite (le portrait de Laurent : l'image
+         répond à la phrase de fin). Le book et le contact restent dans web/, le lien « Voir le site » fait le reste. -->
+    <section class="regard g12">
+      <div class="regard-texte" data-rv="txt">
+        <h2 class="regard-titre">Sobre, dans le ton de ses photos.</h2>
+        <p>Pour le développement, j'ai travaillé dans cmux avec Claude Code&nbsp;: je cadre une équipe d'agents IA, un rôle par panneau, et je la guide page après page, à partir du prototype. L'accueil défile en douceur, avec les parallaxes et les animations que je voulais mettre en avant. Le site est sobre, pas premium, dans le ton de ses photos. Le book enchaîne les mariages et les portraits à la suite, parce que c'est ce qu'un futur client vient voir. La page About dit qui est Laurent et comment il travaille, c'est important pour un photographe. Et des CTA, à chaque étape, mènent à la page contact, où la demande se fait en choisissant d'abord la prestation.</p>
+        <!-- À CONFIRMER PAR CLÉMENT : le site est-il livré à Laurent (son domaine sert encore l'ancien WordPress) ? Phrase prête : « Le site est en ligne depuis » + mois et année. Un retour de Laurent ou une demande reçue par le formulaire irait ici aussi. -->
+      </div>
+      <figure class="regard-image">
+        <img class="ecran" src="web/dugos-a-propos.webp" alt="Page About : le portrait de Laurent en bonnet et lunettes, et son texte Bonjour, moi c'est Laurent." width="2000" height="1182" loading="lazy" decoding="async">
+      </figure>
+    </section>
+
+    <!-- Ce que j'en retiens : sous le seul filet de la page, le titre à gauche, la phrase de Clément à droite au trait de marqueur -->
+    <section class="retiens g12">
+      <h2 class="retiens-titre" data-rv="txt">Ce que j'en retiens.</h2>
+      <p data-rv="txt">Un photographe, ce n'est pas que des photos&nbsp;: c'est aussi la personne.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
+      <!-- En réserve (textes-v2.md, pas retenu par la direction) : un court développement sous la phrase.
+           « Ses clients l'engagent pour une journée entière, pas pour une image. Le site devait donc montrer son travail
+           et le montrer lui, à parts égales : le book d'un côté, la page About de l'autre, et un contact à portée de main
+           partout. C'est la première chose que je regarde maintenant quand je reprends le site de quelqu'un. » -->
+    </section>
+
+    <!-- Le site : un seul grand lien. Même adresse que le lien du colophon, changer les deux. -->
+    <section class="proto g12">
+      <a class="proto-lien" href="https://clement-gosselin47.github.io/dugos-photo/" target="_blank" rel="noopener" data-cur="Voir" data-rv="txt">
+        <span class="proto-texte">Voir le <span class="proto-fin">site<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+      </a>
+    </section>
   </main>
 
   <footer class="fin">
@@ -164,6 +161,6 @@
   </footer>
 
   <script src="../../shared.js?v=20261025"></script>
-  <script src="../project.js?v=20261007d"></script>
+  <script src="../project.js?v=20261025b"></script>
 </body>
 </html>

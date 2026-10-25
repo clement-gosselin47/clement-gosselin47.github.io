@@ -5,7 +5,7 @@
    1. titres au cadrage      5. effets épinglés (portant, salle, deux pages, traverse, calque)
    2. entrée de page         6. planche-contact (Dugos)
    3. révélations au scroll  7. sorties : projet suivant et retour
-   4. boucle et parallaxe
+   4. boucle et parallaxe    8. défilement amorti (molette et trackpad)
    ═══════════════════════════════════════════════════════════════ */
 (function () {
   const doc = document.documentElement;
@@ -495,15 +495,7 @@
   function majEntete() {
     const sur = surCouleur();
     if (sur !== document.body.classList.contains('sur-couleur')) document.body.classList.toggle('sur-couleur', sur);
-    // Dugos : tant que la grille de photos est sous le header (la feuille blanche
-    // n'est pas encore montée), le menu est blanc franc sur un voile sombre
-    const feuille = document.querySelector('.p4 .feuille');
-    if (feuille) {
-      const h = entete.getBoundingClientRect();
-      const f = fleche ? fleche.getBoundingClientRect() : h;
-      const photo = feuille.getBoundingClientRect().top > Math.max(h.bottom, f.bottom);
-      if (photo !== document.body.classList.contains('sur-photo')) document.body.classList.toggle('sur-photo', photo);
-    }
+    // Dugos (2026-10-25) : plus de héros plein écran, la règle commune du header suffit.
   }
   if (entete) { effets.push(majEntete); majEntete(); }
 
@@ -539,7 +531,7 @@
   }
   if (rails.length) { retailles.push(majRails); majRails(); addEventListener('load', majRails); }
 
-  /* ── 6. Projet 4 : planche-contact ── */
+  /* ── 6. Projet 4 : planche-contact (sortie de la page le 2026-10-25, code gardé, inerte sans .planche) ── */
   const planche = document.querySelector('.planche');
   if (planche) {
     const vues = [...planche.querySelectorAll('.vue')];
@@ -638,6 +630,72 @@
     departs.splice(0).forEach(a => a.cancel());
     document.querySelectorAll('.ov').forEach(o => o.remove());
   });
+
+  /* ── 8. Défilement amorti (demande de Clément, 2026-10-25 : « un scroll lent mais smooth
+     sur chaque page projet ») ──
+     Même mécanique que la vue liste de Works (module Liste de script.js), un peu moins
+     freinée parce que les pages sont longues : chaque cran de molette ou de trackpad
+     ajoute à une cible (FREIN fois le geste), et la page rejoint cette cible frame après
+     frame, de plus en plus doucement (constante de temps TAU, indépendante de la
+     fréquence d'écran). Les effets épinglés lisent la position réelle : ils suivent.
+     Tactile, clavier, barre de défilement, défilement horizontal des rails (Hecto) et
+     mouvement réduit restent natifs, et tout geste natif interrompt l'amorti. La fenêtre
+     de Relay garde sa molette : les événements d'une iframe ne remontent pas ici. */
+  const FREIN = 0.6;     // 100 px de molette = 60 px de page (0,45 en vue liste)
+  const TAU = 200;       // ms : à 200 ms il reste 37 % du chemin, à 600 ms 5 %
+  let cibleY = null;     // où la page doit arriver ; null = pas d'amorti en cours
+  let attenduY = 0;      // position posée au dernier pas (pour voir si quelqu'un d'autre a défilé)
+  let dernierPas = 0;
+  let amortiDemande = false;
+
+  function annulerAmorti() {
+    cibleY = null;
+    amortiDemande = false;
+  }
+
+  function pasAmorti(t) {
+    amortiDemande = false;
+    if (cibleY === null) return;
+    const y = window.scrollY;
+    if (Math.abs(y - attenduY) > 1) { annulerAmorti(); return; }   // un autre geste a pris la main
+    const d = cibleY - y;
+    if (Math.abs(d) < 1) {
+      window.scrollTo(0, Math.round(cibleY));
+      annulerAmorti();
+      return;
+    }
+    const dt = Math.min(64, Math.max(1, t - dernierPas));
+    dernierPas = t;
+    let avance = d * (1 - Math.exp(-dt / TAU));
+    if (Math.abs(avance) < 1) avance = Math.sign(d);              // Chrome arrondit au pixel : toujours avancer
+    attenduY = Math.round(y + avance);
+    window.scrollTo(0, attenduY);
+    amortiDemande = true;
+    requestAnimationFrame(pasAmorti);
+  }
+
+  if (!reduit) {
+    addEventListener('wheel', (e) => {
+      if (e.ctrlKey) return;                                // pincement = zoom du navigateur
+      if (e.defaultPrevented) return;
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;  // geste horizontal : un rail, natif
+      if (departs.length) return;                           // la page part : elle ne bouge plus
+      let delta = e.deltaY;
+      if (e.deltaMode === 1) delta *= 40;                   // lignes (Firefox)
+      else if (e.deltaMode === 2) delta *= innerHeight;
+      if (!delta) return;
+      e.preventDefault();
+      const max = Math.max(0, doc.scrollHeight - innerHeight);
+      if (cibleY === null) { cibleY = window.scrollY; attenduY = window.scrollY; dernierPas = performance.now(); }
+      cibleY = borne(cibleY + delta * FREIN, 0, max);
+      if (!amortiDemande) { amortiDemande = true; requestAnimationFrame(pasAmorti); }
+    }, { passive: false });
+
+    // Un geste natif reprend la main : doigt posé, touche, clic sur la barre
+    addEventListener('touchstart', annulerAmorti, { passive: true });
+    addEventListener('keydown', annulerAmorti);
+    addEventListener('pointerdown', annulerAmorti);
+  }
 
   /* ── Lancement ── */
   let delai = 0;
