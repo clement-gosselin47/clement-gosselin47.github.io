@@ -33,15 +33,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../shared.css?v=20261025">
-  <link rel="stylesheet" href="../project-style.css?v=20261025b">
+  <link rel="stylesheet" href="../project-style.css?v=20261025c">
 </head>
 <!-- MODE D'EMPLOI
-     Textes : tout est dans <main>, dans l'ordre de la page (colophon, récit, calque, prototype, phrase de fin).
-     Images : dans le dossier web/ de ce projet, en .webp ; une phrase simple dans alt.
+     Textes : tout est dans <main>, dans l'ordre de la page (intro, trois sections en regard, ce que j'en retiens, grand lien).
+     Images : dans le dossier web/ de ce projet, en .webp ; une phrase simple dans alt. Pas de légende : le paragraphe d'à côté raconte l'image.
      Couleur du projet : --c dans le style de <body> (--c-ink = encre lisible sur la couleur).
      Prototype Figma : la même adresse à deux endroits (sous le colophon et dans le grand lien), changer les deux.
-     Mise en scène de cette page : le titre traverse l'écran jaune, puis le calque :
-     le wireframe et la maquette l'un sur l'autre, un trait jaune passe de l'un à l'autre au défilement. -->
+     Mise en scène de cette page : le titre traverse l'écran jaune (inchangé), puis trois sections texte et image côte à côte
+     (le brief et l'équipe, les wireframes et le prototype, ce que ça donnait pour la suite), et ce que j'en retiens
+     (récit en regard, gabarit de la série de reprises, charte §16 et §17). -->
 <body class="projet p5" style="--c: #FFD400; --c-ink: #000" data-entree="retrait">
   <div class="cursor" id="cursor"></div>
 
@@ -76,14 +77,14 @@
           <img src="web/queen-maquette-discographie.webp" alt="Maquette de la discographie du site Queen, pochettes d'albums en bandes verticales." width="1512" height="1127">
         </div>
         <div class="carton carton-c" data-v="2">
-          <img class="recadre" src="web/queen-maquette-album.webp" alt="La même fiche en maquette : la pochette d'A Night At The Opera, le titre et les boutons Écouter et Acheter." width="1512" height="1640" style="--w: 140%; --l: -16.67%; --h: 0%">
+          <img class="recadre" src="web/queen-maquette-album.webp" alt="Fiche album en maquette : la pochette d'A Night At The Opera, le titre et les boutons Écouter et Acheter." width="1512" height="1640" style="--w: 140%; --l: -16.67%; --h: 0%">
         </div>
 
         <h1 class="titre fit"><span class="l"><span class="t">Queen</span></span></h1>
 
         <div class="colophon" data-rv="txt">
-          <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
-          <p>Site d'artiste avec boutique, 2026. Yboost, le gros projet de l'année à Ynov Bordeaux, à quatre sur plusieurs mois. Mon rôle&nbsp;: wireframes et prototype interactif. Figma. Projet réalisé par <a href="../../About/index.html">Clément Gosselin</a>, Product Builder no-code et IA à Ynov Bordeaux.</p>
+          <!-- Colophon : une phrase, le type, l'année, ton rôle. Sans signature (décision de Clément, 2026-10-25) -->
+          <p>Site vitrine et boutique pour Queen, projet Yboost à Ynov Bordeaux, 2026. Un mois à quatre&nbsp;: trois sur Figma, une personne sur WordPress. Mon rôle&nbsp;: moodboard, wireframes et prototype interactif, desktop et mobile.</p>
           <!-- Prototype Figma en lecture seule. ADRESSE DU PROTOTYPE : la même dans le grand lien plus bas, changer les deux.
                Les & s'écrivent &amp; ici. -->
           <a class="site-lien" href="https://www.figma.com/proto/C8Jamn9TLYGX7pIi0TZty4/Queen_Yboost?node-id=218-38&amp;viewport=92%2C263%2C0.04&amp;t=QGug9CN0ept21shk-1&amp;scaling=min-zoom&amp;content-scaling=fixed&amp;starting-point-node-id=218%3A38&amp;page-id=83%3A144" target="_blank" rel="noopener" data-cur="Voir">
@@ -96,54 +97,54 @@
       </div>
     </section>
 
-    <!-- Récit : trois à cinq paragraphes courts -->
-    <section class="recit g12">
-      <h2 class="lecteur">Le projet</h2>
-      <div class="recit-col">
-        <p data-rv="txt"><b class="lead">Le brief Yboost.</b> Un site WordPress consacré à un artiste, conçu de bout en bout, du wireframe au prototype, avec son design system. À quatre, on a choisi Queen. Le site mêle vitrine et e-commerce&nbsp;: une discographie, des contenus éditoriaux sur l'histoire du groupe et une boutique de vinyles.</p>
-        <p data-rv="txt"><b class="lead">Du wireframe au prototype.</b> J'ai réalisé les wireframes basse fidélité de tout le parcours&nbsp;: accueil, discographie, fiche album, boutique, fiche produit, panier, contact et blog. La navigation typographique de l'accueil est posée dès ce stade. Les maquettes haute fidélité reposent sur un design system commun (typographies, couleurs, composants) qui aligne la boutique et les pages éditoriales. J'ai ensuite relié tous les écrans en prototype interactif sur Figma, qui a servi de base à l'intégration WordPress faite par une autre personne du groupe.</p>
+    <h2 class="lecteur">Le projet</h2>
+
+    <!-- Section 1 : texte à gauche, la boutique à droite. Dans le DOM, toujours le texte
+         d'abord (mobile et lecteurs d'écran) ; la grille place l'image. Rien n'est cliquable. -->
+    <section class="regard g12">
+      <div class="regard-texte" data-rv="txt">
+        <h2 class="regard-titre">Un artiste, un site, une boutique.</h2>
+        <p>Queen, c'est un projet étudiant fait à quatre pour le Yboost, à Ynov Bordeaux. Le principe&nbsp;: prendre un ou plusieurs artistes et leur créer un site WordPress, vitrine et vendeur, avec une boutique, pour montrer leur projet. On a choisi Queen. Trois d'entre nous ont travaillé sur Figma, une personne sur WordPress. Chacun des trois a fait son moodboard, et l'équipe a gardé celui qui l'intéressait le plus. Les typos et les couleurs, on les a choisies ensemble. Moi, j'étais sur Figma&nbsp;: le moodboard, la récupération des photos et des images, et tout le prototypage de la maquette, des wireframes au prototype.</p>
       </div>
+      <figure class="regard-image">
+        <img class="ecran" src="web/queen-maquette-shop.webp" alt="Maquette de la boutique Musique : huit vinyles de Queen en grille, de Queen I à Innuendo, chacun à 34,70 €." width="1512" height="1500" loading="lazy" decoding="async">
+      </figure>
     </section>
 
-    <!-- Le calque : wireframe et maquette au même format, l'un sur l'autre.
-         Au défilement, un trait jaune balaie le cadre de gauche à droite et découvre la maquette.
-         Une paire = une <figure class="paire"> : le wireframe (class="wf") puis la maquette (class="mq").
-         Les deux images d'une paire ont la même largeur et partent du même haut de page.
-         Sans JavaScript ou en mouvement réduit : les paires s'empilent, figées à moitié. -->
-    <section class="calque" data-pin="calque" data-rv-non aria-label="Du wireframe à la maquette, quatre pages">
-      <div class="calque-scene">
-        <div class="calque-cadre">
-          <figure class="paire">
-            <img class="wf" src="web/queen-wf-accueil.webp" alt="Wireframe de l'accueil du site Queen : une grande image barrée d'une croix et le menu en grosses lettres." width="1512" height="890" loading="lazy" decoding="async">
-            <img class="mq" src="web/queen-maquette-accueil.webp" alt="Maquette de l'accueil : photo des quatre membres de Queen, menu Shop, Experience, Discographie, Contact en lettres détourées." width="1512" height="890" loading="lazy" decoding="async">
-            <span class="trait" aria-hidden="true"></span>
-            <figcaption class="paire-nom">L'accueil</figcaption>
-          </figure>
-          <figure class="paire">
-            <img class="wf" src="web/queen-wf-album.webp" alt="Wireframe de la fiche d'un album du site Queen : pochette barrée, titre, deux boutons et la barre du lecteur." width="1512" height="1640" loading="lazy" decoding="async">
-            <img class="mq" src="web/queen-maquette-album.webp" alt="Maquette de la fiche d'un album dans la discographie de Queen : A Night At The Opera, les boutons Écouter et Acheter, le lecteur et la liste des titres." width="1512" height="1640" loading="lazy" decoding="async">
-            <span class="trait" aria-hidden="true"></span>
-            <figcaption class="paire-nom">La fiche d'un album</figcaption>
-          </figure>
-          <figure class="paire">
-            <img class="wf" src="web/queen-wf-produit.webp" alt="Wireframe de la fiche produit du site Queen." width="1512" height="1320" loading="lazy" decoding="async">
-            <img class="mq" src="web/queen-maquette-produit.webp" alt="Maquette de la fiche produit du vinyle Queen I : photo, prix, bouton Ajouter au panier." width="1512" height="1320" loading="lazy" decoding="async">
-            <span class="trait" aria-hidden="true"></span>
-            <figcaption class="paire-nom">La fiche d'un vinyle</figcaption>
-          </figure>
-          <figure class="paire">
-            <img class="wf" src="web/queen-wf-experience.webp" alt="Wireframe de la page Experience du site Queen." width="1512" height="856" loading="lazy" decoding="async">
-            <img class="mq" src="web/queen-maquette-experience.webp" alt="Maquette de la page Experience : titre The First Encounter, l'année 1970 et des photos du groupe en collage." width="1512" height="856" loading="lazy" decoding="async">
-            <span class="trait" aria-hidden="true"></span>
-            <figcaption class="paire-nom">Experience</figcaption>
-          </figure>
-        </div>
-        <!-- Légende commune pendant le balayage (remplie par project.js) -->
-        <div class="calque-legende" aria-hidden="true">
-          <span class="calque-nom">L'accueil</span>
-          <span class="calque-etat">Le wireframe</span>
-        </div>
+    <!-- Section 2 : l'accueil à gauche (le wireframe au-dessus de sa maquette, même largeur, une seule
+         figure qui se révèle d'un bloc), texte à droite (côté alterné). Rien entre les deux images. -->
+    <section class="regard regard-inverse g12">
+      <div class="regard-texte" data-rv="txt">
+        <h2 class="regard-titre">Des wireframes au prototype, desktop et mobile.</h2>
+        <p>À deux, on a posé les wireframes, en desktop et en mobile&nbsp;: l'accueil, la discographie, la fiche album, la boutique, la fiche produit, la page Experience. Puis le prototype, desktop et mobile lui aussi. On a essayé de le pousser le plus loin possible, à être limite fonctionnel dans les limites de Figma. Ce n'est pas un site, Figma ne le permet pas, mais tout ce qui est bouton interactif marche. On a mis les sons, la liste des albums du groupe, et avec elle toute une biographie animée en parallaxe, qui se lit d'une étape à l'autre.</p>
       </div>
+      <figure class="regard-image regard-paire" data-rv="img">
+        <img class="ecran" src="web/queen-wf-accueil.webp" alt="Wireframe de l'accueil du site Queen : une grande image barrée d'une croix et le menu en grosses lettres." width="1512" height="890" loading="lazy" decoding="async">
+        <img class="ecran" src="web/queen-maquette-accueil.webp" alt="Maquette de l'accueil : photo des quatre membres de Queen, menu Shop, Experience, Discographie, Contact en lettres détourées." width="1512" height="890" loading="lazy" decoding="async">
+      </figure>
+    </section>
+
+    <!-- Section 3 : texte à gauche, la page L'Opéra Baroque à droite (une étape de la biographie animée).
+         À CONFIRMER PAR CLÉMENT (textes.md, point 1) : si cette page n'est pas une étape de la biographie en parallaxe,
+         remplacer par web/queen-maquette-discographie.webp (1512 × 1127), alt : « Maquette de la discographie : les pochettes
+         des albums de Queen en bandes verticales, d'A Night At The Opera à Queen II, et le pied de page du site. » -->
+    <section class="regard g12">
+      <div class="regard-texte" data-rv="txt">
+        <h2 class="regard-titre">Un prototype fait pour la suite.</h2>
+        <p>Le prototype n'était pas une fin en soi. La personne qui faisait le site sur WordPress partait de lui&nbsp;: chaque écran, chaque bouton qui répond, le parcours de la boutique à la fiche produit, tout devait être là pour qu'elle ait le mieux possible entre les mains. C'est pour ça qu'on l'a poussé aussi loin. En tout, un mois environ, et autour de seize heures de travail en comptant les cours.</p>
+      </div>
+      <figure class="regard-image">
+        <img class="ecran" src="web/queen-maquette-opera-baroque.webp" alt="Maquette de la page L'Opéra Baroque, 1975 : le récit de Bohemian Rhapsody en colonne, quatre photos du groupe en collage sur un fond de concert, deux flèches pour passer d'une étape à l'autre." width="1512" height="1290" loading="lazy" decoding="async">
+      </figure>
+    </section>
+
+    <!-- Ce que j'en retiens : sous le seul filet de la page, le titre à gauche, la phrase de Clément à droite au trait de marqueur -->
+    <section class="retiens g12">
+      <h2 class="retiens-titre" data-rv="txt">Ce que j'en retiens.</h2>
+      <p data-rv="txt">Le prototype lui-même.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
+      <!-- En réserve (textes.md, point 6, hors gabarit de la série) : un court développement en regard de la phrase.
+           « On a réussi à faire de belles choses : les sons, la liste des albums du groupe avec sa biographie animée
+           en parallaxe, et un Figma où tout ce qui se clique répond. Un prototype qu'on parcourt presque comme le site. » -->
     </section>
 
     <!-- Le prototype : un seul grand lien. Même adresse que le lien du colophon, changer les deux. -->
@@ -151,11 +152,6 @@
       <a class="proto-lien" href="https://www.figma.com/proto/C8Jamn9TLYGX7pIi0TZty4/Queen_Yboost?node-id=218-38&amp;viewport=92%2C263%2C0.04&amp;t=QGug9CN0ept21shk-1&amp;scaling=min-zoom&amp;content-scaling=fixed&amp;starting-point-node-id=218%3A38&amp;page-id=83%3A144" target="_blank" rel="noopener" data-cur="Voir" data-rv="txt">
         <span class="proto-texte">Voir le <span class="proto-fin">prototype<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
       </a>
-    </section>
-
-    <!-- Ce que j'en retiens : une seule phrase -->
-    <section class="retiens g12">
-      <p data-rv="txt">Le menu en grosses lettres que j'avais posé dans le wireframe gris est resté jusqu'au site final.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
     </section>
   </main>
 
@@ -168,6 +164,6 @@
   </footer>
 
   <script src="../../shared.js?v=20261025"></script>
-  <script src="../project.js?v=20261025b"></script>
+  <script src="../project.js?v=20261025c"></script>
 </body>
 </html>

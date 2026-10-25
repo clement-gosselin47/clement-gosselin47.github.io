@@ -834,7 +834,8 @@ html.js .p2 .affiche-finale {
   height: 18px;
 }
 
-.p4 figure {
+.p4 figure,
+.p5 figure {
   margin: 0;
 }
 
@@ -865,37 +866,46 @@ html.js .p2 .affiche-finale {
   object-position: 50% 0;
 }
 
-/* Les trois sections en regard : le texte d'abord dans le DOM, la grille place l'image */
-.p4 .regard {
+/* Gabarit de la série de reprises (charte §16, §17) : Dugos (p4) puis Queen (p5), mêmes valeurs.
+   Les trois sections en regard : le texte d'abord dans le DOM, la grille place l'image */
+.p4 .regard,
+.p5 .regard {
   margin-top: 140px;
   align-items: start;
 }
 
-.p4 .regard-texte {
+.p4 .regard-texte,
+.p5 .regard-texte {
   grid-column: 1 / 6;
 }
 
-.p4 .regard-image {
+.p4 .regard-image,
+.p5 .regard-image {
   grid-column: 7 / 13;
 }
 
 /* Côté alterné : le texte reste premier dans le DOM, l'image passe à gauche. Placement dense,
    sinon la grille épargne la rangée et pose l'image sous le texte. */
-.p4 .regard-inverse {
+.p4 .regard-inverse,
+.p5 .regard-inverse {
   grid-auto-flow: dense;
 }
 
-.p4 .regard-inverse .regard-image {
+.p4 .regard-inverse .regard-image,
+.p5 .regard-inverse .regard-image {
   grid-column: 1 / 7;
 }
 
-.p4 .regard-inverse .regard-texte {
+.p4 .regard-inverse .regard-texte,
+.p5 .regard-inverse .regard-texte {
   grid-column: 8 / 13;
 }
 
 /* Titre court : la version titre de .lead, avec son point final */
 .p4 .regard-titre,
-.p4 .retiens-titre {
+.p5 .regard-titre,
+.p4 .retiens-titre,
+.p5 .retiens-titre {
   margin: 0 0 20px;
   font-family: 'Archivo Black', sans-serif;
   font-weight: 400;
@@ -905,7 +915,8 @@ html.js .p2 .affiche-finale {
   color: var(--fg);
 }
 
-.p4 .regard-texte p {
+.p4 .regard-texte p,
+.p5 .regard-texte p {
   margin: 0;
   font-size: 19px;
   line-height: 1.6;
@@ -913,32 +924,44 @@ html.js .p2 .affiche-finale {
   max-width: 34em;
 }
 
-.p4 .regard-image img {
+.p4 .regard-image img,
+.p5 .regard-image img {
   width: 100%;
   background: var(--c-15);          /* emplacement réservé tant que l'image n'est pas là */
 }
 
+/* Une figure peut empiler deux images de même largeur qui se lisent ensemble (charte §17 ;
+   Queen : le wireframe au-dessus de sa maquette), 24 px entre les deux, rien d'autre */
+.regard-paire {
+  display: grid;
+  gap: 24px;
+}
+
 /* Ce que j'en retiens : le seul filet de la page, dans les marges ; titre à gauche, phrase à droite */
-.p4 .retiens {
+.p4 .retiens,
+.p5 .retiens {
   margin: 140px var(--m) 0;
   padding: 56px 0 0;
   border-top: var(--filet);
   align-items: start;
 }
 
-.p4 .retiens-titre {
+.p4 .retiens-titre,
+.p5 .retiens-titre {
   grid-column: 1 / 6;
   margin: 0;
 }
 
-.p4 .retiens p {
+.p4 .retiens p,
+.p5 .retiens p {
   grid-column: 7 / 13;
   margin: 0;
   font-size: clamp(24px, 2.4vw, 34px);
   line-height: 1.15;
 }
 
-.p4 .proto {
+.p4 .proto,
+.p5 .proto {
   margin-top: 140px;
 }
 
@@ -946,24 +969,32 @@ html.js .p2 .affiche-finale {
 @media (max-width: 1099px) {
   .p4 .ouv-texte > div,
   .p4 .regard-texte,
+  .p5 .regard-texte,
   .p4 .regard-image,
+  .p5 .regard-image,
   .p4 .regard-inverse .regard-texte,
+  .p5 .regard-inverse .regard-texte,
   .p4 .regard-inverse .regard-image,
+  .p5 .regard-inverse .regard-image,
   .p4 .retiens-titre,
-  .p4 .retiens p {
+  .p5 .retiens-titre,
+  .p4 .retiens p,
+  .p5 .retiens p {
     grid-column: 1 / -1;
   }
 
-  .p4 .regard-image {
+  .p4 .regard-image,
+  .p5 .regard-image {
     margin-top: 28px;
   }
 
-  .p4 .retiens p {
+  .p4 .retiens p,
+  .p5 .retiens p {
     margin-top: 20px;
   }
 }
 
-/* ═══ Projet 5, Queen : le titre qui traverse ═══ */
+/* ═══ Projet 5, Queen : le titre qui traverse (le récit en regard dessous suit le gabarit p4 / p5 ci-dessus) ═══ */
 .p5 .traverse {
   position: relative;
   height: 200vh;
@@ -1025,162 +1056,7 @@ html.js .p2 .affiche-finale {
   color: #000;
 }
 
-/* Le calque : wireframe et maquette l'un sur l'autre, un trait jaune balaie
-   de gauche à droite (direction 2026-10-03-queen D). Rendu de base = lecture
-   empilée, figée à moitié (sans JS, mouvement réduit). html.calque-ok = épinglé. */
-.p5 .calque {
-  --ratio: 1512 / 890;
-  --trait: 6px;
-  margin-top: 160px;
-  padding: 0 var(--m);
-}
-
-.p5 .calque-cadre {
-  display: grid;
-  gap: 88px;
-  justify-items: center;
-}
-
-/* Une paire = un cadre au ratio des fichiers, l'écran clair au filet de Works */
-.p5 .paire {
-  position: relative;
-  width: min(100%, calc(74vh * 1512 / 890));
-  aspect-ratio: var(--ratio);
-  margin: 0;
-  outline: var(--filet);
-  outline-offset: -0.5px;
-  --p: 50%;
-}
-
-.p5 .paire img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  object-position: top;
-}
-
-.p5 .paire .mq {
-  clip-path: inset(0 calc(100% - var(--p)) 0 0);
-}
-
-/* Le trait : jaune bordé de noir, lisible sur le gris comme sur le noir.
-   Sans JS il est posé au milieu (left), épinglé il suit le bord par transform */
-.p5 .trait {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: var(--p);
-  z-index: 2;
-  width: var(--trait);
-  margin-left: calc(var(--trait) / -2);
-  box-sizing: border-box;
-  background: var(--c);
-  border-left: 1px solid #000;
-  border-right: 1px solid #000;
-  transition: opacity 0.2s ease;
-}
-
-.p5 .paire-nom {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--fg);
-}
-
-.p5 .calque-legende {
-  display: none;
-}
-
-/* Épinglé : un seul cadre au centre de l'écran, les paires empilées dedans */
-html.calque-ok .p5 .calque {
-  position: relative;
-  height: calc(100vh + var(--n, 4) * 90vh);
-  padding: 0;
-}
-
-html.calque-ok .p5 .calque-scene {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-html.calque-ok .p5 .calque-cadre {
-  display: block;
-  position: relative;
-  height: min(74vh, calc((100vw - 2 * var(--m)) * 890 / 1512));
-  aspect-ratio: var(--ratio);
-  overflow: hidden;
-  outline: var(--filet);
-  outline-offset: -0.5px;
-}
-
-html.calque-ok .p5 .paire {
-  position: absolute;
-  inset: 0;
-  width: auto;
-  aspect-ratio: auto;
-  outline: none;
-  clip-path: inset(var(--e, 0%) 0 0 0);
-}
-
-/* Épinglé, le trait suit le bord par transform (posé par project.js) */
-html.calque-ok .p5 .paire .trait {
-  left: 0;
-  will-change: transform, opacity;
-}
-
-html.calque-ok .p5 .paire .mq {
-  will-change: clip-path;
-}
-
-/* Le nom de chaque paire reste pour les lecteurs d'écran ; à l'œil, la légende commune */
-html.calque-ok .p5 .paire-nom {
-  top: auto;
-  margin: 0;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-html.calque-ok .p5 .calque-legende {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 16px;
-  width: calc(min(74vh, calc((100vw - 2 * var(--m)) * 890 / 1512)) * 1512 / 890);
-  margin-top: 16px;
-}
-
-.p5 .calque-nom,
-.p5 .calque-etat {
-  transition: opacity 0.3s ease;
-}
-
-.p5 .calque-nom {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--fg);
-}
-
-.p5 .calque-etat {
-  font-size: 14px;
-  color: var(--muted);
-  transition-duration: 0.2s;
-}
-
-/* Le prototype : un seul grand lien, souligné en jaune au survol, comme le trait du calque */
+/* Le prototype : un seul grand lien, souligné dans la couleur du projet au survol */
 .proto {
   margin-top: 160px;
 }
@@ -1529,33 +1405,44 @@ html.calque-ok .p5 .calque-legende {
     scroll-snap-align: start;
   }
 
-  /* Projet 4 : même page en une colonne, rythme de 88 px */
+  /* Projets 4 et 5 (gabarit de la série) : même page en une colonne, rythme de 88 px */
   .p4 .ouv-titre {
     padding-top: 190px;
   }
 
   .p4 .vitrine-cadre,
   .p4 .regard,
-  .p4 .proto {
+  .p5 .regard,
+  .p4 .proto,
+  .p5 .proto {
     margin-top: 88px;
   }
 
-  .p4 .retiens {
+  .p4 .retiens,
+  .p5 .retiens {
     margin-top: 88px;
     padding-top: 40px;
   }
 
   .p4 .regard-titre,
-  .p4 .retiens-titre {
+  .p5 .regard-titre,
+  .p4 .retiens-titre,
+  .p5 .retiens-titre {
     font-size: 22px;
   }
 
-  .p4 .regard-texte p {
+  .p4 .regard-texte p,
+  .p5 .regard-texte p {
     font-size: 17px;
   }
 
-  .p4 .retiens p {
+  .p4 .retiens p,
+  .p5 .retiens p {
     font-size: 26px;
+  }
+
+  .regard-paire {
+    gap: 16px;
   }
 
   /* Projet 5 */
@@ -1599,48 +1486,6 @@ html.calque-ok .p5 .calque-legende {
   .p5 .traverse .colophon {
     position: static;
     margin: 40px var(--m) 0;
-  }
-
-  .p5 .calque {
-    --trait: 4px;
-    margin-top: 96px;
-  }
-
-  .p5 .calque-cadre {
-    gap: 64px;
-  }
-
-  .p5 .paire {
-    width: 100%;
-  }
-
-  .p5 .paire-nom,
-  .p5 .calque-nom {
-    font-size: 14px;
-  }
-
-  .p5 .calque-etat {
-    font-size: 13px;
-  }
-
-  /* Épinglé en mobile : cadre pleine largeur utile, centré à 45 % de l'écran */
-  html.calque-ok .p5 .calque {
-    height: calc(100svh + var(--n, 4) * 80svh);
-  }
-
-  html.calque-ok .p5 .calque-scene {
-    height: 100svh;
-    justify-content: flex-start;
-    padding-top: calc(45svh - (100vw - 2 * var(--m)) * 890 / 1512 / 2);
-  }
-
-  html.calque-ok .p5 .calque-cadre {
-    width: calc(100vw - 2 * var(--m));
-    height: auto;
-  }
-
-  html.calque-ok .p5 .calque-legende {
-    width: calc(100vw - 2 * var(--m));
   }
 
   .proto {
