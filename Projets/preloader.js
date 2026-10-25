@@ -4,6 +4,11 @@
 // profondeurs différentes, puis se collent une à une pour former la grille.
 // Le lien WORKS sert de compteur 000 → 100, puis se déroule en menu à rouleaux.
 // Une fois par session. Nécessite window.Works (script.js, chargé avant).
+// Raccourci de moitié le 2026-10-25 (2026-10-25-preloader-court, demande de Clément :
+// « on veut arriver directement sur le vif du sujet ») : apparition 250 ms, départs
+// étalés sur 1,4 s, vols de 700 ms, tenue à 100 de 120 ms, rouleaux de 450 ms. Il
+// n'attend toujours pas plus que le chargement réel des visuels. L'icône grille / liste
+// (.vue-toggle) monte au même instant que les rouleaux de WORKS, même durée, même easing.
 (function () {
   if (!window.Works) return;
 
@@ -47,6 +52,7 @@
 
   // ---------- Menu : mesures prises sur le vrai rendu, avant les rouleaux ----------
   const [lienWorks, lienAbout, lienContact] = document.querySelectorAll('header nav a');
+  const icone = document.querySelector('.vue-toggle');   // montée avec le menu (point 2)
   function mesurer(a) {
     const r = a.getBoundingClientRect();
     return { h: r.height, w: r.width / a.textContent.length }; // largeur d'un caractère + letter-spacing
@@ -105,7 +111,7 @@
       const cible = m < r.n ? m + 10 : m; // 9 → 0 : on continue de monter
       const a = r.bande.animate(
         [{ transform: `translateY(${-r.n * r.m.h}px)` }, { transform: `translateY(${-cible * r.m.h}px)` }],
-        { duration: 160, easing: 'cubic-bezier(.7, 0, .2, 1)', fill: 'forwards' }
+        { duration: 120, easing: 'cubic-bezier(.7, 0, .2, 1)', fill: 'forwards' }
       );
       r.n = m;
       a.onfinish = () => { r.bande.style.transform = `translateY(${-m * r.m.h}px)`; a.cancel(); };
@@ -143,8 +149,8 @@
     c.el.style.opacity = c.opVol;
     c.el.style.borderColor = 'transparent';
     c.el.style.willChange = 'transform, filter, opacity';
-    // Apparition de toutes les cases en même temps, 400 ms (décision 6)
-    c.el.animate([{ opacity: 0 }, { opacity: c.opVol }], { duration: 400, easing: 'ease' });
+    // Apparition de toutes les cases en même temps, 250 ms (décision 6, 400 avant le raccourci)
+    c.el.animate([{ opacity: 0 }, { opacity: c.opVol }], { duration: 250, easing: 'ease' });
   });
 
   // Ordre : du centre vers les bords, la case centrale (index 12) en premier (décision 9)
@@ -191,19 +197,22 @@
   }
 
   // ---------- Ligne de temps minimale (décisions 14, 15, 38) ----------
+  // Départs étalés de 150 ms à 1550 ms (300 à 3500 avant le raccourci), vols de 700 ms
+  // (1100), 600 pour les retardataires (900) : dernière case posée vers 2,3 s au lieu de 4,6
   const N = ordre.length;
-  const depart = i => reduit ? 300 + 80 * i : 300 + 3200 * Math.pow(i / (N - 1), 0.85);
+  const VOL = 700, VOL_COURT = 600;
+  const depart = i => reduit ? 150 + 40 * i : 150 + 1400 * Math.pow(i / (N - 1), 0.85);
 
   function creneau(k) {
     // Première case prête dans l'ordre ; celles qui ne le sont pas sont « sautées »
     for (const c of ordre) {
       if (c.lance) continue;
-      if (c.pret) { lancer(c, 1100); break; }
+      if (c.pret) { lancer(c, VOL); break; }
       c.saute = true;
     }
     if (k === N - 1) {
       ligneFinie = true;
-      ordre.forEach(c => { if (!c.lance && c.pret) lancer(c, 900); });
+      ordre.forEach(c => { if (!c.lance && c.pret) lancer(c, VOL_COURT); });
     }
   }
   for (let k = 0; k < N; k++) setTimeout(() => creneau(k), depart(k));
@@ -222,7 +231,7 @@
           c.media.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250, easing: 'ease' });
           c.el.style.removeProperty('background');
         }
-        if (c.saute || ligneFinie) lancer(c, ligneFinie ? 900 : 1100);
+        if (c.saute || ligneFinie) lancer(c, ligneFinie ? VOL_COURT : VOL);
       });
     };
     img.onload = () => fini(true);
@@ -230,8 +239,8 @@
     img.src = imageDe(p);
   });
 
-  // Plafond 9 s : tout ce qui attend part ensemble (décision 16)
-  setTimeout(() => { ordre.forEach(c => { if (!c.lance) { c.pret = true; lancer(c, 900); } }); }, 9000);
+  // Plafond 6 s (9 avant le raccourci) : tout ce qui attend part ensemble (décision 16)
+  setTimeout(() => { ordre.forEach(c => { if (!c.lance) { c.pret = true; lancer(c, VOL_COURT); } }); }, 6000);
 
   // ---------- Fin de l'assemblage (décision 13) ----------
   function finAssemblage() {
@@ -244,10 +253,27 @@
     document.body.classList.remove('is-loading', 'is-assembling');
     try { sessionStorage.setItem('preloaderShown', '1'); } catch (e) { /* rien */ }
     window.Works.reprendre();
-    setTimeout(chiffreVersMenu, 250); // tenue à 100 (décision 25)
+    setTimeout(chiffreVersMenu, 120); // tenue à 100 (décision 25 ; 250 avant le raccourci)
   }
 
   // ---------- Transition chiffre → menu, compteur mécanique D1 (décisions 26 à 29) ----------
+  // Durées du raccourci : rouleaux 450 ms (700 avant), décalés de 30 (50) ; ABOUT à +120 (200),
+  // CONTACT 50 ms après (80), lettres de 350 ms (500) décalées de 20 (30)
+  const ROULEAU = 450, DECAL = 30, LETTRE = 350, DECAL_LETTRE = 20, ABOUT_A = 120, CONTACT_A = 170;
+
+  // L'icône grille / liste monte dans sa boîte (style.css : .vue-toggle.monte rogne) au
+  // même instant que le premier rouleau de WORKS, même durée, même easing, sans décalage :
+  // un seul déclencheur, chiffreVersMenu (2026-10-25-preloader-court, point 2)
+  function monterIcone(duree, easing) {
+    if (!icone) return Promise.resolve();
+    icone.classList.add('monte');
+    const svg = icone.querySelector('.icone-liste') || icone.querySelector('svg');   // la vue est la grille (jamais de preloader en liste)
+    return svg.animate(
+      [{ transform: 'translateY(36px)' }, { transform: 'none' }],
+      { duration: duree, easing, fill: 'both' }
+    ).finished;
+  }
+
   function chiffreVersMenu() {
     if (reduit) return fonduVersMenu();
     const EASE = 'cubic-bezier(.7, 0, .2, 1)';
@@ -258,7 +284,7 @@
     nouveaux.slice().reverse().forEach(r => boiteWorks.prepend(r.el));
     nouveaux.forEach(r => r.el.animate(
       [{ width: '0px' }, { width: mWorks.w + 'px' }],
-      { duration: 300, easing: 'cubic-bezier(.16, 1, .3, 1)', fill: 'forwards' }
+      { duration: 200, easing: 'cubic-bezier(.16, 1, .3, 1)', fill: 'forwards' }
     ));
 
     const tous = [...nouveaux, ...roulChiffres];
@@ -267,11 +293,12 @@
       remplir(r, [actuel, ...auHasard(6), mots[i]]);
       return r.bande.animate(
         [{ transform: 'translateY(0)' }, { transform: `translateY(${-7 * r.m.h}px)` }],
-        { duration: 700, delay: i * 50, easing: EASE, fill: 'forwards' }
+        { duration: ROULEAU, delay: i * DECAL, easing: EASE, fill: 'forwards' }
       ).finished;
     });
+    fins.push(monterIcone(ROULEAU, EASE));   // même tour de boucle que le rouleau W (délai 0)
 
-    // ABOUT à +200 ms, CONTACT 80 ms après, lettres décalées de 30 ms (décision 27)
+    // ABOUT puis CONTACT, lettres décalées (décision 27)
     function monter(a, mot, m, retard) {
       const boite = conteneur(a);
       a.style.visibility = 'visible';
@@ -280,22 +307,23 @@
         boite.appendChild(r.el);
         return r.bande.animate(
           [{ transform: 'translateY(0)' }, { transform: `translateY(${-4 * m.h}px)` }],
-          { duration: 500, delay: retard + i * 30, easing: EASE, fill: 'both' }
+          { duration: LETTRE, delay: retard + i * DECAL_LETTRE, easing: EASE, fill: 'both' }
         ).finished;
       });
     }
-    fins.push(...monter(lienAbout, 'ABOUT', mAbout, 200));
-    fins.push(...monter(lienContact, 'CONTACT', mContact, 280));
+    fins.push(...monter(lienAbout, 'ABOUT', mAbout, ABOUT_A));
+    fins.push(...monter(lienContact, 'CONTACT', mContact, CONTACT_A));
 
     Promise.all(fins).then(menuFinal);
   }
 
-  // Mouvement réduit : 100 s'efface, le menu apparaît en fondu (décision 40)
+  // Mouvement réduit : 100 s'efface, le menu et l'icône apparaissent en fondu, ensemble (décision 40)
   function fonduVersMenu() {
     const f = [lienWorks, lienAbout, lienContact].map(a => a.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 100, fill: 'forwards' }).finished);
     Promise.all(f).then(() => {
       menuFinal();
       [lienWorks, lienAbout, lienContact].forEach(a => a.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: 'ease' }));
+      if (icone) icone.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: 'ease' });
     });
   }
 
@@ -311,6 +339,10 @@
       if (!a.getAttribute('style')) a.removeAttribute('style');
     });
     document.body.classList.remove('menu-en-cours');
+    if (icone) {
+      icone.classList.remove('monte');
+      icone.querySelectorAll('svg').forEach(s => s.getAnimations().forEach(x => x.cancel()));
+    }
     statut.remove();
   }
 })();

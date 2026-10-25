@@ -21,7 +21,9 @@
   }, 2500);
 
   var reduit = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Page sombre : l'accueil (Works) porte data-theme="dark" en dur sur <html> (2026-10-24)
+  // Page sombre : la grille de l'accueil (Works) porte data-theme="dark" sur <html>
+  // (2026-10-24). Si la vue liste est mémorisée, le petit script du <head>, lu avant
+  // celui-ci, a déjà posé data-theme="light" : la liste est claire (2026-10-25).
   var sombre = doc.getAttribute('data-theme') === 'dark';
   var lire = function (cle) {
     try {
@@ -50,8 +52,8 @@
       ov.appendChild(img);
       ov.dataset.type = 'img';
       // Capture sombre en haut à droite : header blanc tant que le calque est là ;
-      // capture claire sur une page sombre : header noir (jamais le cas aujourd'hui,
-      // seul l'accueil est sombre, gardé par symétrie)
+      // capture claire sur une page sombre : header noir (page projet toujours claire,
+      // jamais le cas aujourd'hui, gardé par symétrie)
       if (o.ton === 'sombre') doc.classList.add('passage-sombre');
       else if (sombre) doc.classList.add('passage-clair');
     } else {

@@ -16,13 +16,16 @@ const colors = [
 //                 (tons mesurés le 2026-10-05 sur le quart haut droit : Queen 130,
 //                 Passage Secret 31 = sombre ; Ethikwear 194, Unik 148,
 //                 Redstone paysage 226 = clair ; Hecto 48 paysage, 55 portrait = sombre, mesuré le 2026-10-07 ;
-//                 Dugos, vitrines au logo du 2026-10-24 : 32 paysage, 23 portrait = sombre)
+//                 Dugos, vitrines au logo du 2026-10-24 : 32 paysage, 23 portrait = sombre ;
+//                 Ethikwear, vitrines au logo du 2026-10-25 : 232 paysage, 234 portrait = clair)
 //   position      cadrage optionnel de cover (défaut : center)
 const projects = [
   {
     patternIndexes: [1, 13, 24],
-    image: './Ethikwear/web/ethikwear-vitrine-plein.jpg',
-    imagePortrait: './Ethikwear/web/ethikwear-vitrine-portrait.jpg',
+    // Logo noir sur crème (2026-10-25-ethikwear-logo), comme Dugos, Relay et Hecto ;
+    // les captures du site restent dans web/ et sur la page projet
+    image: './Ethikwear/web/ethikwear-logo-vitrine-plein.jpg',
+    imagePortrait: './Ethikwear/web/ethikwear-logo-vitrine-portrait.jpg',
     ton: 'clair',
     url: './Ethikwear/index.html'
   },
@@ -386,9 +389,16 @@ function ouvrirProjet(cell, srcForcee) {
     calque.animate([{ opacity: 0.55 }, { opacity: 1 }], { duration: 250, easing: 'ease', fill: 'forwards' });
 
     // Capture sombre en haut à droite : le header passe en blanc à mi-course ; capture
-    // claire : il passe en noir (l'accueil est sombre, son header est clair, 2026-10-24)
+    // claire sur la grille (sombre, header clair) : il passe en noir. Depuis la liste
+    // (claire depuis le 2026-10-25) le header est déjà noir : rien à poser pour une
+    // capture claire, comme sur toute page claire du site.
     const duree = W < 768 ? 750 : 850;
-    setTimeout(() => { if (calque.isConnected) document.documentElement.classList.add(ton === 'sombre' ? 'passage-sombre' : 'passage-clair'); }, duree * 0.5);
+    const sombreIci = document.documentElement.getAttribute('data-theme') === 'dark';
+    setTimeout(() => {
+      if (!calque.isConnected) return;
+      if (ton === 'sombre') document.documentElement.classList.add('passage-sombre');
+      else if (sombreIci) document.documentElement.classList.add('passage-clair');
+    }, duree * 0.5);
 
     freinage = true;
     document.body.classList.add('ouvre');
@@ -439,6 +449,8 @@ window.addEventListener('pageshow', (e) => {
   wrapper.getAnimations().forEach(a => a.cancel());
   freinage = false;
   ouvertureEnCours = false;
+  // Le thème suit la vue (2026-10-25-liste-claire) : clair en liste, sombre sur la grille
+  document.documentElement.setAttribute('data-theme', document.body.classList.contains('vue-liste') ? 'light' : 'dark');
   if (window.Liste) window.Liste.rafraichir();   // vue liste : nom actif et cadre recalculés (décision 24)
 });
 
@@ -483,6 +495,9 @@ window.Works = {
    d'origine, sans que rien ne bouge à l'écran.
    Mémoire de la vue en sessionStorage seulement : une nouvelle session arrive
    toujours sur la grille.
+   Thème (2026-10-25-liste-claire) : la grille est sombre, la liste est claire ;
+   montrerListe et montrerGrille posent data-theme sur <html>, le script du <head>
+   des deux pages d'accueil fait de même avant le premier rendu.
    ═══════════════════════════════════════════════════════════════ */
 window.Liste = (function () {
   const liste = document.querySelector('.liste');
@@ -849,6 +864,11 @@ window.Liste = (function () {
   // La page se pose sur la copie d'origine, Ethikwear sur la ligne.
   function montrerListe() {
     document.body.classList.add('vue-liste');
+    // Le thème suit la vue (2026-10-25-liste-claire, demande de Clément) : la liste est
+    // claire (noir sur blanc, comme About et Contact), seule la grille reste sombre. Le
+    // fond glisse en 250 ms (style.css) ; au chargement, le script du <head> a déjà posé
+    // la bonne valeur avant le premier rendu, pas de flash.
+    document.documentElement.setAttribute('data-theme', 'light');
     liste.hidden = false;
     if (clavier) clavier.hidden = true;
     etiqueter(true);
@@ -867,6 +887,7 @@ window.Liste = (function () {
   // La grille, sans mouvement : fin de M2. Elle reprend là où elle était (posX / posY intacts).
   function montrerGrille() {
     document.body.classList.remove('vue-liste');
+    document.documentElement.setAttribute('data-theme', 'dark');   // la grille est sombre
     liste.hidden = true;
     if (clavier) clavier.hidden = false;
     etiqueter(false);
@@ -890,7 +911,8 @@ window.Liste = (function () {
     if (occupe) return;
     occupe = true;
     window.Works.freiner();
-    const fin = () => { occupe = false; };
+    document.documentElement.classList.add('vue-bascule');   // encre du header et de l'icône en 250 ms, avec le fond
+    const fin = () => { occupe = false; document.documentElement.classList.remove('vue-bascule'); };
 
     if (reduit() || !animer) {
       const a = animer ? wrapper.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing: 'linear', fill: 'forwards' }).finished : Promise.resolve();
@@ -926,7 +948,8 @@ window.Liste = (function () {
   function versGrille() {
     if (occupe) return;
     occupe = true;
-    const fin = () => { occupe = false; };
+    document.documentElement.classList.add('vue-bascule');
+    const fin = () => { occupe = false; document.documentElement.classList.remove('vue-bascule'); };
 
     if (reduit() || !animer) {
       const a = animer ? liste.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing: 'linear', fill: 'forwards' }).finished : Promise.resolve();

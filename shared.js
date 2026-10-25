@@ -65,7 +65,8 @@ const Passage = (function () {
   const mobile = () => window.innerWidth < 768;
   const marge = () => window.innerWidth >= 1100 ? 80 : window.innerWidth >= 768 ? 48 : 20;
   const animer = !!Element.prototype.animate;
-  // La page est-elle sombre (l'accueil, data-theme="dark" posé en dur sur <html>) ?
+  // La page est-elle sombre ? Seule la grille de l'accueil l'est (data-theme="dark" sur
+  // <html>) ; la vue liste est claire (2026-10-25), d'où une lecture au moment du clic
   const sombreIci = () => doc.getAttribute('data-theme') === 'dark';
 
   // Une couleur par destination, encre noire : le header reste lisible
@@ -481,6 +482,7 @@ const Passage = (function () {
 
 
 // ═══ Thème ═══
-// Plus de bascule clair / sombre depuis le 2026-10-24 (demande de Clément) : l'accueil
-// (Works) porte data-theme="dark" en dur sur <html>, le reste du site est clair. Rien à
-// faire ici ; les couleurs passent par les variables de shared.css.
+// Plus de bascule clair / sombre depuis le 2026-10-24 (demande de Clément). Sur l'accueil
+// (Works) le thème suit la vue : grille sombre, liste claire (2026-10-25), géré par le
+// script du <head> et Projets/script.js ; le reste du site est clair. Rien à faire ici ;
+// les couleurs passent par les variables de shared.css.

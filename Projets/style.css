@@ -5,6 +5,33 @@ body {
   background: var(--bg);
 }
 
+/* Le thème suit la vue (2026-10-25-liste-claire, demande de Clément) : grille sombre
+   (data-theme="dark", preloader compris), liste claire (noir sur blanc, comme About et
+   Contact). script.js change data-theme sur <html> au point de bascule de M1 (la grille
+   est effacée) et au retour de la grille en M2 : le fond glisse en 250 ms pour que le
+   passage sombre / clair ne claque pas. Header, icône, curseur et Contact suivent par
+   les variables --fg / --bg. */
+html,
+body {
+  transition: background-color 0.25s ease;
+}
+
+/* Pendant M1 / M2 (classe posée par script.js) : l'encre du header et de l'icône change
+   en même temps que le fond, et non en 1,2 s comme lors d'un passage de page */
+html.vue-bascule header nav a,
+html.vue-bascule .vue-toggle {
+  transition: transform 0.2s ease, color 0.25s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body,
+  html.vue-bascule header nav a,
+  html.vue-bascule .vue-toggle {
+    transition: none;
+  }
+}
+
 .wrapper {
   width: 100vw;
   height: 100vh;
@@ -189,12 +216,13 @@ html.passage-attente .wrapper {
    Seconde vue de Works, en plus de la grille (qui reste la vue par défaut) : les
    huit noms empilés en Archivo Black à gauche, un seul au noir (celui qui coupe la
    ligne --ligne), un cadre fixe à droite qui montre la capture du projet actif.
-   Tout passe par les variables du thème (décision 21) : aucune valeur en dur. */
+   Tout passe par les variables du thème (décision 21) : aucune valeur en dur. La vue
+   liste est claire, la grille sombre (2026-10-25-liste-claire, voir le haut du fichier). */
 
 /* L'icône de bascule (décisions 1 à 3) : dessinée comme la lune (24px, trait 2,75, zone de
-   clic 44px) dont elle était la jumelle à 82px. La lune retirée (accueil toujours sombre,
-   2026-10-24), elle prend sa place : trait du symbole à 48px du bord, même marge que le
-   menu à droite. Traits = liste, carrés = grille. */
+   clic 44px) dont elle était la jumelle à 82px. La lune retirée (thème fixé par la vue,
+   2026-10-24 puis 2026-10-25), elle prend sa place : trait du symbole à 48px du bord, même
+   marge que le menu à droite. Traits = liste, carrés = grille. */
 .vue-nav {
   position: fixed;
   top: 18px;                   /* centre du symbole à la hauteur de la première ligne du menu */
@@ -231,10 +259,18 @@ html.passage-attente .wrapper {
   outline-offset: -4px;
 }
 
-/* Cachée pendant le preloader : on ne bascule pas pendant l'assemblage */
+/* Cachée pendant le preloader : on ne bascule pas pendant l'assemblage. À la fin, elle
+   monte dans sa boîte au même instant que les rouleaux de WORKS (preloader.js pose
+   .monte et anime le svg, même durée, même easing : 2026-10-25-preloader-court, point 2).
+   La boîte rogne pendant la montée, comme la fenêtre d'un rouleau. */
 body.is-loading .vue-toggle,
-body.menu-en-cours .vue-toggle {
+body.menu-en-cours .vue-toggle:not(.monte) {
   visibility: hidden;
+}
+
+body.menu-en-cours .vue-toggle.monte {
+  overflow: hidden;
+  pointer-events: none;        /* comme le menu tant qu'il se déroule */
 }
 
 /* Mêmes règles de passage que le header (shared.css) : encre blanche sur un calque sombre,
@@ -411,7 +447,7 @@ body.vue-liste::-webkit-scrollbar {
   max-width: calc(100% / var(--agrandi));
   color: inherit;
   text-decoration: none;
-  opacity: 0.1;      /* .15 avant : « encore un peu plus clair » (septième retour) ; l'accueil est sombre, c'est .10 sur #24272d */
+  opacity: 0.1;      /* .15 avant : « encore un peu plus clair » (septième retour) ; depuis le 2026-10-25 la liste est claire : .10 de noir sur blanc */
   /* Le nom actif grandit depuis la gauche (cinquième retour) : propriété scale et non
      transform, pour se composer avec le translateY des montées / descentes M1, M2 (WAAPI)
      sans l'écraser ni sauter à la fin de l'entrée. L'échelle ne change pas la boîte dans

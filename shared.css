@@ -1,9 +1,12 @@
 /* ═══ Thèmes : clair (par défaut) et sombre adouci ═══
    Depuis le 2026-10-24 (demande de Clément) le thème ne dépend plus du système ni d'un
-   choix du visiteur : l'accueil (Works, grille et liste : Projets/index.html et index.html
-   à la racine) porte data-theme="dark" en dur sur <html>, toutes les autres pages sont
-   claires (pas d'attribut). La bascule lune / soleil a été retirée. Sombre : anthracite
-   bleuté, jamais de noir franc ni de blanc pur. Les couleurs vives du site ne changent pas. */
+   choix du visiteur ; la bascule lune / soleil a été retirée. Depuis le 2026-10-25 il
+   suit la vue de l'accueil (Works : Projets/index.html et index.html à la racine) : la
+   grille infinie est sombre (data-theme="dark" sur <html>, écrit en dur et confirmé par
+   le script du <head>), la vue liste est claire (data-theme="light", posé par le même
+   script si la liste est mémorisée, puis par Projets/script.js à chaque bascule). Toutes
+   les autres pages sont claires (pas d'attribut). Sombre : anthracite bleuté, jamais de
+   noir franc ni de blanc pur. Les couleurs vives du site ne changent pas. */
 :root {
   --bg: #fff;
   --bg-rgb: 255, 255, 255;
@@ -352,10 +355,11 @@ html.passage-sombre .back-nav {
   mix-blend-mode: normal !important;
 }
 
-/* L'inverse, pour l'accueil sombre (2026-10-24) : header noir le temps d'un aplat clair
-   (WORKS jaune à l'arrivée depuis About, ABOUT rose au départ, flèche retour d'un projet
-   à encre noire) ou d'une capture claire qui s'ouvre depuis la grille ou la liste.
-   Posée par shared.js, passage.js et Projets/script.js, seulement quand la page est sombre. */
+/* L'inverse, pour la grille sombre de l'accueil (2026-10-24) : header noir le temps d'un
+   aplat clair (WORKS jaune à l'arrivée depuis About, ABOUT rose au départ, flèche retour
+   d'un projet à encre noire) ou d'une capture claire qui s'ouvre depuis la grille.
+   Posée par shared.js, passage.js et Projets/script.js, seulement quand la page est sombre
+   (jamais depuis la vue liste, claire depuis le 2026-10-25). */
 html.passage-clair header nav a,
 html.passage-clair .back-nav a {
   color: #000 !important;
@@ -471,7 +475,7 @@ html.passage-clair .back-nav {
   }
 }
 
-/* Page sombre (l'accueil, 2026-10-24) : l'adresse est en encre claire ; sur la bande jaune
+/* Page sombre (la grille de l'accueil, 2026-10-24) : l'adresse est en encre claire ; sur la bande jaune
    elle passe au noir en même temps que la bande se déroule (sinon #e9e6df sur #FFD400 ne se
    lit pas). Le retour à l'encre claire suit le repli de la bande, un peu plus court. */
 html[data-theme="dark"] .ov-adresse {
