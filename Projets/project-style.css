@@ -803,19 +803,23 @@ html.js .p2 .affiche-finale {
    page. Quatre médias, pas de légende, un seul rythme vertical (140 px, 88 px en mobile),
    rien ne sort des marges. Le héros sticky, la feuille, la démarche en vrac et la
    planche-contact sont sortis de la page. */
-.p4 .ouv-titre {
+.p4 .ouv-titre,
+.p7 .ouv-titre {
   padding: 150px var(--m) 0;
 }
 
-.p4 .ouv-titre .l + .l {
+.p4 .ouv-titre .l + .l,
+.p7 .ouv-titre .l + .l {
   margin-top: 0.06em;
 }
 
-.p4 .ouv-texte {
+.p4 .ouv-texte,
+.p7 .ouv-texte {
   margin-top: 40px;
 }
 
-.p4 .ouv-texte > div {
+.p4 .ouv-texte > div,
+.p7 .ouv-texte > div {
   grid-column: 1 / 6;
 }
 
@@ -835,16 +839,19 @@ html.js .p2 .affiche-finale {
 }
 
 .p4 figure,
-.p5 figure {
+.p5 figure,
+.p7 figure {
   margin: 0;
 }
 
 /* Le grand visuel : la vidéo de l'accueil, dans les marges, au ratio de l'enregistrement (1600 × 904) */
-.p4 .vitrine-cadre {
+.p4 .vitrine-cadre,
+.p7 .vitrine-cadre {
   margin-top: 140px;
 }
 
-.p4 .vitrine {
+.p4 .vitrine,
+.p7 .vitrine {
   grid-column: 1 / -1;
 }
 
@@ -869,43 +876,51 @@ html.js .p2 .affiche-finale {
 /* Gabarit de la série de reprises (charte §16, §17) : Dugos (p4) puis Queen (p5), mêmes valeurs.
    Les trois sections en regard : le texte d'abord dans le DOM, la grille place l'image */
 .p4 .regard,
-.p5 .regard {
+.p5 .regard,
+.p7 .regard {
   margin-top: 140px;
   align-items: start;
 }
 
 .p4 .regard-texte,
-.p5 .regard-texte {
+.p5 .regard-texte,
+.p7 .regard-texte {
   grid-column: 1 / 6;
 }
 
 .p4 .regard-image,
-.p5 .regard-image {
+.p5 .regard-image,
+.p7 .regard-image {
   grid-column: 7 / 13;
 }
 
 /* Côté alterné : le texte reste premier dans le DOM, l'image passe à gauche. Placement dense,
    sinon la grille épargne la rangée et pose l'image sous le texte. */
 .p4 .regard-inverse,
-.p5 .regard-inverse {
+.p5 .regard-inverse,
+.p7 .regard-inverse {
   grid-auto-flow: dense;
 }
 
 .p4 .regard-inverse .regard-image,
-.p5 .regard-inverse .regard-image {
+.p5 .regard-inverse .regard-image,
+.p7 .regard-inverse .regard-image {
   grid-column: 1 / 7;
 }
 
 .p4 .regard-inverse .regard-texte,
-.p5 .regard-inverse .regard-texte {
+.p5 .regard-inverse .regard-texte,
+.p7 .regard-inverse .regard-texte {
   grid-column: 8 / 13;
 }
 
 /* Titre court : la version titre de .lead, avec son point final */
 .p4 .regard-titre,
 .p5 .regard-titre,
+.p7 .regard-titre,
 .p4 .retiens-titre,
-.p5 .retiens-titre {
+.p5 .retiens-titre,
+.p7 .retiens-titre {
   margin: 0 0 20px;
   font-family: 'Archivo Black', sans-serif;
   font-weight: 400;
@@ -916,7 +931,8 @@ html.js .p2 .affiche-finale {
 }
 
 .p4 .regard-texte p,
-.p5 .regard-texte p {
+.p5 .regard-texte p,
+.p7 .regard-texte p {
   margin: 0;
   font-size: 19px;
   line-height: 1.6;
@@ -925,7 +941,8 @@ html.js .p2 .affiche-finale {
 }
 
 .p4 .regard-image img,
-.p5 .regard-image img {
+.p5 .regard-image img,
+.p7 .regard-image img {
   width: 100%;
   background: var(--c-15);          /* emplacement réservé tant que l'image n'est pas là */
 }
@@ -939,7 +956,8 @@ html.js .p2 .affiche-finale {
 
 /* Ce que j'en retiens : le seul filet de la page, dans les marges ; titre à gauche, phrase à droite */
 .p4 .retiens,
-.p5 .retiens {
+.p5 .retiens,
+.p7 .retiens {
   margin: 140px var(--m) 0;
   padding: 56px 0 0;
   border-top: var(--filet);
@@ -947,13 +965,15 @@ html.js .p2 .affiche-finale {
 }
 
 .p4 .retiens-titre,
-.p5 .retiens-titre {
+.p5 .retiens-titre,
+.p7 .retiens-titre {
   grid-column: 1 / 6;
   margin: 0;
 }
 
 .p4 .retiens p,
-.p5 .retiens p {
+.p5 .retiens p,
+.p7 .retiens p {
   grid-column: 7 / 13;
   margin: 0;
   font-size: clamp(24px, 2.4vw, 34px);
@@ -961,35 +981,45 @@ html.js .p2 .affiche-finale {
 }
 
 .p4 .proto,
-.p5 .proto {
+.p5 .proto,
+.p7 .proto {
   margin-top: 140px;
 }
 
 /* Tablette et mobile : une colonne, l'image sous son texte */
 @media (max-width: 1099px) {
   .p4 .ouv-texte > div,
+  .p7 .ouv-texte > div,
   .p4 .regard-texte,
   .p5 .regard-texte,
+  .p7 .regard-texte,
   .p4 .regard-image,
   .p5 .regard-image,
+  .p7 .regard-image,
   .p4 .regard-inverse .regard-texte,
   .p5 .regard-inverse .regard-texte,
+  .p7 .regard-inverse .regard-texte,
   .p4 .regard-inverse .regard-image,
   .p5 .regard-inverse .regard-image,
+  .p7 .regard-inverse .regard-image,
   .p4 .retiens-titre,
   .p5 .retiens-titre,
+  .p7 .retiens-titre,
   .p4 .retiens p,
-  .p5 .retiens p {
+  .p5 .retiens p,
+  .p7 .retiens p {
     grid-column: 1 / -1;
   }
 
   .p4 .regard-image,
-  .p5 .regard-image {
+  .p5 .regard-image,
+  .p7 .regard-image {
     margin-top: 28px;
   }
 
   .p4 .retiens p,
-  .p5 .retiens p {
+  .p5 .retiens p,
+  .p7 .retiens p {
     margin-top: 20px;
   }
 }
@@ -1406,38 +1436,47 @@ html.js .p2 .affiche-finale {
   }
 
   /* Projets 4 et 5 (gabarit de la série) : même page en une colonne, rythme de 88 px */
-  .p4 .ouv-titre {
+  .p4 .ouv-titre,
+  .p7 .ouv-titre {
     padding-top: 190px;
   }
 
   .p4 .vitrine-cadre,
+  .p7 .vitrine-cadre,
   .p4 .regard,
   .p5 .regard,
+  .p7 .regard,
   .p4 .proto,
-  .p5 .proto {
+  .p5 .proto,
+  .p7 .proto {
     margin-top: 88px;
   }
 
   .p4 .retiens,
-  .p5 .retiens {
+  .p5 .retiens,
+  .p7 .retiens {
     margin-top: 88px;
     padding-top: 40px;
   }
 
   .p4 .regard-titre,
   .p5 .regard-titre,
+  .p7 .regard-titre,
   .p4 .retiens-titre,
-  .p5 .retiens-titre {
+  .p5 .retiens-titre,
+  .p7 .retiens-titre {
     font-size: 22px;
   }
 
   .p4 .regard-texte p,
-  .p5 .regard-texte p {
+  .p5 .regard-texte p,
+  .p7 .regard-texte p {
     font-size: 17px;
   }
 
   .p4 .retiens p,
-  .p5 .retiens p {
+  .p5 .retiens p,
+  .p7 .retiens p {
     font-size: 26px;
   }
 
@@ -1758,210 +1797,70 @@ body.projet.sur-couleur .back-nav a:focus-visible {
   white-space: nowrap;
 }
 
-/* ═══ Projet 6, Passage Secret : le seuil (2026-10-05) ═══
-   Classe de page .p7.
-   Une fente d'une colonne s'ouvre au centre, s'élargit jusqu'au plein cadre,
-   puis les pages se relaient par lanières. project.js pose les découpes (--k).
-   Sans JavaScript ou en mouvement réduit : les pages s'empilent avec leur légende. */
+/* ═══ Projet 7, Passage Secret : le récit en regard (2026-10-25) ═══
+   Classe de page .p7. Elle suit le gabarit de la série (Dugos p4, Queen p5) : les règles
+   .ouv-titre, .vitrine, .regard*, .retiens* plus haut s'appliquent à .p7 sans changer une valeur.
+   Ici, seulement ce qui est propre à la page : la mention de cadre, les fonds d'attente
+   des captures (bleu nuit du site refait) et la capture mobile sur quatre colonnes.
+   Le seuil, la vidéo neutralisée et le duo mobile sont sortis de la page. */
 
-/* Ouverture : titre au cadrage, colophon, mention */
-.p7 .ouv-ps {
-  padding: 170px var(--m) 0;
-}
-
-.p7 .ouv-ps-texte {
-  margin-top: 36px;
-  max-width: 620px;
-}
-
-/* La mention de cadre : une note de colophon, en 600, au filet de la couleur de la page */
+/* La mention de cadre : sous le colophon, dans le même bloc, en 600, sans barre.
+   Toujours dans le premier écran, jamais en petit, jamais animée à part. */
 .p7 .mention {
-  margin-top: 28px;
-  max-width: 620px;
-  padding-left: 16px;
-  border-left: 3px solid var(--c-ui);
+  margin-top: 20px;
+  max-width: 30ch;
+  padding-left: 0;
+  border-left: 0;
   font-size: 18px;
   font-weight: 600;
   line-height: 1.45;
   color: var(--fg);
 }
 
-/* Repli : pages empilées, chacune avec sa légende */
-.p7 .seuil {
-  margin-top: 140px;
+/* Les captures du site refait sont presque noires : le fond d'attente est son bleu nuit,
+   pas le magenta pâle (il clignoterait). L'intro, sur pierre claire, garde le magenta pâle. */
+.p7 .vitrine .ecran,
+.p7 .regard-nuit img {
+  background: #0d1420;
 }
 
-.p7 .seuil-scene {
-  padding: 0 var(--m);
+/* La capture mobile : quatre colonnes (411 × 889 à 1440), bord gauche aligné sur les autres images */
+.p7 .regard-mobile {
+  grid-column: 7 / 11;
 }
 
-.p7 .seuil-page {
-  margin: 0 0 24px;
-}
+/* Bureau : le colophon et la mention s'étalent sur 8 colonnes (et non 30ch) pour que la mention
+   reste dans le premier écran, à 1440 × 900 comme sur un portable 1440 × 800 */
+@media (min-width: 1100px) {
+  .p7 .ouv-texte {
+    margin-top: 24px;
+  }
 
-.p7 .seuil-page figcaption {
-  margin-top: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--fg);
-}
+  .p7 .ouv-texte > div {
+    grid-column: 1 / 9;
+  }
 
-.p7 .seuil-bande {
-  display: none;
-}
-
-/* Épinglé : la scène remplit l'écran, la bande basse porte la légende */
-html.seuil-ok .p7 .seuil {
-  position: relative;
-  height: 460vh;
-  margin-top: 120px;
-}
-
-html.seuil-ok .p7 .seuil-scene {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  padding: 0;
-  overflow: hidden;
-}
-
-html.seuil-ok .p7 .seuil-cadre {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: calc(100vh - 56px);
-  /* La fente : project.js pose --t, --r, --l (en px) selon le défilement */
-  clip-path: inset(var(--t, 0px) var(--r, 0px) 0 var(--l, 0px));
-  will-change: clip-path;
-}
-
-html.seuil-ok .p7 .seuil-page {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-}
-
-html.seuil-ok .p7 .seuil-page img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-}
-
-/* Le nom de chaque page reste pour les lecteurs d'écran ; à l'œil, la bande basse */
-html.seuil-ok .p7 .seuil-page figcaption {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-html.seuil-ok .p7 .seuil-bande {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 56px;
-  padding: 0 var(--m);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  background: var(--bg);
-  font-size: 16px;
-  line-height: 1.3;
-}
-
-.p7 .seuil-nom {
-  font-weight: 600;
-  color: var(--fg);
-  transition: opacity 0.3s ease;
-}
-
-/* Le mobile : la plongée et la version téléphone, décalées en hauteur */
-.p7 .mobile-ps {
-  margin-top: 160px;
-  align-items: start;
-}
-
-.p7 .mobile-ps figure {
-  margin: 0;
-}
-
-.p7 .mobile-ps-a {
-  grid-column: 1 / 9;
-}
-
-.p7 .mobile-ps-b {
-  grid-column: 9 / 12;
-  margin-top: 120px;
+  .p7 .colophon,
+  .p7 .mention {
+    max-width: none;
+  }
 }
 
 @media (max-width: 1099px) {
-  .p7 .mobile-ps-a { grid-column: 1 / 8; }
-  .p7 .mobile-ps-b { grid-column: 8 / 13; margin-top: 80px; }
+  .p7 .regard-mobile {
+    grid-column: 1 / -1;
+    width: min(100%, 360px);
+  }
 }
 
 @media (max-width: 767px) {
-  .p7 .ouv-ps {
-    padding-top: 190px;
-  }
-
   .p7 .mention {
     font-size: 17px;
   }
 
-  .p7 .seuil {
-    margin-top: 88px;
+  .p7 .regard-mobile {
+    width: min(100%, 280px);
   }
-
-  html.seuil-ok .p7 .seuil {
-    height: 380vh;
-    margin-top: 88px;
-  }
-
-  .p7 .mobile-ps {
-    margin-top: 88px;
-  }
-
-  .p7 .mobile-ps-a { grid-column: 1 / 13; }
-  .p7 .mobile-ps-b { grid-column: 5 / 13; margin-top: 24px; }
-}
-
-/* Le parcours en vidéo : à la largeur des marges, sans cadre ni arrondi */
-.p7 .parcours {
-  margin-top: 140px;
-  padding: 0 var(--m);
-}
-
-.p7 .parcours figure {
-  margin: 0;
-}
-
-.p7 .parcours-vue {
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: #172232;
-}
-
-.p7 .parcours-vue video {
-  width: 100%;
-  aspect-ratio: 1280 / 800;
-  object-fit: cover;
-}
-
-@media (max-width: 767px) {
-  .p7 .parcours { margin-top: 88px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .p7 .seuil-nom { transition: none; }
 }
 
 /* ═══ Projet 8, Relay : le titre posé sur l'application ═══
