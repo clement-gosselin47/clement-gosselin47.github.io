@@ -1,113 +1,19 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <!-- Ancienne adresse GitHub Pages : on renvoie vers le domaine, même page -->
-  <script>if(location.hostname==="clement-gosselin47.github.io")location.replace("https://clement-gosselin.com"+location.pathname+location.search+location.hash)</script>
-  <!-- Le thème suit la vue (2026-10-25-liste-claire) : grille sombre, liste claire. Posé ici,
-       avant passage.js et les feuilles de style, pour qu'une liste mémorisée dans la session
-       arrive blanche sans flash sombre ; script.js prend le relais à chaque bascule. -->
-  <script>try{document.documentElement.setAttribute("data-theme",sessionStorage.getItem("vue")==="liste"?"light":"dark")}catch(e){}</script>
+  <!-- Ancienne adresse de l'accueil : il n'existe plus qu'à la racine (/). Vercel renvoie
+       déjà /Projets/ et /Projets/index.html vers / (vercel.json) ; cette page sert au serveur
+       local et à GitHub Pages. Les fichiers de l'accueil (script.js, style.css, preloader)
+       restent dans ce dossier. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clément Gosselin, portfolio Product Builder no-code et IA</title>
-  <meta name="google-site-verification" content="NV2Rv-Lvx8fYGyfE_BUwwyLOJkzFC1RxBUqDfHWDemc" />
-  <!-- Référencement et partage (LinkedIn) : URL absolues, image commune.
-       Works existe aussi à la racine / (accueil du domaine) : c'est elle la canonique -->
-  <meta name="description" content="Portfolio de Clément Gosselin, Product Builder no-code et IA à Ynov Bordeaux. Sites, prototypes Figma, webapp et affiche. Alternance 2j / 3j recherchée.">
+  <meta name="robots" content="noindex">
   <link rel="canonical" href="https://clement-gosselin.com/">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Clément Gosselin">
-  <meta name="application-name" content="Clément Gosselin">
-  <meta property="og:locale" content="fr_FR">
-  <meta property="og:title" content="Clément Gosselin, portfolio Product Builder no-code et IA">
-  <meta property="og:description" content="Portfolio de Clément Gosselin, Product Builder no-code et IA à Ynov Bordeaux. Sites, prototypes Figma, webapp et affiche. Alternance 2j / 3j recherchée.">
-  <meta property="og:url" content="https://clement-gosselin.com/">
-  <meta property="og:image" content="https://clement-gosselin.com/og-image.jpg?v=2">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Les projets de Clément Gosselin sur la grille de son portfolio.">
-  <meta name="twitter:card" content="summary_large_image">
-  <!-- Favicons : PNG en premier (Google n'accepte pas le SVG, veut 48 px ou plus). URL stables, ne pas les renommer -->
-  <link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">
-  <link rel="icon" href="/favicon-96.png" type="image/png" sizes="96x96">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <!-- Données structurées : la personne (relie le site à son nom) et le site -->
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Clément Gosselin","jobTitle":"Product Builder no-code et IA","description":"Étudiant en Bachelor Product Builder no-code et IA à Ynov Bordeaux, en recherche d'alternance en 2j / 3j à Bordeaux.","url":"https://clement-gosselin.com/About/","image":"https://clement-gosselin.com/og-image.jpg","sameAs":"https://www.linkedin.com/in/clementgosselin","alumniOf":{"@type":"CollegeOrUniversity","name":"Ynov Campus Bordeaux"}}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Clément Gosselin","alternateName":["Portfolio de Clément Gosselin","clement-gosselin.com"],"url":"https://clement-gosselin.com/"}</script>
-  <script src="../passage.js?v=20261025"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Archivo Black pour le site ; Archivo ExtraBold (800) pour les noms de la vue liste seulement (septième retour, 2026-10-23) -->
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../shared.css?v=20261025">
-  <link rel="stylesheet" href="style.css?v=20261025b">
-  <link rel="stylesheet" href="preloader.css?v=20261007d">
+  <meta http-equiv="refresh" content="0; url=/">
+  <script>location.replace("/"+location.search+location.hash)</script>
 </head>
 <body>
-  <div class="cursor" id="cursor"></div>
-  <h1 class="lecteur">Clément Gosselin, Product Builder no-code et IA</h1>
-
-  <!-- Bascule grille / liste (2026-10-23-accueil-liste, décision A), à la place de l'ancienne
-       lune (bascule de thème retirée le 2026-10-24 ; depuis le 2026-10-25 le thème suit la
-       vue : grille sombre, liste claire, voir data-theme sur <html> et le script du head).
-       En vue grille le symbole montre la liste (ce qu'on obtient), en vue liste la grille. -->
-  <div class="vue-nav">
-    <button type="button" class="vue-toggle" aria-pressed="false" aria-label="Voir les projets en liste">
-      <svg class="icone-liste" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 6h17M3 12h11M3 18h15"/></svg>
-      <svg class="icone-grille" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-    </button>
-  </div>
-
-  <header>
-    <nav>
-      <a href="../Projets/index.html" class="active" data-dest="works">Works</a>
-      <a href="../About/index.html" data-dest="about">About</a>
-      <a href="mailto:clement.gosselin27@gmail.com" data-dest="contact" aria-haspopup="dialog">Contact</a>
-    </nav>
-  </header>
-  <!-- Accès aux projets au clavier et au lecteur d'écran : invisible, la liste
-       apparaît en haut à gauche dès qu'un lien reçoit le focus (touche Tab) -->
-  <nav class="projets-clavier" aria-label="Projets">
-    <a href="./Ethikwear/index.html">Ethikwear</a>
-    <a href="./redstone/index.html">Redstone</a>
-    <a href="./Unik/index.html">Unik</a>
-    <a href="./dugos-photographie/index.html">Dugos Photographie</a>
-    <a href="./Queen/index.html">Queen</a>
-    <a href="./passage-secret/index.html">Passage Secret</a>
-    <a href="./relay/index.html">Relay</a>
-    <a href="./hecto/index.html">Hecto</a>
-  </nav>
-  <div class="wrapper">
-    <div class="grid" id="grid"></div>
-  </div>
-  <div class="speed-blur" id="speedBlur">
-    <div class="blur-edge blur-left"></div>
-    <div class="blur-edge blur-right"></div>
-    <div class="blur-edge blur-top"></div>
-    <div class="blur-edge blur-bottom"></div>
-  </div>
-  <!-- Vue liste (2026-10-23-accueil-liste, décision B) : les huit noms empilés et un cadre
-       fixe qui montre la capture du projet actif (images posées par script.js). Masquée tant
-       que l'icône à côté de la lune n'est pas cliquée : la grille reste la vue par défaut. -->
-  <section class="liste" hidden aria-label="Projets en liste">
-    <!-- À mettre à jour quand un projet s'ajoute. Ces huit li sont la seule copie écrite :
-         script.js les recopie au-dessus et au-dessous pour que la liste boucle sans fin. -->
-    <ul class="liste-noms">
-      <li><span class="liste-masque"><a href="./Ethikwear/index.html" data-cur="Voir">Ethikwear</a></span></li>
-      <li><span class="liste-masque"><a href="./redstone/index.html" data-cur="Voir">Redstone</a></span></li>
-      <li><span class="liste-masque"><a href="./Unik/index.html" data-cur="Voir">Unik</a></span></li>
-      <li><span class="liste-masque"><a href="./dugos-photographie/index.html" data-cur="Voir">Dugos Photographie</a></span></li>
-      <li><span class="liste-masque"><a href="./Queen/index.html" data-cur="Voir">Queen</a></span></li>
-      <li><span class="liste-masque"><a href="./passage-secret/index.html" data-cur="Voir">Passage Secret</a></span></li>
-      <li><span class="liste-masque"><a href="./relay/index.html" data-cur="Voir">Relay</a></span></li>
-      <li><span class="liste-masque"><a href="./hecto/index.html" data-cur="Voir">Hecto</a></span></li>
-    </ul>
-    <div class="liste-cadre" data-cur="Voir"></div>
-  </section>
-  <script src="script.js?v=20261025b"></script>
-  <script src="preloader.js?v=20261025"></script>
-  <script src="../shared.js?v=20261025"></script>
+  <p><a href="/">Clément Gosselin, portfolio</a></p>
 </body>
 </html>

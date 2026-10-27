@@ -426,7 +426,7 @@ const Passage = (function () {
 
   /* ── Branchements ── */
   const memePage = (url) => {
-    // Works existe à deux adresses : la racine / (accueil du domaine) et /Projets/
+    // Works n'existe qu'à / ; /Projets/ et /Projets/index.html renvoient vers /
     const nettoie = (chemin) => chemin.replace(/index\.html$/, '').replace(/^\/Projets\/$/, '/');
     return nettoie(new URL(url, window.location.href).pathname) === nettoie(window.location.pathname);
   };

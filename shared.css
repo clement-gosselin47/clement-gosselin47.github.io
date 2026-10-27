@@ -1,7 +1,7 @@
 /* ═══ Thèmes : clair (par défaut) et sombre adouci ═══
    Depuis le 2026-10-24 (demande de Clément) le thème ne dépend plus du système ni d'un
    choix du visiteur ; la bascule lune / soleil a été retirée. Depuis le 2026-10-25 il
-   suit la vue de l'accueil (Works : Projets/index.html et index.html à la racine) : la
+   suit la vue de l'accueil (Works : index.html à la racine) : la
    grille infinie est sombre (data-theme="dark" sur <html>, écrit en dur et confirmé par
    le script du <head>), la vue liste est claire (data-theme="light", posé par le même
    script si la liste est mémorisée, puis par Projets/script.js à chaque bascule). Toutes

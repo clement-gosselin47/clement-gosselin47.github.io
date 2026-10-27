@@ -24,60 +24,60 @@ const projects = [
     patternIndexes: [1, 13, 24],
     // Logo noir sur crème (2026-10-25-ethikwear-logo), comme Dugos, Relay et Hecto ;
     // les captures du site restent dans web/ et sur la page projet
-    image: './Ethikwear/web/ethikwear-logo-vitrine-plein.jpg',
-    imagePortrait: './Ethikwear/web/ethikwear-logo-vitrine-portrait.jpg',
+    image: 'Projets/Ethikwear/web/ethikwear-logo-vitrine-plein.jpg',
+    imagePortrait: 'Projets/Ethikwear/web/ethikwear-logo-vitrine-portrait.jpg',
     ton: 'clair',
-    url: './Ethikwear/index.html'
+    url: 'Projets/Ethikwear/'
   },
   {
     patternIndexes: [5, 19, 22],
-    image: './redstone/web/redstone-vitrine-plein.jpg',
-    imagePortrait: './redstone/web/redstone-vitrine-portrait.jpg',
+    image: 'Projets/redstone/web/redstone-vitrine-plein.jpg',
+    imagePortrait: 'Projets/redstone/web/redstone-vitrine-portrait.jpg',
     ton: 'clair',
     tonPortrait: 'sombre',   // le haut de la capture portrait est noir (mesuré)
-    url: './redstone/index.html'
+    url: 'Projets/redstone/'
   },
   {
     patternIndexes: [3, 10, 18],
-    image: './Unik/web/unik-vitrine-plein.jpg',
-    imagePortrait: './Unik/web/unik-vitrine-portrait.jpg',
+    image: 'Projets/Unik/web/unik-vitrine-plein.jpg',
+    imagePortrait: 'Projets/Unik/web/unik-vitrine-portrait.jpg',
     ton: 'clair',
-    url: './Unik/index.html'
+    url: 'Projets/Unik/'
   },
   {
     patternIndexes: [2, 9, 16],
-    image: './dugos-photographie/web/dugos-logo-vitrine-plein.jpg',
-    imagePortrait: './dugos-photographie/web/dugos-logo-vitrine-portrait.jpg',
+    image: 'Projets/dugos-photographie/web/dugos-logo-vitrine-plein.jpg',
+    imagePortrait: 'Projets/dugos-photographie/web/dugos-logo-vitrine-portrait.jpg',
     ton: 'sombre',
-    url: './dugos-photographie/index.html'
+    url: 'Projets/dugos-photographie/'
   },
   {
     patternIndexes: [7, 11, 20],
-    image: './Queen/web/queen-vitrine-plein.jpg',
-    imagePortrait: './Queen/web/queen-vitrine-portrait.jpg',
+    image: 'Projets/Queen/web/queen-vitrine-plein.jpg',
+    imagePortrait: 'Projets/Queen/web/queen-vitrine-portrait.jpg',
     ton: 'sombre',
-    url: './Queen/index.html'
+    url: 'Projets/Queen/'
   },
   {
     patternIndexes: [0, 12, 23],
-    image: './passage-secret/web/passage-secret-hero.jpg',
-    imagePortrait: './passage-secret/web/passage-secret-mobile.jpg',
+    image: 'Projets/passage-secret/web/passage-secret-hero.jpg',
+    imagePortrait: 'Projets/passage-secret/web/passage-secret-mobile.jpg',
     ton: 'sombre',
-    url: './passage-secret/index.html'
+    url: 'Projets/passage-secret/'
   },
   {
     patternIndexes: [4, 6, 15],
-    image: './relay/web/relay-vitrine-plein.jpg',
-    imagePortrait: './relay/web/relay-vitrine-portrait.jpg',
+    image: 'Projets/relay/web/relay-vitrine-plein.jpg',
+    imagePortrait: 'Projets/relay/web/relay-vitrine-portrait.jpg',
     ton: 'sombre',           // vitrine : aplat noir avec logo, header blanc
-    url: './relay/index.html'
+    url: 'Projets/relay/'
   },
   {
     patternIndexes: [8, 14, 21],
-    image: './hecto/web/hecto-vitrine-plein.jpg',
-    imagePortrait: './hecto/web/hecto-vitrine-portrait.jpg',
+    image: 'Projets/hecto/web/hecto-vitrine-plein.jpg',
+    imagePortrait: 'Projets/hecto/web/hecto-vitrine-portrait.jpg',
     ton: 'sombre',           // logo sur aplat nuit (mesuré 48 et 55) : header blanc
-    url: './hecto/index.html'
+    url: 'Projets/hecto/'
   },
 ];
 
@@ -352,7 +352,7 @@ function ouvrirProjet(cell, srcForcee) {
   const r = cell.getBoundingClientRect();
   const W = window.innerWidth, H = window.innerHeight;
   const projet = projects.find(p => p.url === url);
-  // Résolu sur l'adresse de base du document : la racine / déclare <base href="/Projets/">
+  // Résolu sur l'adresse de base du document (l'accueil est servi à /)
   const src = new URL(srcForcee || imageDe(projet), document.baseURI).href;
   // Image imposée (liste) : c'est la paysage, donc son ton ; sinon celui de la variante affichée
   const ton = srcForcee ? projet.ton : tonDe(projet);
@@ -419,7 +419,7 @@ function ouvrirProjet(cell, srcForcee) {
   (img.decode ? img.decode() : Promise.resolve()).then(partir, partir);
 }
 
-// Liens clavier (Projets/index.html) : Entrée ouvre le projet par la case
+// Liens clavier de l'accueil (/) : Entrée ouvre le projet par la case
 // visible la plus centrale, avec la même ouverture qu'au clic
 document.querySelectorAll('.projets-clavier a').forEach(lien => {
   lien.addEventListener('click', (e) => {
