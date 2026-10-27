@@ -5,16 +5,16 @@
   <!-- Ancienne adresse GitHub Pages : on renvoie vers le domaine, même page -->
   <script>if(location.hostname==="clement-gosselin47.github.io")location.replace("https://clement-gosselin.com"+location.pathname+location.search+location.hash)</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Relay, webapp d'entraide étudiante, Clément Gosselin</title>
+  <title>Relay, web app d'entraide entre étudiants, Clément Gosselin</title>
   <!-- Référencement et partage (LinkedIn) : URL absolues, image commune du portfolio -->
-  <meta name="description" content="Relay, une webapp d'entraide flash entre étudiants, codée à quatre en même temps avec Claude Code, via commits et pull requests. En ligne, à tester.">
+  <meta name="description" content="Relay, web app d'entraide entre étudiants d'Ynov : demandes flash, messages et chat. Projet Y Boost à quatre, plusieurs branches avec Claude Code. En ligne, à tester.">
   <link rel="canonical" href="https://clement-gosselin.com/Projets/relay/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Clément Gosselin">
   <meta name="application-name" content="Clément Gosselin">
   <meta property="og:locale" content="fr_FR">
-  <meta property="og:title" content="Relay, webapp d'entraide étudiante, Clément Gosselin">
-  <meta property="og:description" content="Relay, une webapp d'entraide flash entre étudiants, codée à quatre en même temps avec Claude Code, via commits et pull requests. En ligne, à tester.">
+  <meta property="og:title" content="Relay, web app d'entraide entre étudiants, Clément Gosselin">
+  <meta property="og:description" content="Relay, web app d'entraide entre étudiants d'Ynov : demandes flash, messages et chat. Projet Y Boost à quatre, plusieurs branches avec Claude Code. En ligne, à tester.">
   <meta property="og:url" content="https://clement-gosselin.com/Projets/relay/">
   <meta property="og:image" content="https://clement-gosselin.com/Projets/relay/web/og-relay.jpg?v=2">
   <meta property="og:image:width" content="1200">
@@ -33,14 +33,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../shared.css?v=20261025">
-  <link rel="stylesheet" href="../project-style.css?v=20261025d">
+  <link rel="stylesheet" href="../project-style.css?v=20261027b">
 </head>
 <!-- MODE D'EMPLOI
-     Textes : tout est dans <main>, dans l'ordre de la page (titre, colophon, récit, vues, lien, phrase de fin).
-     Images : dans le dossier web/ de ce projet. Aucune capture ne montre le nom d'un campus, d'une personne ni une adresse email.
+     Textes : tout est dans <main>, dans l'ordre de la page (titre, colophon, titres et paragraphes des sections, phrase de fin).
+     Images : dans le dossier web/ de ce projet. Une phrase simple dans alt. Pas de légende : le paragraphe d'à côté raconte l'image.
+     Aucune capture ne montre le nom d'un campus, d'une personne réelle ni une adresse email (les prénoms Lucas, Inès, Tom, Sara sont des données d'exemple de l'app).
      Couleur du projet : --c dans le style de <body> (--c-ink = encre lisible sur la couleur).
-     Adresse de l'application : la même dans le lien du colophon et dans le grand lien, changer les deux.
-     L'application n'est pas embarquée dans la page (iframe) tant que Clément n'a pas donné son accord : seul le lien existe. -->
+     Adresse de l'application : la même dans le petit lien du colophon et dans le grand lien « Tester l'app », changer les deux.
+     L'application n'est pas embarquée dans la page (iframe) : seuls les liens existent.
+     Mise en scène (récit en regard, gabarit de la série, charte §16, §19 et §20) : titre au cadrage, colophon, un grand visuel
+     (la vidéo de l'app en ligne), trois sections texte et image côte à côte (les demandes, les messages et le chat, le travail sur
+     plusieurs branches), ce que j'en retiens. Une paire d'écrans mobiles = une figure à deux colonnes égales (class="regard-paire regard-cote"). -->
 <body class="projet p8" style="--c: #FFD400; --c-ink: #000">
   <div class="cursor" id="cursor"></div>
 
@@ -61,54 +65,74 @@
   </header>
 
   <main>
-    <!-- Ouverture : le titre au cadrage, puis la capture de l'application bord à bord.
-         C'est le même fichier que la case de Works (data-ov) : le calque se recadre dessus sans fondu. -->
-    <section class="ouv-relay">
-      <h1 class="titre fit"><span class="l"><span class="t">Relay</span></span></h1>
-      <div class="ouv-relay-img">
-        <picture>
-          <source media="(max-aspect-ratio: 3/5)" srcset="web/relay-vitrine-portrait.jpg">
-          <img src="web/relay-vitrine-plein.jpg" alt="Le logo de Relay, une main ouverte dessinée d'un seul trait crème, avec le nom Relay dessous, sur fond noir carbone." width="1600" height="1000" fetchpriority="high" data-ov>
-        </picture>
-      </div>
-      <div class="ouv-relay-texte g12">
-        <div data-rv="txt">
-          <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
-          <p class="colophon">Webapp d'entraide entre étudiants, 2026. Projet de groupe à Ynov, à quatre. J'ai touché à tout. Claude Code, React, TypeScript, Supabase, Vercel, GitHub. Projet réalisé par <a href="../../About/index.html">Clément Gosselin</a>, Product Builder no-code et IA à Ynov Bordeaux.</p>
-          <a class="site-lien" href="https://relay-chi-seven.vercel.app" target="_blank" rel="noopener" data-cur="Tester" aria-label="Tester l'app Relay, s'ouvre dans un nouvel onglet">
-            Tester l'app
-            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- Titre au cadrage, à 150 px du haut (socle), sur une seule ligne -->
+    <h1 class="titre ouv-titre">
+      <span class="l fit"><span class="t">Relay</span></span>
+    </h1>
+
+    <section class="ouv-texte g12">
+      <div data-rv="txt">
+        <!-- Colophon : le type, le cadre, le rôle, la mention honnête, les outils. Sans signature -->
+        <p class="colophon">Web app d'entraide entre étudiants, module Y Boost, deuxième semestre 2025-2026 à Ynov. Projet de groupe, à quatre. Je me suis surtout occupé des demandes, des messages et du chat, avec un peu de design. L'app est en ligne et ouverte à tous, mais c'est un projet étudiant, sans vrais utilisateurs. Claude Code, React, TypeScript, Supabase, GitHub, Vercel.</p>
+        <a class="site-lien" href="https://relay-chi-seven.vercel.app" target="_blank" rel="noopener" data-cur="Tester" aria-label="Tester l'app Relay, s'ouvre dans un nouvel onglet">
+          Tester l'app
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-          </a>
-        </div>
+        </a>
       </div>
     </section>
 
-    <!-- Récit : deux paragraphes courts, attaque en Archivo Black -->
-    <section class="recit g12">
-      <h2 class="lecteur">Le projet</h2>
-      <div class="recit-col">
-        <p data-rv="txt"><strong class="lead">La demande.</strong> Il manque un adaptateur HDMI avant une soutenance, ou un avis sur une maquette Figma, ou quelqu'un qui comprend pourquoi un composant React plante. Relay met ce coup de main en ligne&nbsp;: un étudiant poste une demande flash avec un minuteur, les camarades disponibles la voient arriver en direct et touchent «&nbsp;J'aide&#8239;». Ça s'ouvre dans le navigateur, sans rien installer.</p>
-        <!-- Organisation du travail à quatre : seulement les mots de Clément (tous sur le même site en même temps, commits, pull requests). Ne rien ajouter sans lui. -->
-        <p data-rv="txt"><strong class="lead">Le vrai défi.</strong> J'ai touché à tout. On était quatre, tous sur le même site en même temps, en vibe coding avec Claude Code, avec des commits et des pull requests. Le résultat est en ligne&nbsp;: le feed, la création d'une demande en six étapes, la disponibilité «&nbsp;Sur le campus&#8239;» dans le profil, et une version desktop.</p>
-      </div>
-    </section>
-
-    <!-- Les vues : trois captures mobiles collées, à la même hauteur, d'un bord à l'autre.
-         --r = largeur / hauteur de l'image (fixe la place de chacune). Le feed est déjà l'ouverture. -->
-    <section class="vues" aria-label="Trois écrans de l'application sur mobile" role="region" tabindex="0">
-      <figure style="--r: 0.462"><img src="web/relay-demande-mobile.webp" alt="Création d'une demande flash dans Relay : un besoin en une phrase, des catégories (Matériel, Design, Code, Cours, Test UX, Autre), une filière et un lieu." width="741" height="1604" loading="lazy"><figcaption class="legende">La demande, en une phrase.</figcaption></figure>
-      <figure style="--r: 0.462"><img src="web/relay-demande-urgente-mobile.webp" alt="La fin du formulaire de demande flash : l'interrupteur Demande flash sur fond crème, avec l'expiration à 5, 10 ou 15 minutes." width="741" height="1604" loading="lazy"><figcaption class="legende">Le minuteur de la demande flash.</figcaption></figure>
-      <figure style="--r: 0.462"><img src="web/relay-conversation-mobile.webp" alt="Une conversation dans Relay : un étudiant propose d'apporter un câble HDMI avant une soutenance, l'autre le remercie." width="741" height="1604" loading="lazy"><figcaption class="legende">La conversation avec celui qui aide.</figcaption></figure>
-    </section>
-
-    <!-- Le feed sur ordinateur, en grand : c'est la « version desktop » du récit -->
-    <section class="bureau">
-      <figure>
-        <img src="web/relay-app-feed-bureau.jpg" alt="Le feed de Relay sur ordinateur : une barre latérale à gauche, quatre demandes d'aide en cartes crème et noires avec un bouton J'aide, et à droite le nombre de demandes actives et l'activité récente." width="1600" height="1000" loading="lazy">
-        <figcaption class="legende">Le feed, sur ordinateur.</figcaption>
+    <!-- Le grand visuel, dans les marges : l'app en ligne qui tourne (le fil des demandes, le formulaire de demande flash,
+         la page Messages, une conversation). Vidéo muette en boucle de 13 s, lecture quand elle est à l'écran, pause hors écran
+         (project.js, data-auto). Rien de cliquable. En mouvement réduit, le poster reste. -->
+    <div class="vitrine-cadre g12">
+      <figure class="vitrine" data-rv="img">
+        <video class="heros-media ecran" src="web/relay-demo-boucle.mp4" poster="web/relay-demo-poster.webp" width="1280" height="800" muted loop playsinline autoplay preload="metadata" data-auto aria-label="L'app Relay sur ordinateur : le feed des demandes d'aide, le formulaire de demande flash qui se remplit, puis la page Messages et une conversation qui s'ouvre."></video>
       </figure>
+    </div>
+
+    <h2 class="lecteur">Le projet</h2>
+
+    <!-- Section 1 : texte à gauche, les deux écrans du formulaire de demande côte à côte à droite -->
+    <section class="regard g12">
+      <div class="regard-texte" data-rv="txt">
+        <h2 class="regard-titre">Qui a un chargeur ?</h2>
+        <p>Le sujet était libre&nbsp;: une web app de notre choix. Nous sommes partis sur la cohésion entre étudiants. Prêter un chargeur ou un câble, trouver des testeurs pour un test utilisateur, demander un coup de main technique. Une demande tient en une phrase, une catégorie, une filière et un lieu sur le campus. La demande flash passe en priorité, avec un minuteur qui expire au bout de 5, 10 ou 15 minutes.</p>
+      </div>
+      <figure class="regard-image regard-paire regard-cote" data-rv="img">
+        <img class="ecran" src="web/relay-demande-mobile.webp" alt="Le formulaire de demande flash de Relay sur mobile : un champ «&nbsp;Ton besoin en une phrase&nbsp;», six catégories (Matériel, Design, Code, Cours, Test UX, Autre), les filières ciblées, le lieu sur le campus et une description." width="741" height="1604" loading="lazy" decoding="async">
+        <img class="ecran" src="web/relay-demande-urgente-mobile.webp" alt="La fin du formulaire : l'interrupteur «&nbsp;Demande flash&nbsp;» sur fond jaune pâle, avec l'expiration à 5, 10 ou 15 minutes, et le bouton «&nbsp;Lancer la demande&nbsp;»." width="741" height="1604" loading="lazy" decoding="async">
+      </figure>
+    </section>
+
+    <!-- Section 2 : la paire à gauche (côté alterné), texte à droite : la page Messages, puis la conversation -->
+    <section class="regard regard-inverse g12">
+      <div class="regard-texte" data-rv="txt">
+        <h2 class="regard-titre">Du message au chat.</h2>
+        <p>Des fonctionnalités ne se mettaient pas à jour à chaque fois&nbsp;: c'est ce que j'ai réglé. Dans mes pull requests, j'ai aussi mis les messages à la place des notifications et retiré les catégories du feed.</p>
+      </div>
+      <figure class="regard-image regard-paire regard-cote" data-rv="img">
+        <img class="ecran" src="web/relay-messages-mobile.webp" alt="La page Messages de Relay sur mobile : trois conversations, avec Lucas, Inès et Tom, chacune avec l'objet de la demande, le dernier message, le temps écoulé et une pastille quand il reste des messages non lus." width="741" height="1604" loading="lazy" decoding="async">
+        <img class="ecran" src="web/relay-conversation-mobile.webp" alt="Une conversation dans Relay : Lucas cherche un câble HDMI pour une soutenance, on lui répond qu'on arrive dans deux minutes, il remercie. En bas, la barre d'écriture avec image, pièce jointe, émoji et envoi." width="741" height="1604" loading="lazy" decoding="async">
+      </figure>
+    </section>
+
+    <!-- Section 3 : texte à gauche, l'écran Profil de l'app sur ordinateur à droite (thème clair, absent du reste de la page) -->
+    <section class="regard g12">
+      <div class="regard-texte" data-rv="txt">
+        <h2 class="regard-titre">Plusieurs branches, un seul site.</h2>
+        <p>Le vrai défi tenait à la méthode&nbsp;: quatre personnes en même temps sur le même projet, sans écrire le code à la main, avec Claude Code. C'était notre première fois sur GitHub et Vercel. Chacun avançait sur sa branche, et il fallait s'accorder sur le moment de pousser. Le jury a donné une très bonne note au projet.</p>
+      </div>
+      <figure class="regard-image" data-rv="img">
+        <img class="ecran" src="web/relay-chat-bureau.jpg" alt="Le chat de Relay sur ordinateur : la liste des conversations à gauche, le fil de la conversation avec Lucas au centre avec sa barre d'écriture, et la colonne d'activité à droite." width="1600" height="1000" loading="lazy" decoding="async">
+      </figure>
+    </section>
+
+    <!-- Ce que j'en retiens : sous le seul filet de la page, le titre à gauche, la phrase de Clément à droite au trait de marqueur -->
+    <section class="retiens g12">
+      <h2 class="retiens-titre" data-rv="txt">Ce que j'en retiens.</h2>
+      <p data-rv="txt">À quatre, sur plusieurs branches et avec l'IA pour écrire le code, ce qui fait avancer un projet, c'est l'équipe.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
     </section>
 
     <!-- L'application : un seul grand lien. Même adresse que le lien du colophon, changer les deux. -->
@@ -116,11 +140,6 @@
       <a class="proto-lien" href="https://relay-chi-seven.vercel.app" target="_blank" rel="noopener" data-cur="Tester" aria-label="Tester l'app Relay, s'ouvre dans un nouvel onglet" data-rv="txt">
         <span class="proto-texte">Tester l'<span class="proto-fin">app<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
       </a>
-    </section>
-
-    <!-- Ce que j'en retiens : une seule phrase, factuelle (app en ligne, utilisable sur mobile) -->
-    <section class="retiens g12">
-      <p data-rv="txt">Relay n'est pas une maquette&nbsp;: on peut l'ouvrir sur son téléphone et lancer une demande.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
     </section>
   </main>
 

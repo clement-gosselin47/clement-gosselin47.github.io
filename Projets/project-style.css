@@ -703,24 +703,28 @@ html.js .p2 .affiche-finale {
    page. Quatre médias, pas de légende, un seul rythme vertical (140 px, 88 px en mobile),
    rien ne sort des marges. Le héros sticky, la feuille, la démarche en vrac et la
    planche-contact sont sortis de la page. */
+.p8 .ouv-titre,
 .p1 .ouv-titre,
 .p4 .ouv-titre,
 .p7 .ouv-titre {
   padding: 150px var(--m) 0;
 }
 
+.p8 .ouv-titre .l + .l,
 .p1 .ouv-titre .l + .l,
 .p4 .ouv-titre .l + .l,
 .p7 .ouv-titre .l + .l {
   margin-top: 0.06em;
 }
 
+.p8 .ouv-texte,
 .p1 .ouv-texte,
 .p4 .ouv-texte,
 .p7 .ouv-texte {
   margin-top: 40px;
 }
 
+.p8 .ouv-texte > div,
 .p1 .ouv-texte > div,
 .p4 .ouv-texte > div,
 .p7 .ouv-texte > div {
@@ -729,6 +733,7 @@ html.js .p2 .affiche-finale {
 
 /* Le site est en ligne : le lien passe au premier plan, sous le colophon.
    Même dessin pour le prototype Figma d'Ethikwear (p1). */
+.p8 .site-lien,
 .p1 .site-lien,
 .p4 .site-lien {
   margin-top: 24px;
@@ -736,12 +741,14 @@ html.js .p2 .affiche-finale {
   gap: 8px;
 }
 
+.p8 .site-lien svg,
 .p1 .site-lien svg,
 .p4 .site-lien svg {
   width: 18px;
   height: 18px;
 }
 
+.p8 figure,
 .p1 figure,
 .p4 figure,
 .p5 figure,
@@ -750,12 +757,14 @@ html.js .p2 .affiche-finale {
 }
 
 /* Le grand visuel : la vidéo de l'accueil, dans les marges, au ratio de l'enregistrement (1600 × 904) */
+.p8 .vitrine-cadre,
 .p1 .vitrine-cadre,
 .p4 .vitrine-cadre,
 .p7 .vitrine-cadre {
   margin-top: 140px;
 }
 
+.p8 .vitrine,
 .p1 .vitrine,
 .p4 .vitrine,
 .p7 .vitrine {
@@ -782,6 +791,7 @@ html.js .p2 .affiche-finale {
 
 /* Gabarit de la série de reprises (charte §16, §17) : Dugos (p4) puis Queen (p5), mêmes valeurs.
    Les trois sections en regard : le texte d'abord dans le DOM, la grille place l'image */
+.p8 .regard,
 .p1 .regard,
 .p4 .regard,
 .p5 .regard,
@@ -790,6 +800,7 @@ html.js .p2 .affiche-finale {
   align-items: start;
 }
 
+.p8 .regard-texte,
 .p1 .regard-texte,
 .p4 .regard-texte,
 .p5 .regard-texte,
@@ -797,6 +808,7 @@ html.js .p2 .affiche-finale {
   grid-column: 1 / 6;
 }
 
+.p8 .regard-image,
 .p1 .regard-image,
 .p4 .regard-image,
 .p5 .regard-image,
@@ -806,6 +818,7 @@ html.js .p2 .affiche-finale {
 
 /* Côté alterné : le texte reste premier dans le DOM, l'image passe à gauche. Placement dense,
    sinon la grille épargne la rangée et pose l'image sous le texte. */
+.p8 .regard-inverse,
 .p1 .regard-inverse,
 .p4 .regard-inverse,
 .p5 .regard-inverse,
@@ -813,6 +826,7 @@ html.js .p2 .affiche-finale {
   grid-auto-flow: dense;
 }
 
+.p8 .regard-inverse .regard-image,
 .p1 .regard-inverse .regard-image,
 .p4 .regard-inverse .regard-image,
 .p5 .regard-inverse .regard-image,
@@ -820,6 +834,7 @@ html.js .p2 .affiche-finale {
   grid-column: 1 / 7;
 }
 
+.p8 .regard-inverse .regard-texte,
 .p1 .regard-inverse .regard-texte,
 .p4 .regard-inverse .regard-texte,
 .p5 .regard-inverse .regard-texte,
@@ -828,10 +843,12 @@ html.js .p2 .affiche-finale {
 }
 
 /* Titre court : la version titre de .lead, avec son point final */
+.p8 .regard-titre,
 .p1 .regard-titre,
 .p4 .regard-titre,
 .p5 .regard-titre,
 .p7 .regard-titre,
+.p8 .retiens-titre,
 .p1 .retiens-titre,
 .p4 .retiens-titre,
 .p5 .retiens-titre,
@@ -845,6 +862,7 @@ html.js .p2 .affiche-finale {
   color: var(--fg);
 }
 
+.p8 .regard-texte p,
 .p1 .regard-texte p,
 .p4 .regard-texte p,
 .p5 .regard-texte p,
@@ -856,6 +874,7 @@ html.js .p2 .affiche-finale {
   max-width: 34em;
 }
 
+.p8 .regard-image img,
 .p1 .regard-image img,
 .p4 .regard-image img,
 .p5 .regard-image img,
@@ -883,6 +902,7 @@ html.js .p2 .affiche-finale {
 /* Le grand visuel d'Ethikwear : le prototype qu'on clique, vidéo muette en boucle (1280 × 724).
    Pas de bouton autour : rien de cliquable. La mécanique data-auto (project.js) la lit à l'écran,
    la met en pause hors écran et la laisse sur son poster en mouvement réduit. */
+.p8 .heros-media,
 .p1 .heros-media {
   display: block;
   width: 100%;
@@ -891,6 +911,7 @@ html.js .p2 .affiche-finale {
 }
 
 /* Ce que j'en retiens : le seul filet de la page, dans les marges ; titre à gauche, phrase à droite */
+.p8 .retiens,
 .p1 .retiens,
 .p4 .retiens,
 .p5 .retiens,
@@ -901,6 +922,7 @@ html.js .p2 .affiche-finale {
   align-items: start;
 }
 
+.p8 .retiens-titre,
 .p1 .retiens-titre,
 .p4 .retiens-titre,
 .p5 .retiens-titre,
@@ -909,6 +931,7 @@ html.js .p2 .affiche-finale {
   margin: 0;
 }
 
+.p8 .retiens p,
 .p1 .retiens p,
 .p4 .retiens p,
 .p5 .retiens p,
@@ -919,6 +942,7 @@ html.js .p2 .affiche-finale {
   line-height: 1.15;
 }
 
+.p8 .proto,
 .p1 .proto,
 .p4 .proto,
 .p5 .proto,
@@ -928,29 +952,36 @@ html.js .p2 .affiche-finale {
 
 /* Tablette et mobile : une colonne, l'image sous son texte */
 @media (max-width: 1099px) {
+  .p8 .ouv-texte > div,
   .p1 .ouv-texte > div,
   .p4 .ouv-texte > div,
   .p7 .ouv-texte > div,
+  .p8 .regard-texte,
   .p1 .regard-texte,
   .p4 .regard-texte,
   .p5 .regard-texte,
   .p7 .regard-texte,
+  .p8 .regard-image,
   .p1 .regard-image,
   .p4 .regard-image,
   .p5 .regard-image,
   .p7 .regard-image,
+  .p8 .regard-inverse .regard-texte,
   .p1 .regard-inverse .regard-texte,
   .p4 .regard-inverse .regard-texte,
   .p5 .regard-inverse .regard-texte,
   .p7 .regard-inverse .regard-texte,
+  .p8 .regard-inverse .regard-image,
   .p1 .regard-inverse .regard-image,
   .p4 .regard-inverse .regard-image,
   .p5 .regard-inverse .regard-image,
   .p7 .regard-inverse .regard-image,
+  .p8 .retiens-titre,
   .p1 .retiens-titre,
   .p4 .retiens-titre,
   .p5 .retiens-titre,
   .p7 .retiens-titre,
+  .p8 .retiens p,
   .p1 .retiens p,
   .p4 .retiens p,
   .p5 .retiens p,
@@ -958,6 +989,7 @@ html.js .p2 .affiche-finale {
     grid-column: 1 / -1;
   }
 
+  .p8 .regard-image,
   .p1 .regard-image,
   .p4 .regard-image,
   .p5 .regard-image,
@@ -970,6 +1002,7 @@ html.js .p2 .affiche-finale {
     max-width: 628px;
   }
 
+  .p8 .retiens p,
   .p1 .retiens p,
   .p4 .retiens p,
   .p5 .retiens p,
@@ -1309,19 +1342,23 @@ html.js .p2 .affiche-finale {
   }
 
   /* Projets 4 et 5 (gabarit de la série) : même page en une colonne, rythme de 88 px */
+  .p8 .ouv-titre,
   .p1 .ouv-titre,
   .p4 .ouv-titre,
   .p7 .ouv-titre {
     padding-top: 190px;
   }
 
+  .p8 .vitrine-cadre,
   .p1 .vitrine-cadre,
   .p4 .vitrine-cadre,
   .p7 .vitrine-cadre,
+  .p8 .regard,
   .p1 .regard,
   .p4 .regard,
   .p5 .regard,
   .p7 .regard,
+  .p8 .proto,
   .p1 .proto,
   .p4 .proto,
   .p5 .proto,
@@ -1329,6 +1366,7 @@ html.js .p2 .affiche-finale {
     margin-top: 88px;
   }
 
+  .p8 .retiens,
   .p1 .retiens,
   .p4 .retiens,
   .p5 .retiens,
@@ -1337,10 +1375,12 @@ html.js .p2 .affiche-finale {
     padding-top: 40px;
   }
 
+  .p8 .regard-titre,
   .p1 .regard-titre,
   .p4 .regard-titre,
   .p5 .regard-titre,
   .p7 .regard-titre,
+  .p8 .retiens-titre,
   .p1 .retiens-titre,
   .p4 .retiens-titre,
   .p5 .retiens-titre,
@@ -1348,6 +1388,7 @@ html.js .p2 .affiche-finale {
     font-size: 22px;
   }
 
+  .p8 .regard-texte p,
   .p1 .regard-texte p,
   .p4 .regard-texte p,
   .p5 .regard-texte p,
@@ -1355,6 +1396,7 @@ html.js .p2 .affiche-finale {
     font-size: 17px;
   }
 
+  .p8 .retiens p,
   .p1 .retiens p,
   .p4 .retiens p,
   .p5 .retiens p,
@@ -1722,126 +1764,30 @@ body.projet.sur-couleur .back-nav a:focus-visible {
   }
 }
 
-/* ═══ Projet 8, Relay : le titre posé sur l'application ═══
-   Classe de page .p8. Le titre au cadrage, puis la capture de l'application
-   bord à bord (même fichier que la case de Works : le calque se recadre dessus).
-   Le lien « Tester l'app » et la phrase de fin reprennent le dessin de Queen (.proto). */
-.p8 .ouv-relay {
-  padding-top: 150px;
-}
-
-.p8 .ouv-relay .titre {
-  margin: 0 var(--m);
-}
-
-.p8 .ouv-relay-img {
-  margin-top: 40px;
-}
-
-.p8 .ouv-relay-img img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1600 / 1000;
-}
-
-/* Téléphone en portrait : la source portrait (740 × 1600) garde son ratio, sans être écrasée dans 1600 / 1000 */
-@media (max-aspect-ratio: 3/5) {
-  .p8 .ouv-relay-img img {
-    aspect-ratio: 740 / 1600;
-  }
-}
-
-.p8 .ouv-relay-texte {
-  margin-top: 40px;
-}
-
-.p8 .ouv-relay-texte > div {
-  grid-column: 1 / 6;
-}
-
-/* Le feed sur ordinateur, bord à bord, sous les vues mobiles */
-.p8 .bureau {
-  margin-top: 160px;
-}
-
-.p8 .bureau img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1600 / 1000;
-  background: var(--c-15);   /* emplacement réservé tant que l'image n'est pas là */
-}
-
-.p8 .bureau .legende {
-  padding: 0 var(--m);
+/* ═══ Projet 8, Relay : récit en regard ═══
+   Refonte du 2026-10-27, cinquième page de la série du §16 (charte §20). L'ouverture au logo,
+   les trois vues collées et le feed bord à bord sont sortis. Les règles du gabarit plus haut
+   (.ouv-titre, .ouv-texte, .vitrine, .regard*, .retiens*, .proto) s'appliquent à .p8 sans
+   changer une valeur ; restent ici le fond d'attente carbone des captures (le fond de
+   l'application, règle du §18) et les cibles tactiles des liens. */
+.p8 .heros-media,
+.p8 .regard-image img.ecran {
+  background: #181713;
 }
 
 /* Cibles tactiles du lien du colophon (audit-ux 3) : le dessin ne bouge pas */
 .p8 .site-lien {
   min-height: 44px;
-  margin-top: 6px;
 }
 
-/* Les vues : captures mobiles collées, à la même hauteur, centrées, fond blanc de chaque côté */
-.p8 .vues {
-  --h: min(70vh, 69vw);      /* trois écrans collés tiennent toujours dans la largeur */
-  display: flex;
-  justify-content: center;
-  padding-bottom: 64px;      /* la place des légendes, sous les écrans */
-  margin-top: 160px;
-}
-
-.p8 .vues > figure {
-  position: relative;
-  flex: none;
-  height: var(--h);
-  width: calc(var(--h) * var(--r));
-  background: var(--c-15);   /* emplacement réservé tant que l'image n'est pas là */
-}
-
-.p8 .vues > figure > img {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-}
-
-.p8 .vues .legende {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: max-content;
-  max-width: 100%;
+/* Le petit lien « Voir le dépôt », sous le paragraphe de la troisième section */
+.p8 .regard-texte .site-lien {
+  margin-top: 20px;
 }
 
 @media (max-width: 767px) {
-  .p8 .ouv-relay {
-    padding-top: 190px;
-  }
-
-  .p8 .bureau {
-    margin-top: 96px;
-  }
-
   .p8 .proto-lien {
     min-height: 44px;
-  }
-
-  .p8 .ouv-relay-texte > div {
-    grid-column: 1 / -1;
-  }
-
-  /* Rail horizontal natif, accroché au bord gauche, le dernier écran déborde */
-  .p8 .vues {
-    --h: 60svh;
-    justify-content: flex-start;
-    margin-top: 96px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-  }
-
-  .p8 .vues > figure {
-    scroll-snap-align: start;
   }
 }
 
