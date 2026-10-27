@@ -5,16 +5,16 @@
   <!-- Ancienne adresse GitHub Pages : on renvoie vers le domaine, même page -->
   <script>if(location.hostname==="clement-gosselin47.github.io")location.replace("https://clement-gosselin.com"+location.pathname+location.search+location.hash)</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ethikwear, e-commerce de mode responsable, Clément Gosselin</title>
+  <title>Ethikwear, wireframes et prototype Figma d'un e-commerce, Clément Gosselin</title>
   <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
-  <meta name="description" content="Ethikwear, marque de mode responsable en unitaille. Wireframes, maquettes et prototype Figma d'un site e-commerce, projet de groupe à Ynov Bordeaux.">
+  <meta name="description" content="Ethikwear, site e-commerce fictif de vêtements éco-responsables. Wireframes de toutes les pages, maquette et prototype Figma interactif, mobile et desktop. Projet fil rouge d'Ynov Bordeaux, groupe de 4.">
   <link rel="canonical" href="https://clement-gosselin.com/Projets/Ethikwear/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Clément Gosselin">
   <meta name="application-name" content="Clément Gosselin">
   <meta property="og:locale" content="fr_FR">
-  <meta property="og:title" content="Ethikwear, e-commerce de mode responsable, Clément Gosselin">
-  <meta property="og:description" content="Ethikwear, marque de mode responsable en unitaille. Wireframes, maquettes et prototype Figma d'un site e-commerce, projet de groupe à Ynov Bordeaux.">
+  <meta property="og:title" content="Ethikwear, wireframes et prototype Figma d'un e-commerce, Clément Gosselin">
+  <meta property="og:description" content="Ethikwear, site e-commerce fictif de vêtements éco-responsables. Wireframes de toutes les pages, maquette et prototype Figma interactif, mobile et desktop. Projet fil rouge d'Ynov Bordeaux, groupe de 4.">
   <meta property="og:url" content="https://clement-gosselin.com/Projets/Ethikwear/">
   <meta property="og:image" content="https://clement-gosselin.com/Projets/Ethikwear/web/og-ethikwear.jpg?v=2">
   <meta property="og:image:width" content="1200">
@@ -33,15 +33,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../shared.css?v=20261025">
-  <link rel="stylesheet" href="../project-style.css?v=20261025d">
+  <link rel="stylesheet" href="../project-style.css?v=20261027a">
 </head>
 <!-- MODE D'EMPLOI
-     Textes : tout est dans <main>, dans l'ordre de la page (colophon, récit, phrase de fin).
-     Case de couleur = emplacement vide : la remplacer par l'<img> écrite dans le commentaire juste au-dessus.
-     Images : dans le dossier web/ de ce projet, en .webp ; une phrase simple dans alt.
-     Couleur du projet : --c dans le style de <body> (--c-ink = encre lisible sur la couleur).
-     Prototype Figma : l'adresse est dans href du lien « Voir le prototype », sous le colophon.
-     Mise en scène de cette page : le portant, des écrans qui pendent tous à la même hauteur. -->
+     Textes : tout est dans le <main>, dans l'ordre de la page (colophon, titres et paragraphes des sections, phrase de fin).
+     Images : dans le dossier web/ de ce projet, en .webp ; une phrase simple dans alt. Pas de légende : le paragraphe d'à côté raconte l'image.
+     Couleur du projet : --c dans le style du <body> (--c-ink = encre lisible sur la couleur).
+     Prototype Figma : la même adresse dans le petit lien du colophon et dans le grand lien « Voir le prototype », changer les deux.
+     Mise en scène de cette page (récit en regard, gabarit de la série de reprises, charte §16 et §19) : un haut de page titre et intro,
+     un grand visuel (la vidéo du prototype qu'on clique), puis trois sections texte et image côte à côte (la marque, la page d'accueil
+     en wireframe et en maquette, les deux écrans mobiles), et ce que j'en retiens. Une paire d'images = une figure
+     à deux colonnes égales (class="regard-paire regard-cote"), côte à côte jusque sur mobile. -->
 <body class="projet p1" style="--c: #4CAF1E; --c-ink: #000">
   <div class="cursor" id="cursor"></div>
 
@@ -62,13 +64,17 @@
   </header>
 
   <main>
-    <!-- Ouverture : la vitrine à droite, le nom au cadrage qui traverse l'écran par-dessus -->
-    <section class="ouv">
-      <div class="ouv-texte" data-rv="txt">
-        <!-- Colophon : une phrase, le type, l'année, ton rôle, les outils -->
-        <p class="colophon">Site e-commerce, 2025. Projet de groupe de six mois à Ynov Bordeaux&nbsp;: wireframes, maquettes et prototype interactif. Figma. Projet réalisé par <a href="../../About/index.html">Clément Gosselin</a>, Product Builder no-code et IA à Ynov Bordeaux.</p>
+    <!-- Titre au cadrage, à 150 px du haut (socle), sur une seule ligne -->
+    <h1 class="titre ouv-titre">
+      <span class="l fit"><span class="t">Ethikwear</span></span>
+    </h1>
+
+    <section class="ouv-texte g12">
+      <div data-rv="txt">
+        <!-- Colophon : une phrase, le type, le cadre, le rôle, l'outil. Sans signature (décision de Clément, 2026-10-25) -->
+        <p class="colophon">Site e-commerce fictif de vêtements éco-responsables. Projet fil rouge d'Ynov Bordeaux, groupe de 4, premier semestre 2025-2026, environ six mois. Mon rôle&nbsp;: wireframes, maquette et prototype. Figma.</p>
         <!-- Prototype Figma en lecture seule (accès réglé par Clément : vue du site uniquement).
-             ADRESSE DU PROTOTYPE : c'est le seul endroit à changer. Les & s'écrivent &amp; ici. -->
+             ADRESSE DU PROTOTYPE : même adresse que le grand lien plus bas, changer les deux. Les & s'écrivent &amp; ici. -->
         <a class="site-lien" href="https://www.figma.com/proto/6k9hJ4tUqNZOSi7QaEseFu/Fil-rouge?node-id=280-364&amp;viewport=45%2C356%2C0.03&amp;t=vXZfaZc2t7aDgD1R-1&amp;scaling=scale-down-width&amp;content-scaling=fixed&amp;starting-point-node-id=280%3A364&amp;page-id=94%3A2" target="_blank" rel="noopener" data-cur="Voir">
           Voir le prototype
           <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -76,44 +82,59 @@
           </svg>
         </a>
       </div>
-      <div class="ouv-img">
-        <picture>
-          <source media="(max-aspect-ratio: 3/5)" srcset="web/ethikwear-vitrine-portrait.jpg">
-          <img src="web/ethikwear-vitrine-plein.jpg" alt="La page d'accueil du site Ethikwear : des mannequins en vêtements de la marque, sur fond clair." width="1600" height="1000" fetchpriority="high" data-ov>
-        </picture>
-      </div>
-      <h1 class="titre fit"><span class="l"><span class="t">Ethikwear</span></span></h1>
     </section>
 
-    <!-- Récit : trois à cinq paragraphes courts, chacun commence par une attaque en gras -->
-    <section class="recit g12">
-      <h2 class="lecteur">Le projet</h2>
-      <div class="recit-col">
-        <p data-rv="txt"><b class="lead">Une marque à créer.</b> En première année de Bachelor, notre groupe devait créer une marque de mode responsable, de la stratégie jusqu'au site e-commerce. Notre parti pris&nbsp;: l'unitaille, une seule taille pour toutes les morphologies. J'ai participé à la réflexion sur la marque et à son identité visuelle, puis à la conception du site avec le groupe.</p>
-        <!-- À CONFIRMER PAR CLÉMENT : taille du groupe, répartition, outil de suivi. Phrase prête (cinq et Trello sont des exemples) : « On était cinq. Chaque semaine, on se répartissait les tâches sur Trello, et je présentais l'avancée du site au groupe. » -->
-        <p class="decale" data-rv="txt"><b class="lead">Du wireframe au prototype.</b> On a posé le parcours d'achat en wireframes&nbsp;: accueil, listing produits, fiche produit, panier, À propos, chaque écran décliné en mobile. On l'a ensuite porté en maquettes puis en prototype interactif sur Figma, en desktop et en mobile.</p>
+    <!-- Le grand visuel, dans les marges : le prototype qu'on clique (accueil, liste des produits, fiche produit).
+         Vidéo muette en boucle de 12 s, lecture quand elle est à l'écran, pause hors écran (project.js, data-auto).
+         Rien de cliquable. En mouvement réduit, le poster reste. Se révèle comme une image (data-rv="img" sur la figure). -->
+    <div class="vitrine-cadre g12">
+      <figure class="vitrine" data-rv="img">
+        <video class="heros-media ecran" src="web/ethikwear-demo-boucle.mp4" poster="web/ethikwear-demo-poster.webp" width="1280" height="724" muted loop playsinline autoplay preload="metadata" data-auto aria-label="Prototype d'Ethikwear en desktop, en boucle&nbsp;: l'accueil avec «&nbsp;UNITAILLE&nbsp;» en très grosses lettres noires à côté d'un duo en noir et blanc, puis la liste des produits et la fiche produit."></video>
+      </figure>
+    </div>
+
+
+    <!-- Section 1 : texte à gauche, la page À propos à droite. Dans le DOM, toujours le texte
+         d'abord (mobile et lecteurs d'écran) ; la grille place l'image. Rien n'est cliquable. -->
+    <section class="regard g12">
+      <div class="regard-texte" data-rv="txt">
+        <h2 class="regard-titre">Une marque unitaille, inventée à quatre.</h2>
+        <p>Le projet fil rouge d'Ynov, au premier semestre 2025-2026, demandait un site complet. Nous étions quatre, pour environ six mois. Notre sujet&nbsp;: Ethikwear, un e-commerce fictif de vêtements éco-responsables, avec un parti pris, l'unitaille, une seule taille pensée pour toutes les morphologies. Avant d'ouvrir Figma, nous avons mené la veille du marché, construit les personas et l'arborescence. Ensuite, je me suis occupé des wireframes, de la maquette et du prototype. C'est ce travail que je montre ici.</p>
       </div>
+      <figure class="regard-image" data-rv="img">
+        <img class="ecran" src="web/ethikwear-ecran-a-propos-desktop.webp" alt="Page À propos d'Ethikwear en desktop&nbsp;: portrait d'une jeune femme au bonnet rayé orange et bleu marine devant un mur en bois, «&nbsp;À PROPOS&nbsp;» en très grosses lettres noires en bas à gauche, barre crème en haut avec le logo, les favoris, le panier et le compte." width="1512" height="945" loading="lazy" decoding="async">
+      </figure>
     </section>
 
-    <!-- Le portant : tous les écrans à la même hauteur, sur une seule ligne.
-         Desktop = <figure class="d">, mobile = <figure class="mo">. On peut en ajouter, en retirer, changer l'ordre.
-         Légende facultative sous un écran : <figcaption class="legende">Une phrase courte.</figcaption> -->
-    <section class="portant" data-pin="portant" data-rv-non aria-label="Les écrans du site">
-      <div class="portant-scene">
-        <div class="portant-barre"></div>
-        <div class="rail">
-          <!-- Un écran = une <figure> : class="d" pour un ordinateur, class="mo" pour un mobile.
-               --r = largeur / hauteur réelles du fichier (ex. 1512/945). Images chargées d'emblée : le rail défile vite.
-               Légende facultative : <figcaption class="legende">Une phrase courte.</figcaption> -->
-          <figure class="d" style="--r: 1512/945"><img class="ecran" loading="lazy" src="web/ethikwear-ecran-accueil-desktop.webp" alt="Prototype de la page d'accueil d'Ethikwear, version ordinateur." width="1512" height="945"><figcaption class="legende">L'accueil.</figcaption></figure>
-          <figure class="mo" style="--r: 393/852"><img class="ecran" loading="lazy" src="web/ethikwear-ecran-accueil-mobile.webp" alt="Prototype de la page d'accueil d'Ethikwear sur mobile." width="393" height="852"></figure>
-          <figure class="mo" style="--r: 393/852"><img class="ecran" loading="lazy" src="web/ethikwear-ecran-produits-mobile.webp" alt="Liste des produits Ethikwear sur mobile." width="393" height="852"></figure>
-          <figure class="d" style="--r: 1512/945"><img class="ecran" loading="lazy" src="web/ethikwear-ecran-produit-desktop.webp" alt="Fiche produit Ethikwear : photo, prix, matières et livraison." width="1512" height="945"><figcaption class="legende">La fiche produit.</figcaption></figure>
-          <figure class="mo" style="--r: 422/914"><img class="ecran" loading="lazy" src="web/ethikwear-ecran-produit-mobile.webp" alt="Fiche produit Ethikwear sur mobile." width="422" height="914"></figure>
-          <figure class="d" style="--r: 1512/945"><img class="ecran" loading="lazy" src="web/ethikwear-ecran-a-propos-desktop.webp" alt="Page À propos d'Ethikwear, version ordinateur." width="1512" height="945"></figure>
-          <figure class="mo" style="--r: 393/852"><img class="ecran" loading="lazy" src="web/ethikwear-ecran-wireframe-accueil-mobile.webp" alt="Wireframe de la page d'accueil d'Ethikwear sur mobile." width="393" height="852"><figcaption class="legende">L'accueil en wireframe.</figcaption></figure>
-        </div>
+    <!-- Section 2 : la paire à gauche (la page d'accueil entière, wireframe puis maquette, côte à côte), texte à droite (côté alterné).
+         Rien entre les deux images : ni trait, ni flèche, ni mot. Hauteurs réelles, sans rognage. -->
+    <section class="regard regard-inverse g12">
+      <div class="regard-texte" data-rv="txt">
+        <h2 class="regard-titre">L'accueil, bloc pour bloc.</h2>
+        <p>J'ai posé les wireframes de toutes les pages&nbsp;: accueil, liste des produits, fiche produit, panier, À propos, chacune en desktop et en mobile. L'image montre la page d'accueil en entier, de l'en-tête au pied de page, en wireframe à gauche et en maquette à droite. La maquette reprend la structure bloc pour bloc&nbsp;: le grand visuel «&nbsp;UNITAILLE&nbsp;» prend la place du bloc gris barré d'une croix, et la rangée de quatre vêtements avec leur prix remplace deux blocs.</p>
       </div>
+      <figure class="regard-image regard-paire regard-cote" data-rv="img">
+        <img class="ecran" src="web/ethikwear-wireframe-accueil-desktop.webp" alt="Wireframe de l'accueil d'Ethikwear en desktop&nbsp;: en-tête avec logo et menu, grand bloc gris barré d'une croix avec «&nbsp;UNITAILLE&nbsp;» en grosses lettres, deux visuels côte à côte, un visuel pleine largeur, un bloc texte et image, puis le pied de page gris." width="1200" height="3404" loading="lazy" decoding="async">
+        <img class="ecran" src="web/ethikwear-maquette-accueil-desktop.webp" alt="Maquette de l'accueil d'Ethikwear en desktop&nbsp;: «&nbsp;UNITAILLE&nbsp;» en grosses lettres noires devant un duo en noir et blanc, quatre vêtements en rangée avec leur prix, «&nbsp;Une seule taille, pensée pour tous&nbsp;» à côté d'un portrait, «&nbsp;À propos d'Ethikwear&nbsp;» à côté d'une photo en noir et blanc, puis le pied de page beige." width="1200" height="3028" loading="lazy" decoding="async">
+      </figure>
+    </section>
+
+    <!-- Section 3 : texte à gauche, les deux écrans mobiles côte à côte à droite. -->
+    <section class="regard g12">
+      <div class="regard-texte" data-rv="txt">
+        <h2 class="regard-titre">Jusqu'au dernier bouton.</h2>
+        <p>Le prototype existe en mobile et en desktop, et chaque bouton y est relié. La vidéo du haut part de l'accueil, passe par la liste des produits et arrive à la fiche produit. Sur la fiche, on peut ajouter au panier, aller jusqu'à commander, et ouvrir les rubriques Description, Matières et entretien, Livraison. Les deux écrans ci-contre sont ceux du mobile&nbsp;: la liste des produits, puis la fiche du pantalon pratique. Tout se parcourt depuis le lien «&nbsp;Voir le prototype&nbsp;».</p>
+      </div>
+      <figure class="regard-image regard-paire regard-cote" data-rv="img">
+        <img class="ecran" src="web/ethikwear-ecran-produits-mobile.webp" alt="Liste des produits d'Ethikwear en mobile&nbsp;: le manteau hybride à 129&nbsp;€ en plein cadre, avec le logo et le menu en haut, puis une seconde rangée qui commence par un jean sous un sweat rouge." width="393" height="852" loading="lazy" decoding="async">
+        <img class="ecran" src="web/ethikwear-ecran-produit-mobile-393.webp" alt="Fiche produit d'Ethikwear en mobile&nbsp;: photo d'un jean large sous un sweat rouge, «&nbsp;Le pantalon pratique&nbsp;», 129&nbsp;€, puis les boutons «&nbsp;Ajouter au panier&nbsp;» et «&nbsp;Commander&nbsp;»." width="393" height="852" loading="lazy" decoding="async">
+      </figure>
+    </section>
+
+    <!-- Ce que j'en retiens : sous le seul filet de la page, le titre à gauche, la phrase de Clément à droite au trait de marqueur -->
+    <section class="retiens g12">
+      <h2 class="retiens-titre" data-rv="txt">Ce que j'en retiens.</h2>
+      <p data-rv="txt">Un prototype complet se teste comme un vrai site, bien avant d'écrire une ligne de code.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
     </section>
 
     <!-- Le prototype : un seul grand lien. Même adresse que le lien du colophon, changer les deux. -->
@@ -121,11 +142,6 @@
       <a class="proto-lien" href="https://www.figma.com/proto/6k9hJ4tUqNZOSi7QaEseFu/Fil-rouge?node-id=280-364&amp;viewport=45%2C356%2C0.03&amp;t=vXZfaZc2t7aDgD1R-1&amp;scaling=scale-down-width&amp;content-scaling=fixed&amp;starting-point-node-id=280%3A364&amp;page-id=94%3A2" target="_blank" rel="noopener" data-cur="Voir" data-rv="txt">
         <span class="proto-texte">Voir le <span class="proto-fin">prototype<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
       </a>
-    </section>
-
-    <!-- Ce que j'en retiens : une seule phrase -->
-    <section class="retiens g12">
-      <p data-rv="txt">Sur la fiche produit, les matières, l'entretien et la livraison sont juste à côté du prix.<svg class="marque-fin" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M1.5 7.2C16 3.2 31 8.6 49 5.4C67 2.2 85 7.8 98.5 2.8"/></svg></p>
     </section>
   </main>
 
@@ -138,6 +154,6 @@
   </footer>
 
   <script src="../../shared.js?v=20261025"></script>
-  <script src="../project.js?v=20261025b"></script>
+  <script src="../project.js?v=20261027a"></script>
 </body>
 </html>

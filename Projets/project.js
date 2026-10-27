@@ -201,6 +201,8 @@
   document.querySelectorAll('video[data-auto]').forEach(video => {
     const bouton = video.closest('button');
     let voulue = !reduit;   // la lecture souhaitée (par défaut, ou après un clic)
+    // Mouvement réduit : l'attribut autoplay lancerait la lecture seul, on le retire.
+    if (reduit) { video.autoplay = false; video.removeAttribute('autoplay'); }
     let visible = false;
     const maj = () => {
       const lire = voulue && visible && !document.hidden;
@@ -217,6 +219,7 @@
       visible = true;
     }
     document.addEventListener('visibilitychange', maj);
+    video.addEventListener('play', maj);   // coupe toute lecture non voulue
     if (bouton) bouton.addEventListener('click', () => { voulue = !voulue; maj(); });
     maj();
   });

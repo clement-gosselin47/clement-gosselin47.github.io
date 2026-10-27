@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════
    Pages projet v2 (2026-10-02)
    Socle commun (direction.md B) puis une mise en page par projet :
-   .p1 le portant, .p2 la salle s'éteint, .p3 les deux pages,
+   .p1 le récit en regard (Ethikwear), .p2 la salle s'éteint, .p3 les deux pages,
    .p4 le récit en regard, .p5 le titre qui traverse, .p7 le seuil, .p8 Relay, .p9 Hecto.
    (Le brouillon « Sans titre » est sorti du site : .portfolio/2026-10-05-coherence/retirees/projet-6/)
    Couleur du projet : --c sur <body>, encre lisible dessus : --c-ink.
@@ -428,111 +428,11 @@ html.rv-secours [data-rv] > * {
   outline-offset: -8px;
 }
 
-/* ═══ Projet 1, Ethikwear : le portant ═══ */
-.p1 .ouv {
-  position: relative;
-  height: 100vh;
-  min-height: 620px;
-  overflow: hidden;
-}
-
-/* Vitrine : colonnes 6 à 12 + marge droite, du haut au bas de l'écran */
-.p1 .ouv-img {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: calc(var(--col) * 7 + var(--g) * 6 + var(--m));
-}
-
-.p1 .ouv-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 80% 50%;   /* cale la capture de Works sur les mannequins */
-}
-
-.p1 .ouv-texte {
-  position: absolute;
-  top: 150px;
-  left: var(--m);
-  width: calc(var(--col) * 5 + var(--g) * 4);
-}
-
-/* Le titre traverse tout l'écran en bas, par-dessus l'image */
-.p1 .ouv .titre {
-  position: absolute;
-  left: var(--m);
-  right: var(--m);
-  bottom: 40px;
-  z-index: 2;
-}
-
-/* Le portant : sticky, le défilement vertical fait glisser le rail.
-   --h = hauteur commune des écrans : 62 % de l'écran, mais jamais plus que la
-   place sous le header, ni trop haute pour la largeur (tablette en portrait).
-   Chaque écran a sa vraie proportion --r (largeur / hauteur du fichier), donc
-   sa largeur est connue avant le chargement de l'image : la course est juste. */
-.p1 .portant {
-  --h: min(62vh, 52vw, calc(100vh - 250px));
-  --haut: max(170px, calc((100vh - var(--h)) / 2));
-  position: relative;
-  margin-top: 160px;
-}
-
-.p1 .portant-scene {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.p1 .portant-barre {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(var(--haut) - 4px);
-  height: 1px;
-  background: var(--fg);
-}
-
-.p1 .rail {
-  position: absolute;
-  top: var(--haut);
-  left: 0;
-  display: flex;
-  gap: 24px;
-  width: max-content;
-  padding: 0 var(--m);
-}
-
-.p1 .rail figure {
-  position: relative;
-  flex: none;
-  height: var(--h);
-  width: calc(var(--h) * var(--r));
-  background: var(--c-15);          /* jamais un trou blanc, même image pas encore chargée */
-  transition: transform 0.4s var(--out);
-}
-
-.p1 .rail figure:hover {
-  transform: translateY(6px);
-}
-
-.p1 .rail figure > .empty,
-.p1 .rail figure > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.p1 .rail .legende {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: max-content;
-  max-width: 100%;
-}
+/* ═══ Projet 1, Ethikwear : récit en regard ═══
+   Refonte du 2026-10-27, quatrième page de la série du §16 (Dugos p4, Queen p5, Passage Secret p7).
+   Le portant et l'ouverture en vitrine sont sortis. Les règles du gabarit plus bas (.ouv-titre,
+   .vitrine, .regard*, .retiens*) s'appliquent à .p1 sans changer une valeur ; restent le lien
+   « Voir le prototype » (plus bas, avec .p4) et la paire côte à côte (.regard-cote). */
 
 /* ═══ Projet 2, Redstone : la salle s'éteint ═══ */
 .p2 .ouv {
@@ -803,21 +703,25 @@ html.js .p2 .affiche-finale {
    page. Quatre médias, pas de légende, un seul rythme vertical (140 px, 88 px en mobile),
    rien ne sort des marges. Le héros sticky, la feuille, la démarche en vrac et la
    planche-contact sont sortis de la page. */
+.p1 .ouv-titre,
 .p4 .ouv-titre,
 .p7 .ouv-titre {
   padding: 150px var(--m) 0;
 }
 
+.p1 .ouv-titre .l + .l,
 .p4 .ouv-titre .l + .l,
 .p7 .ouv-titre .l + .l {
   margin-top: 0.06em;
 }
 
+.p1 .ouv-texte,
 .p4 .ouv-texte,
 .p7 .ouv-texte {
   margin-top: 40px;
 }
 
+.p1 .ouv-texte > div,
 .p4 .ouv-texte > div,
 .p7 .ouv-texte > div {
   grid-column: 1 / 6;
@@ -838,6 +742,7 @@ html.js .p2 .affiche-finale {
   height: 18px;
 }
 
+.p1 figure,
 .p4 figure,
 .p5 figure,
 .p7 figure {
@@ -845,11 +750,13 @@ html.js .p2 .affiche-finale {
 }
 
 /* Le grand visuel : la vidéo de l'accueil, dans les marges, au ratio de l'enregistrement (1600 × 904) */
+.p1 .vitrine-cadre,
 .p4 .vitrine-cadre,
 .p7 .vitrine-cadre {
   margin-top: 140px;
 }
 
+.p1 .vitrine,
 .p4 .vitrine,
 .p7 .vitrine {
   grid-column: 1 / -1;
@@ -875,6 +782,7 @@ html.js .p2 .affiche-finale {
 
 /* Gabarit de la série de reprises (charte §16, §17) : Dugos (p4) puis Queen (p5), mêmes valeurs.
    Les trois sections en regard : le texte d'abord dans le DOM, la grille place l'image */
+.p1 .regard,
 .p4 .regard,
 .p5 .regard,
 .p7 .regard {
@@ -882,12 +790,14 @@ html.js .p2 .affiche-finale {
   align-items: start;
 }
 
+.p1 .regard-texte,
 .p4 .regard-texte,
 .p5 .regard-texte,
 .p7 .regard-texte {
   grid-column: 1 / 6;
 }
 
+.p1 .regard-image,
 .p4 .regard-image,
 .p5 .regard-image,
 .p7 .regard-image {
@@ -896,18 +806,21 @@ html.js .p2 .affiche-finale {
 
 /* Côté alterné : le texte reste premier dans le DOM, l'image passe à gauche. Placement dense,
    sinon la grille épargne la rangée et pose l'image sous le texte. */
+.p1 .regard-inverse,
 .p4 .regard-inverse,
 .p5 .regard-inverse,
 .p7 .regard-inverse {
   grid-auto-flow: dense;
 }
 
+.p1 .regard-inverse .regard-image,
 .p4 .regard-inverse .regard-image,
 .p5 .regard-inverse .regard-image,
 .p7 .regard-inverse .regard-image {
   grid-column: 1 / 7;
 }
 
+.p1 .regard-inverse .regard-texte,
 .p4 .regard-inverse .regard-texte,
 .p5 .regard-inverse .regard-texte,
 .p7 .regard-inverse .regard-texte {
@@ -915,9 +828,11 @@ html.js .p2 .affiche-finale {
 }
 
 /* Titre court : la version titre de .lead, avec son point final */
+.p1 .regard-titre,
 .p4 .regard-titre,
 .p5 .regard-titre,
 .p7 .regard-titre,
+.p1 .retiens-titre,
 .p4 .retiens-titre,
 .p5 .retiens-titre,
 .p7 .retiens-titre {
@@ -930,6 +845,7 @@ html.js .p2 .affiche-finale {
   color: var(--fg);
 }
 
+.p1 .regard-texte p,
 .p4 .regard-texte p,
 .p5 .regard-texte p,
 .p7 .regard-texte p {
@@ -940,6 +856,7 @@ html.js .p2 .affiche-finale {
   max-width: 34em;
 }
 
+.p1 .regard-image img,
 .p4 .regard-image img,
 .p5 .regard-image img,
 .p7 .regard-image img {
@@ -954,7 +871,27 @@ html.js .p2 .affiche-finale {
   gap: 24px;
 }
 
+/* Ethikwear (charte §19) : deux pages entières en portrait (wireframe et maquette d'une même page,
+   ou deux écrans de téléphone) se posent côte à côte, deux colonnes égales, alignées en haut,
+   hauteurs réelles, sans rognage : les deux bas ne s'alignent pas, ce sont les vraies pages.
+   Elles restent côte à côte en mobile (gap de 16 px, règle plus bas). */
+.regard-cote {
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+
+/* Le grand visuel d'Ethikwear : le prototype qu'on clique, vidéo muette en boucle (1280 × 724).
+   Pas de bouton autour : rien de cliquable. La mécanique data-auto (project.js) la lit à l'écran,
+   la met en pause hors écran et la laisse sur son poster en mouvement réduit. */
+.p1 .heros-media {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--c-15);          /* fond d'attente tant que le poster n'est pas là */
+}
+
 /* Ce que j'en retiens : le seul filet de la page, dans les marges ; titre à gauche, phrase à droite */
+.p1 .retiens,
 .p4 .retiens,
 .p5 .retiens,
 .p7 .retiens {
@@ -964,6 +901,7 @@ html.js .p2 .affiche-finale {
   align-items: start;
 }
 
+.p1 .retiens-titre,
 .p4 .retiens-titre,
 .p5 .retiens-titre,
 .p7 .retiens-titre {
@@ -971,6 +909,7 @@ html.js .p2 .affiche-finale {
   margin: 0;
 }
 
+.p1 .retiens p,
 .p4 .retiens p,
 .p5 .retiens p,
 .p7 .retiens p {
@@ -980,6 +919,7 @@ html.js .p2 .affiche-finale {
   line-height: 1.15;
 }
 
+.p1 .proto,
 .p4 .proto,
 .p5 .proto,
 .p7 .proto {
@@ -988,35 +928,49 @@ html.js .p2 .affiche-finale {
 
 /* Tablette et mobile : une colonne, l'image sous son texte */
 @media (max-width: 1099px) {
+  .p1 .ouv-texte > div,
   .p4 .ouv-texte > div,
   .p7 .ouv-texte > div,
+  .p1 .regard-texte,
   .p4 .regard-texte,
   .p5 .regard-texte,
   .p7 .regard-texte,
+  .p1 .regard-image,
   .p4 .regard-image,
   .p5 .regard-image,
   .p7 .regard-image,
+  .p1 .regard-inverse .regard-texte,
   .p4 .regard-inverse .regard-texte,
   .p5 .regard-inverse .regard-texte,
   .p7 .regard-inverse .regard-texte,
+  .p1 .regard-inverse .regard-image,
   .p4 .regard-inverse .regard-image,
   .p5 .regard-inverse .regard-image,
   .p7 .regard-inverse .regard-image,
+  .p1 .retiens-titre,
   .p4 .retiens-titre,
   .p5 .retiens-titre,
   .p7 .retiens-titre,
+  .p1 .retiens p,
   .p4 .retiens p,
   .p5 .retiens p,
   .p7 .retiens p {
     grid-column: 1 / -1;
   }
 
+  .p1 .regard-image,
   .p4 .regard-image,
   .p5 .regard-image,
   .p7 .regard-image {
     margin-top: 28px;
   }
 
+  /* Ethikwear : sans plafond, la paire de wireframes dépasserait 1300 px de haut en tablette */
+  .regard-cote {
+    max-width: 628px;
+  }
+
+  .p1 .retiens p,
   .p4 .retiens p,
   .p5 .retiens p,
   .p7 .retiens p {
@@ -1172,40 +1126,6 @@ html.js .p2 .affiche-finale {
     font-size: 17px;
   }
 
-  /* Ethikwear : la colonne de droite est trop étroite pour le portable (audit-ux 13).
-     Jusqu'à 1099px, l'ouverture passe en pile : vitrine 4:3 bord à bord, titre
-     qui chevauche son bas, colophon dessous (comme en mobile). */
-  .p1 .ouv {
-    height: auto;
-    min-height: 0;
-    padding-top: 190px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .p1 .ouv-img {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    max-height: 72vh;          /* tablette à l'horizontale : le titre reste dans l'écran */
-  }
-
-  .p1 .ouv .titre {
-    position: relative;
-    left: auto;
-    right: auto;
-    bottom: auto;
-    margin: -0.42em var(--m) 0;
-  }
-
-  .p1 .ouv-texte {
-    order: 3;
-    position: static;
-    width: auto;
-    margin-top: 32px;
-    padding: 0 var(--m);
-  }
-
   .retiens p {
     grid-column: 1 / -1;
   }
@@ -1295,53 +1215,6 @@ html.js .p2 .affiche-finale {
   .suivant:active .suivant-label,
   .suivant:active .titre {
     color: var(--next-ink);
-  }
-
-  /* Projet 1 : ouverture, voir la règle tablette (jusqu'à 1099px).
-     Sous 768px le titre démarre sous la vitrine : le bas de la capture portrait porte
-     un bouton noir où les lettres noires se perdaient (cohérence 2026-10-05, point 17). */
-  .p1 .ouv .titre {
-    margin: 12px var(--m) 0;
-  }
-
-  .p1 .portant {
-    height: auto !important;
-    margin-top: 96px;
-  }
-
-  .p1 .portant-scene {
-    position: relative;
-    height: auto;
-    overflow: visible;
-  }
-
-  .p1 .portant-barre {
-    top: 0;
-  }
-
-  .p1 .rail {
-    position: relative;
-    top: 0;
-    width: 100%;
-    padding-top: 4px;
-    padding-bottom: 32px;
-    transform: none !important;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding: 0 20px;
-    scrollbar-width: none;
-  }
-
-  .p1 .portant {
-    --h: min(56svh, 80vw);
-  }
-
-  .p1 .rail figure {
-    scroll-snap-align: start;
-  }
-
-  .p1 .rail figure:hover {
-    transform: none;
   }
 
   /* Projet 2 */
@@ -1436,22 +1309,27 @@ html.js .p2 .affiche-finale {
   }
 
   /* Projets 4 et 5 (gabarit de la série) : même page en une colonne, rythme de 88 px */
+  .p1 .ouv-titre,
   .p4 .ouv-titre,
   .p7 .ouv-titre {
     padding-top: 190px;
   }
 
+  .p1 .vitrine-cadre,
   .p4 .vitrine-cadre,
   .p7 .vitrine-cadre,
+  .p1 .regard,
   .p4 .regard,
   .p5 .regard,
   .p7 .regard,
+  .p1 .proto,
   .p4 .proto,
   .p5 .proto,
   .p7 .proto {
     margin-top: 88px;
   }
 
+  .p1 .retiens,
   .p4 .retiens,
   .p5 .retiens,
   .p7 .retiens {
@@ -1459,21 +1337,25 @@ html.js .p2 .affiche-finale {
     padding-top: 40px;
   }
 
+  .p1 .regard-titre,
   .p4 .regard-titre,
   .p5 .regard-titre,
   .p7 .regard-titre,
+  .p1 .retiens-titre,
   .p4 .retiens-titre,
   .p5 .retiens-titre,
   .p7 .retiens-titre {
     font-size: 22px;
   }
 
+  .p1 .regard-texte p,
   .p4 .regard-texte p,
   .p5 .regard-texte p,
   .p7 .regard-texte p {
     font-size: 17px;
   }
 
+  .p1 .retiens p,
   .p4 .retiens p,
   .p5 .retiens p,
   .p7 .retiens p {
@@ -1482,6 +1364,10 @@ html.js .p2 .affiche-finale {
 
   .regard-paire {
     gap: 16px;
+  }
+
+  .regard-cote {
+    max-width: none;
   }
 
   /* Projet 5 */
@@ -1651,33 +1537,6 @@ html.js .p2 .affiche-finale {
 
   body.projet,
   .suivant::before,
-  .p1 .rail figure {
-    transition-duration: 0.01s;
-  }
-
-  .p1 .portant {
-    height: auto !important;
-  }
-
-  .p1 .portant-scene {
-    position: relative;
-    height: auto;
-    padding-bottom: 32px;
-  }
-
-  .p1 .portant-barre {
-    top: 0;
-  }
-
-  .p1 .rail {
-    position: relative;
-    top: 0;
-    width: 100%;
-    padding-top: 4px;
-    overflow-x: auto;
-    transform: none !important;
-  }
-
   .p3 .duo {
     height: auto !important;
   }
