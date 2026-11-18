@@ -71,33 +71,51 @@ video {
   outline-color: #fff;
 }
 
-/* ── Flèche retour (fixe en haut à gauche, inchangée) ── */
+/* ── Flèche retour (2026-10-30-icone-fleche) ──
+   Même place que l'icône de bascule de l'accueil (.vue-nav : top 18px, left 38px, boîte de
+   44px, symbole de 24px centré : centre à 60 × 40px). Dessinée comme elle (24px, trait 2,75).
+   La boîte contient aussi les icônes liste et grille, cachées au repos : le volet de
+   shared.js (Signe) les montre le temps d'un passage. */
 .back-nav {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 18px;
+  left: 38px;
   z-index: 100;
-  /* Sous la bascule de thème (zone de clic de 18 à 62px, trait à 48px du bord) : flèche
-     alignée sur le même bord, sa propre zone de clic (14px autour) commence à 66px (arrow à 80px) */
-  padding: 80px 48px 40px 48px;
+  padding: 0;
 }
 
 .back-nav a {
-  display: inline-flex;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   color: var(--fg);
   text-decoration: none;
+  line-height: 0;
 }
 
 .back-nav a:hover {
-  transform: translateX(-10px);
+  transform: translateX(-4px);
 }
 
-.arrow-icon {
+.back-nav a svg {
+  position: absolute;
+  left: 10px;
+  top: 10px;
   display: block;
-  width: 56px;
-  height: auto;
   overflow: visible;
-  transform: scaleX(-1);
+}
+
+.back-nav a .icone-liste,
+.back-nav a .icone-grille {
+  display: none;
+}
+
+.back-nav a:focus-visible {
+  outline: 2px solid;
+  outline-offset: -4px;
 }
 
 /* ── Calque d'ouverture (ouverture.js puis project.js) ──
@@ -1186,14 +1204,6 @@ html.js .p2 .affiche-finale {
     position: absolute;
   }
 
-  .back-nav {
-    padding: 80px 20px 20px 48px;
-  }
-
-  .arrow-icon {
-    width: 40px;
-  }
-
   .colophon {
     font-size: 17px;
   }
@@ -1679,7 +1689,7 @@ body.projet.sur-couleur .back-nav a:focus-visible {
 .back-nav a::after {
   content: "";
   position: absolute;
-  inset: -14px -10px;          /* au moins 44 px de haut et de large, même à 40 × 20 en mobile */
+  inset: 0;                    /* le lien fait déjà 44 px (2026-10-30-icone-fleche) */
 }
 
 .site-lien::after {

@@ -1,12 +1,11 @@
 /* ═══ Thèmes : clair (par défaut) et sombre adouci ═══
    Depuis le 2026-10-24 (demande de Clément) le thème ne dépend plus du système ni d'un
-   choix du visiteur ; la bascule lune / soleil a été retirée. Depuis le 2026-10-25 il
-   suit la vue de l'accueil (Works : index.html à la racine) : la
-   grille infinie est sombre (data-theme="dark" sur <html>, écrit en dur et confirmé par
-   le script du <head>), la vue liste est claire (data-theme="light", posé par le même
-   script si la liste est mémorisée, puis par Projets/script.js à chaque bascule). Toutes
-   les autres pages sont claires (pas d'attribut). Sombre : anthracite bleuté, jamais de
-   noir franc ni de blanc pur. Les couleurs vives du site ne changent pas. */
+   choix du visiteur ; la bascule lune / soleil a été retirée. Depuis le 2026-11-02 une
+   seule couleur de fond : le blanc, partout (accueil en grille et en liste compris, pages
+   projet, Contact), sans attribut. Seule exception, About, noire (data-theme="dark" sur
+   <html class="page-about">, About/style.css) : le bloc sombre ci-dessous ne sert qu'à elle.
+   Sombre : anthracite bleuté, jamais de noir franc ni de blanc pur. Les couleurs vives du
+   site ne changent pas. */
 :root {
   --bg: #fff;
   --bg-rgb: 255, 255, 255;
@@ -49,6 +48,13 @@ html[data-theme="dark"] {
 
 html {
   background: var(--bg);
+  /* Barre de défilement masquée partout (demande de Clément, 2026-10-30) : la page défile toujours. */
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 
 body {
@@ -355,11 +361,9 @@ html.passage-sombre .back-nav {
   mix-blend-mode: normal !important;
 }
 
-/* L'inverse, pour la grille sombre de l'accueil (2026-10-24) : header noir le temps d'un
-   aplat clair (WORKS jaune à l'arrivée depuis About, ABOUT rose au départ, flèche retour
-   d'un projet à encre noire) ou d'une capture claire qui s'ouvre depuis la grille.
-   Posée par shared.js, passage.js et Projets/script.js, seulement quand la page est sombre
-   (jamais depuis la vue liste, claire depuis le 2026-10-25). */
+/* L'inverse, pour About, seule page sombre : header noir le temps d'un aplat clair
+   (WORKS jaune à l'arrivée depuis About, ABOUT rose au départ). Posée par shared.js et
+   passage.js, seulement quand la page est sombre (jamais ailleurs, depuis le 2026-11-02). */
 html.passage-clair header nav a,
 html.passage-clair .back-nav a {
   color: #000 !important;
@@ -475,7 +479,7 @@ html.passage-clair .back-nav {
   }
 }
 
-/* Page sombre (la grille de l'accueil, 2026-10-24) : l'adresse est en encre claire ; sur la bande jaune
+/* Page sombre (About) : l'adresse est en encre claire ; sur la bande jaune
    elle passe au noir en même temps que la bande se déroule (sinon #e9e6df sur #FFD400 ne se
    lit pas). Le retour à l'encre claire suit le repli de la bande, un peu plus court. */
 html[data-theme="dark"] .ov-adresse {
@@ -624,5 +628,42 @@ html.passage-fondu body {
 @media (hover: none) {
   .cursor {
     display: none !important;
+  }
+}
+
+/* ═══ Un seul signe en haut à gauche (2026-10-30-icone-fleche) ═══
+   L'icône de bascule de l'accueil (.vue-toggle) et la flèche des projets (.back-nav a)
+   sont une même boîte de 44px à la même place, avec trois symboles de 24px empilés :
+   liste, grille, flèche. Un seul est visible au repos ; le volet de Signe (shared.js)
+   les échange. Les classes signe-depuis-* sont posées avant le premier rendu par
+   passage.js (retour ou avance du navigateur) : elles montrent le symbole de la page
+   quittée, le volet joue ensuite vers le symbole naturel de la page. */
+.vue-toggle svg,
+.back-nav a svg {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+html.signe-depuis-fleche :is(.vue-toggle, .back-nav a) svg:not(.icone-fleche):not(.arrow-icon),
+html.signe-depuis-liste :is(.vue-toggle, .back-nav a) svg:not(.icone-liste),
+html.signe-depuis-grille :is(.vue-toggle, .back-nav a) svg:not(.icone-grille) {
+  display: none !important;
+}
+
+html.signe-depuis-fleche :is(.vue-toggle, .back-nav a) :is(.icone-fleche, .arrow-icon),
+html.signe-depuis-liste :is(.vue-toggle, .back-nav a) .icone-liste,
+html.signe-depuis-grille :is(.vue-toggle, .back-nav a) .icone-grille {
+  display: block !important;
+}
+
+/* Pendant le volet (420 ms), le signe ne réagit ni au survol ni au clic */
+.signe-geste {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-nav a:hover {
+    transform: none;
   }
 }

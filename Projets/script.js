@@ -388,17 +388,16 @@ function ouvrirProjet(cell, srcForcee) {
     // (sur tactile, le clic est le passage au premier plan)
     calque.animate([{ opacity: 0.55 }, { opacity: 1 }], { duration: 250, easing: 'ease', fill: 'forwards' });
 
-    // Capture sombre en haut à droite : le header passe en blanc à mi-course ; capture
-    // claire sur la grille (sombre, header clair) : il passe en noir. Depuis la liste
-    // (claire depuis le 2026-10-25) le header est déjà noir : rien à poser pour une
-    // capture claire, comme sur toute page claire du site.
+    // Capture sombre en haut à droite : le header passe en blanc à mi-course. Capture
+    // claire : le header est déjà noir (l'accueil est blanc dans les deux vues), rien à poser.
     const duree = W < 768 ? 750 : 850;
-    const sombreIci = document.documentElement.getAttribute('data-theme') === 'dark';
     setTimeout(() => {
       if (!calque.isConnected) return;
       if (ton === 'sombre') document.documentElement.classList.add('passage-sombre');
-      else if (sombreIci) document.documentElement.classList.add('passage-clair');
     }, duree * 0.5);
+
+    // Le signe du coin haut gauche (icône de la vue) devient la flèche des projets, à 40 % de l'ouverture
+    if (window.Signe) setTimeout(() => { if (calque.isConnected) window.Signe.geste('fleche'); }, duree * 0.4);
 
     freinage = true;
     document.body.classList.add('ouvre');
@@ -449,8 +448,6 @@ window.addEventListener('pageshow', (e) => {
   wrapper.getAnimations().forEach(a => a.cancel());
   freinage = false;
   ouvertureEnCours = false;
-  // Le thème suit la vue (2026-10-25-liste-claire) : clair en liste, sombre sur la grille
-  document.documentElement.setAttribute('data-theme', document.body.classList.contains('vue-liste') ? 'light' : 'dark');
   if (window.Liste) window.Liste.rafraichir();   // vue liste : nom actif et cadre recalculés (décision 24)
 });
 
@@ -495,9 +492,7 @@ window.Works = {
    d'origine, sans que rien ne bouge à l'écran.
    Mémoire de la vue en sessionStorage seulement : une nouvelle session arrive
    toujours sur la grille.
-   Thème (2026-10-25-liste-claire) : la grille est sombre, la liste est claire ;
-   montrerListe et montrerGrille posent data-theme sur <html>, le script du <head>
-   des deux pages d'accueil fait de même avant le premier rendu.
+   Thème (2026-11-02) : fond blanc dans les deux vues, plus de data-theme sur l'accueil.
    ═══════════════════════════════════════════════════════════════ */
 window.Liste = (function () {
   const liste = document.querySelector('.liste');
@@ -864,11 +859,6 @@ window.Liste = (function () {
   // La page se pose sur la copie d'origine, Ethikwear sur la ligne.
   function montrerListe() {
     document.body.classList.add('vue-liste');
-    // Le thème suit la vue (2026-10-25-liste-claire, demande de Clément) : la liste est
-    // claire (noir sur blanc, comme About et Contact), seule la grille reste sombre. Le
-    // fond glisse en 250 ms (style.css) ; au chargement, le script du <head> a déjà posé
-    // la bonne valeur avant le premier rendu, pas de flash.
-    document.documentElement.setAttribute('data-theme', 'light');
     liste.hidden = false;
     if (clavier) clavier.hidden = true;
     etiqueter(true);
@@ -887,7 +877,6 @@ window.Liste = (function () {
   // La grille, sans mouvement : fin de M2. Elle reprend là où elle était (posX / posY intacts).
   function montrerGrille() {
     document.body.classList.remove('vue-liste');
-    document.documentElement.setAttribute('data-theme', 'dark');   // la grille est sombre
     liste.hidden = true;
     if (clavier) clavier.hidden = false;
     etiqueter(false);

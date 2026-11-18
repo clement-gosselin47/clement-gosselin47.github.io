@@ -21,9 +21,8 @@
   }, 2500);
 
   var reduit = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Page sombre : la grille de l'accueil (Works) porte data-theme="dark" sur <html>
-  // (2026-10-24). Si la vue liste est mémorisée, le petit script du <head>, lu avant
-  // celui-ci, a déjà posé data-theme="light" : la liste est claire (2026-10-25).
+  // Page sombre : seule About porte data-theme="dark" sur <html> (l'accueil est blanc
+  // dans les deux vues depuis le 2026-11-02).
   var sombre = doc.getAttribute('data-theme') === 'dark';
   var lire = function (cle) {
     try {
@@ -34,6 +33,27 @@
       return null;
     }
   };
+
+  /* ── Signe du coin haut gauche (2026-10-30-icone-fleche) ──
+     Retour ou avance du navigateur : la page quittée a noté son symbole (flèche, liste ou
+     grille) dans sessionStorage.signe. S'il diffère du symbole naturel de cette page, on
+     l'affiche d'abord (classe signe-depuis-*, règles dans shared.css) ; shared.js joue le
+     volet vers le symbole naturel. Mouvement réduit : rien, le symbole naturel s'affiche. */
+  try {
+    var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+    var signe = sessionStorage.getItem('signe');
+    if (!reduit && nav && nav.type === 'back_forward' && (signe === 'fleche' || signe === 'liste' || signe === 'grille')) {
+      var chemin = location.pathname;
+      var naturel = null;
+      if (/^\/$|^\/Projets\/(index\.html)?$/.test(chemin)) {
+        // Accueil : l'icône de l'autre vue ; sous le preloader (jamais joué), pas de volet
+        if (sessionStorage.getItem('preloaderShown')) naturel = sessionStorage.getItem('vue') === 'liste' ? 'grille' : 'liste';
+      } else if (/^\/Projets\/[^/]+\/(index\.html)?$/.test(chemin)) {
+        naturel = 'fleche';
+      }
+      if (naturel && naturel !== signe) doc.classList.add('signe-depuis-' + signe);
+    }
+  } catch (e) { /* rien */ }
 
   /* ── Ouverture (case de Works, projet suivant) ── */
   var o = lire('ouverture');
@@ -52,8 +72,7 @@
       ov.appendChild(img);
       ov.dataset.type = 'img';
       // Capture sombre en haut à droite : header blanc tant que le calque est là ;
-      // capture claire sur une page sombre : header noir (page projet toujours claire,
-      // jamais le cas aujourd'hui, gardé par symétrie)
+      // capture claire sur une page sombre : header noir (About)
       if (o.ton === 'sombre') doc.classList.add('passage-sombre');
       else if (sombre) doc.classList.add('passage-clair');
     } else {
@@ -102,7 +121,7 @@
   cal.appendChild(mot);
 
   if (p.ink === '#fff') doc.classList.add('passage-sombre');
-  // Aplat clair (WORKS jaune) sur l'accueil sombre : header noir tant qu'il couvre la page
+  // Aplat clair (WORKS jaune) sur une page sombre (About) : header noir tant qu'il couvre la page
   else if (p.ink === '#000' && sombre) doc.classList.add('passage-clair');
 
   // Premier passage de la session sur Works (racine / ou /Projets/) : le preloader garde la main,

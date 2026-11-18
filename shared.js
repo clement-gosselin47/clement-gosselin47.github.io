@@ -46,6 +46,147 @@ document.querySelectorAll('[data-copy]').forEach(btn => {
 
 
 /* ═══════════════════════════════════════════════════════════════
+   Signe du coin haut gauche (2026-10-30-icone-fleche)
+   L'icône de bascule de l'accueil et la flèche retour des projets sont un même signe,
+   à la même place. Au changement de page, un volet de 420 ms remplace l'un par l'autre :
+   un bord vertical balaie le carré de 24px, le sortant est coupé, l'entrant apparaît
+   derrière (clip-path et transform seulement). Trois symboles : liste, grille, flèche.
+   - geste(vers) : départ (appelé par Passage.partir et Projets/script.js, à 40 % du passage)
+     ou arrivée (retour / avance du navigateur).
+   - pagehide note le symbole affiché dans sessionStorage.signe ; à l'arrivée par retour ou
+     avance, passage.js pose signe-depuis-* avant le premier rendu et arrivee() joue le volet.
+   Mouvement réduit : aucun volet, le symbole naturel de la page s'affiche.
+   ═══════════════════════════════════════════════════════════════ */
+const Signe = (function () {
+  const doc = document.documentElement;
+  const OUT = 'cubic-bezier(.16,1,.3,1)';
+  const NOMS = ['fleche', 'liste', 'grille'];
+  const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const boite = () => document.querySelector('.vue-toggle') || document.querySelector('.back-nav a');
+  const svgDe = (b, nom) => b && b.querySelector(nom === 'fleche' ? '.icone-fleche, .arrow-icon' : '.icone-' + nom);
+  const nomDe = (svg) => svg.matches('.icone-fleche, .arrow-icon') ? 'fleche' : svg.classList.contains('icone-liste') ? 'liste' : 'grille';
+
+  // Symbole affiché à cet instant (lu dans le style calculé : couvre aria-pressed et signe-depuis-*)
+  function affiche(b) {
+    const s = Array.from(b.querySelectorAll('svg')).find(v => getComputedStyle(v).display !== 'none');
+    return s ? nomDe(s) : null;
+  }
+
+  // Symbole naturel de la page : flèche sur un projet ; sur l'accueil, l'icône de l'autre vue
+  function naturel() {
+    const b = boite();
+    if (!b) return null;
+    if (!b.classList.contains('vue-toggle')) return 'fleche';
+    return b.getAttribute('aria-pressed') === 'true' ? 'grille' : 'liste';
+  }
+
+  // Symbole que l'accueil montrera à l'arrivée (même règle qu'aria-pressed)
+  function symboleAccueil() {
+    let vue = null;
+    try { vue = sessionStorage.getItem('vue'); } catch (e) { /* rien */ }
+    return vue === 'liste' ? 'grille' : 'liste';
+  }
+
+  function retirerClasses() {
+    NOMS.forEach(n => doc.classList.remove('signe-depuis-' + n));
+  }
+
+  function remettre(b) {
+    b.querySelectorAll('svg').forEach(v => {
+      v.getAnimations().forEach(a => a.cancel());
+      v.style.removeProperty('display');
+    });
+    b.classList.remove('signe-geste');
+  }
+
+  function geste(vers) {
+    const b = boite();
+    if (!b || reduit || !Element.prototype.animate) return false;
+    const de = affiche(b);
+    const sortant = de && svgDe(b, de);
+    const entrant = svgDe(b, vers);
+    if (!de || de === vers || !sortant || !entrant) return false;
+
+    const versFleche = vers === 'fleche';
+    const opts = { duration: 420, easing: OUT, fill: 'forwards' };
+    b.classList.add('signe-geste');
+    sortant.style.display = 'block';
+    entrant.style.display = 'block';
+    sortant.animate(versFleche
+      ? [{ clipPath: 'inset(0 0 0 0)' }, { clipPath: 'inset(0 100% 0 0)' }]
+      : [{ clipPath: 'inset(0 0 0 0)' }, { clipPath: 'inset(0 0 0 100%)' }], opts);
+    const a = entrant.animate(versFleche
+      ? [{ clipPath: 'inset(0 0 0 100%)', transform: 'translateX(3px)' }, { clipPath: 'inset(0 0 0 0)', transform: 'translateX(0)' }]
+      : [{ clipPath: 'inset(0 100% 0 0)', transform: 'translateX(-3px)' }, { clipPath: 'inset(0 0 0 0)', transform: 'translateX(0)' }], opts);
+    retirerClasses();
+    a.finished.then(() => {
+      // Le sortant disparaît, l'entrant reste. Si c'est le symbole naturel de la page,
+      // on rend la main au CSS (aria-pressed doit pouvoir rebasculer l'icône)
+      if (!b.isConnected) return;
+      remettre(b);
+      if (vers !== naturel()) {
+        sortant.style.display = 'none';
+        entrant.style.display = 'block';
+      }
+    }).catch(() => {});
+    return true;
+  }
+
+  // Arrivée par retour ou avance : passage.js a posé signe-depuis-*, on joue le volet
+  function arrivee() {
+    const depuis = NOMS.find(n => doc.classList.contains('signe-depuis-' + n));
+    if (!depuis) return;
+    // Mouvement réduit, ou accueil sous le preloader : pas de volet, le signe est direct
+    if (reduit || document.body.classList.contains('is-loading')) { retirerClasses(); return; }
+    requestAnimationFrame(() => setTimeout(() => {
+      if (!geste(naturel())) retirerClasses();
+    }, 120));
+  }
+
+  const lireCle = () => {
+    try { const k = sessionStorage.getItem('signe'); return NOMS.includes(k) ? k : null; } catch (e) { return null; }
+  };
+
+  window.addEventListener('pagehide', () => {
+    const b = boite();
+    const s = b && affiche(b);
+    try {
+      if (s) sessionStorage.setItem('signe', s); else sessionStorage.removeItem('signe');
+    } catch (e) { /* rien */ }
+  });
+
+  // Page restaurée du cache : tout revient en place, puis même règle qu'à une arrivée.
+  // L'ordre entre le pagehide de la page quittée et ce pageshow n'est pas garanti : on lit
+  // la clé tout de suite (pour éviter un éclair), puis une seconde fois au moment du volet.
+  window.addEventListener('pageshow', e => {
+    if (!e.persisted) return;
+    const b = boite();
+    if (!b) return;
+    remettre(b);
+    retirerClasses();
+    if (reduit) return;
+    const poser = k => {
+      if (k && k !== naturel()) {
+        if (!doc.classList.contains('signe-depuis-' + k)) { retirerClasses(); doc.classList.add('signe-depuis-' + k); }
+        return true;
+      }
+      retirerClasses();
+      return false;
+    };
+    poser(lireCle());
+    requestAnimationFrame(() => setTimeout(() => {
+      if (poser(lireCle()) && !geste(naturel())) retirerClasses();
+    }, 120));
+  });
+
+  arrivee();
+  return { geste, symboleAccueil };
+})();
+window.Signe = Signe;
+
+
+/* ═══════════════════════════════════════════════════════════════
    Passages entre les pages (motion-transitions.md, passe B)
    Une même famille : un aplat naît de ce qu'on clique, remplit l'écran,
    porte un mot géant, puis se referme sur la page d'arrivée.
@@ -65,8 +206,8 @@ const Passage = (function () {
   const mobile = () => window.innerWidth < 768;
   const marge = () => window.innerWidth >= 1100 ? 80 : window.innerWidth >= 768 ? 48 : 20;
   const animer = !!Element.prototype.animate;
-  // La page est-elle sombre ? Seule la grille de l'accueil l'est (data-theme="dark" sur
-  // <html>) ; la vue liste est claire (2026-10-25), d'où une lecture au moment du clic
+  // La page est-elle sombre ? Seule About l'est (data-theme="dark" sur <html>) ;
+  // lecture au moment du clic
   const sombreIci = () => doc.getAttribute('data-theme') === 'dark';
 
   // Une couleur par destination, encre noire : le header reste lisible
@@ -161,12 +302,19 @@ const Passage = (function () {
     police.then(() => { boite.style.fontSize = taille(mot) + 'px'; });
 
     const d = mobile() ? 750 : 850;
+    // Le signe du coin haut gauche (flèche) devient l'icône de l'accueil, à 40 % du passage.
+    // Si le preloader va jouer (première visite de la session), la flèche reste flèche.
+    if (page === 'works' && document.querySelector('.back-nav a')) {
+      let preloaderVu = false;
+      try { preloaderVu = !!sessionStorage.getItem('preloaderShown'); } catch (e) { /* rien */ }
+      if (preloaderVu) setTimeout(() => { if (ov.isConnected) Signe.geste(Signe.symboleAccueil()); }, d * 0.4);
+    }
     enCours.push(texte.animate([{ transform: 'translateY(105%)' }, { transform: 'none' }],
       { duration: d * 0.8, delay: d * 0.3, easing: OUT, fill: 'both' }));
     const a = ov.animate([{ clipPath: rectDe(depuis) }, { clipPath: PLEIN }], { duration: d, easing: IO, fill: 'forwards' });
     enCours.push(a);
     // Header blanc sur un aplat sombre, mais seulement quand l'aplat le couvre (mi-course) ;
-    // sur l'accueil sombre, header noir sur un aplat clair (encre noire) au même moment
+    // sur About (sombre), header noir sur un aplat clair (encre noire) au même moment
     if (ink === '#fff') setTimeout(() => { if (ov.isConnected) doc.classList.add('passage-sombre'); }, d * 0.5);
     else if (ink === '#000' && sombreIci()) setTimeout(() => { if (ov.isConnected) doc.classList.add('passage-clair'); }, d * 0.5);
     a.finished.then(() => {
@@ -256,7 +404,7 @@ const Passage = (function () {
     const [nom, domaine] = EMAIL.split('@');
     ov.innerHTML =
       '<div class="ov-phrase">' +
-        '<p class="ov-accroche">' + m('Je cherche une alternance') + m('en 2j&nbsp;/&nbsp;3j à&nbsp;Bordeaux.') + '</p>' +
+        '<p class="ov-accroche">' + m('Je cherche une alternance') + m('à Bordeaux,') + m('3 jours en entreprise,') + m('2 jours à l\'école.') + '</p>' +
         '<p class="ov-appui">' + m('Disponible dès maintenant.') + '</p>' +
       '</div>' +
       '<button type="button" class="ov-adresse" data-cur="Copier" aria-label="Copier l\'adresse ' + EMAIL + '">' +
@@ -482,7 +630,6 @@ const Passage = (function () {
 
 
 // ═══ Thème ═══
-// Plus de bascule clair / sombre depuis le 2026-10-24 (demande de Clément). Sur l'accueil
-// (Works) le thème suit la vue : grille sombre, liste claire (2026-10-25), géré par le
-// script du <head> et Projets/script.js ; le reste du site est clair. Rien à faire ici ;
+// Plus de bascule clair / sombre depuis le 2026-10-24 (demande de Clément). Tout le site
+// est blanc (accueil en grille et en liste compris, 2026-11-02), sauf About, noire. Rien à faire ici ;
 // les couleurs passent par les variables de shared.css.

@@ -5,11 +5,8 @@ body {
   background: var(--bg);
 }
 
-/* Le thème suit la vue (2026-10-25-liste-claire, demande de Clément) : grille sombre
-   (data-theme="dark", preloader compris), liste claire (noir sur blanc, comme About et
-   Contact). script.js change data-theme sur <html> au point de bascule de M1 (la grille
-   est effacée) et au retour de la grille en M2 : le fond glisse en 250 ms pour que le
-   passage sombre / clair ne claque pas. Header, icône, curseur et Contact suivent par
+/* Fond blanc dans les deux vues (grille et liste), preloader compris (2026-11-02, demande
+   de Clément : une seule couleur de fond). Header, icône, curseur et Contact suivent par
    les variables --fg / --bg. */
 html,
 body {
@@ -231,6 +228,7 @@ html.passage-attente .wrapper {
 }
 
 .vue-toggle {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -246,7 +244,8 @@ html.passage-attente .wrapper {
 }
 
 .vue-toggle svg { display: block; }
-.vue-toggle .icone-grille { display: none; }
+.vue-toggle .icone-grille,
+.vue-toggle .icone-fleche { display: none; }   /* la flèche n'apparaît que pendant le volet (shared.js, Signe) */
 .vue-toggle[aria-pressed="true"] .icone-liste { display: none; }
 .vue-toggle[aria-pressed="true"] .icone-grille { display: block; }
 
