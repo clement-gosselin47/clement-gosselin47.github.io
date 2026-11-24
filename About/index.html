@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark" class="page-about">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <!-- Ancienne adresse GitHub Pages : on renvoie vers le domaine, même page -->
@@ -7,14 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clément Gosselin, alternance Product Builder, Bordeaux</title>
   <!-- Référencement et partage (LinkedIn) : URL absolues, image commune -->
-  <meta name="description" content="Alternance à Bordeaux dès maintenant, 3 jours en entreprise. Je crée des produits avec l'IA : sites, applis, agents, automatisations. Étudiant à Ynov.">
+  <meta name="description" content="Clément Gosselin cherche une alternance en 2j / 3j à Bordeaux. Product Builder no-code et IA à Ynov, certifié Google Analytics 4. CV et contact.">
   <link rel="canonical" href="https://clement-gosselin.com/About/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Clément Gosselin">
   <meta name="application-name" content="Clément Gosselin">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:title" content="Clément Gosselin, alternance Product Builder, Bordeaux">
-  <meta property="og:description" content="Alternance à Bordeaux dès maintenant, 3 jours en entreprise. Je crée des produits avec l'IA : sites, applis, agents, automatisations. Étudiant à Ynov.">
+  <meta property="og:description" content="Clément Gosselin cherche une alternance en 2j / 3j à Bordeaux. Product Builder no-code et IA à Ynov, certifié Google Analytics 4. CV et contact.">
   <meta property="og:url" content="https://clement-gosselin.com/About/">
   <meta property="og:image" content="https://clement-gosselin.com/og-image.jpg?v=2">
   <meta property="og:image:width" content="1200">
@@ -28,17 +28,21 @@
   <link rel="icon" href="/favicon.ico" sizes="16x16 32x32">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <!-- Données structurées : la personne (relie le site à son nom) -->
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Clément Gosselin","jobTitle":"Product Builder no-code et IA","description":"Étudiant en Bachelor Product Builder no-code et IA à Ynov Bordeaux, en recherche d'alternance à Bordeaux, 3 jours en entreprise, 2 jours à l'école.","url":"https://clement-gosselin.com/About/","image":"https://clement-gosselin.com/og-image.jpg","sameAs":"https://www.linkedin.com/in/clementgosselin","alumniOf":{"@type":"CollegeOrUniversity","name":"Ynov Campus Bordeaux"}}</script>
-  <script src="../passage.js?v=20261102a"></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Clément Gosselin","jobTitle":"Product Builder no-code et IA","description":"Étudiant en Bachelor Product Builder no-code et IA à Ynov Bordeaux, en recherche d'alternance en 2j / 3j à Bordeaux.","url":"https://clement-gosselin.com/About/","image":"https://clement-gosselin.com/og-image.jpg","sameAs":"https://www.linkedin.com/in/clementgosselin","alumniOf":{"@type":"CollegeOrUniversity","name":"Ynov Campus Bordeaux"}}</script>
+  <script src="../passage.js?v=20261025"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../shared.css?v=20261102a">
-  <link rel="preload" as="image" href="Img/fond-trame.jpg">
-  <link rel="stylesheet" href="style.css?v=20261101e">
+  <link rel="stylesheet" href="../shared.css?v=20261025">
+  <link rel="stylesheet" href="style.css?v=20261007d">
 </head>
 <body>
   <div class="cursor" id="cursor"></div>
+
+  <div class="side-grid" aria-hidden="true">
+    <div class="side-grid-inner" id="sideGrid"></div>
+  </div>
+  <div class="side-grid-fade" aria-hidden="true"></div>
 
   <header>
     <nav>
@@ -48,87 +52,49 @@
     </nav>
   </header>
 
-  <!-- Nom (fixe) et méta : textes provisoires, voir .portfolio/2026-10-31-refonte-about/direction.md -->
-  <h1 class="nom"><span class="masque"><span class="l" style="--i: 0">Clément</span></span><span class="masque"><span class="l" style="--i: 1">Gosselin</span></span></h1>
+  <main class="content">
 
-  <div class="meta g24">
-    <p class="a-rv" style="--i: 0">Product Builder no-code<br>et IA à Ynov Bordeaux</p>
-    <p class="a-rv" style="--i: 1">Alternance dès maintenant<br>3 jours entreprise, 2 école</p>
-  </div>
-
-  <!-- Le portrait : fond-trame.jpg (1200 px) est rendu en trame LED par points.js (canvas ajouté ici) ; la photo fond.jpg n'est chargée que si WebGL échoue.
-       Changer de photo = remplacer Img/fond.jpg ET Img/fond-trame.jpg (même image, 1200 x 900) (relief.js et fond-profondeur.png sont gardés, non chargés) -->
-  <div class="fond">
-    <img class="fond-img" data-src="Img/fond.jpg" data-trame="Img/fond-trame.jpg" alt="Portrait de Clément Gosselin" width="2400" height="1800">
-    <noscript><img class="fond-img" src="Img/fond.jpg" alt="Portrait de Clément Gosselin" width="2400" height="1800"></noscript>
-  </div>
-
-  <main>
-    <!-- Portrait collant (bureau seulement) : monte avec le défilement depuis le bas de l'écran (about.js, SEUIL_PORTRAIT) puis reste collé à 54vh.
-         Img/portrait.jpg : un seul fichier à remplacer (2:3, 504 x 756 conseillé) -->
-    <div class="portrait"><img src="Img/portrait.jpg" alt="" width="504" height="756" loading="lazy"></div>
-    <div class="h-ecran" aria-hidden="true"></div>
-
-    <div class="bio g24">
-      <p class="bio-texte"><span class="pastille" aria-hidden="true">Info</span> <span class="bio-claire">Je cherche une alternance à Bordeaux, dès maintenant&nbsp;: 3 jours en entreprise, 2 jours à l'école.</span> <span class="bio-allume">Je crée des produits avec l'IA&nbsp;: sites, applis, agents, automatisations. Je les conçois sur Figma, une équipe d'agents IA que je dirige les construit, puis je les teste. Je me forme à Ynov Bordeaux jusqu'en 2028. J'ai refait le site de Dugos Photographie, un vrai client.</span></p>
+    <!-- Entrée de la page : le nom monte ligne par ligne, puis les blocs .a-rv
+         arrivent dans l'ordre de --i (About/style.css) -->
+    <div class="identity">
+      <h1><span class="masque"><span class="l" style="--i: 0">Clément</span></span> <span class="masque"><span class="l" style="--i: 1">Gosselin</span></span></h1>
+      <p class="role a-rv" style="--i: 0">Product Builder no-code et IA<br>Ynov Bordeaux</p>
     </div>
 
-    <section class="infos g24">
-      <div class="infos-corps">
+    <!-- Bio : version longue de .portfolio/2026-10-02-pages-projet-v2/about-texte-v4.md -->
+    <div class="bio a-rv" style="--i: 1">
+      <p>Je cherche une alternance en 2j&nbsp;/&nbsp;3j à Bordeaux, dès maintenant. Je me forme à Ynov Bordeaux jusqu'en 2028, en Product Builder no-code et IA.</p>
+      <p>Je suis certifié Google Analytics 4. Analyser le parcours des clients d'ENPR Rénovation m'a appris à regarder où les visiteurs s'arrêtent avant de décider quoi changer. J'ai monté l'exposition Regards Croisés à quatre étudiants, en mode agile. Sur <a href="../Projets/relay/index.html">RELAY</a>, j'ai travaillé la conception d'une webapp où les étudiants d'Ynov demandent un coup de main urgent sur le campus, comme un adaptateur HDMI avant une soutenance.</p>
+      <p>En ce moment, je travaille surtout avec Claude Code et Cowork. Je découpe un projet en rôles, je confie chaque rôle à un agent IA et je les pilote côte à côte dans cmux. À côté, je maquette sur Figma et je m'organise sur Notion et Trello.</p>
+      <p>Avant Ynov, j'ai fait mon BTS MCO en alternance chez Leclerc, au contact des clients et des stocks.</p>
+    </div>
 
-        <div class="rangee">
-          <div class="groupe">
-            <h2 class="pastille">Projets</h2>
-            <ul>
-            <li><a class="trait" href="../Projets/Ethikwear/index.html">Ethikwear</a></li>
-            <li><a class="trait" href="../Projets/redstone/index.html">Redstone</a></li>
-            <li><a class="trait" href="../Projets/Unik/index.html">Unik</a></li>
-            <li><a class="trait" href="../Projets/dugos-photographie/index.html">Dugos Photographie</a></li>
-            <li><a class="trait" href="../Projets/Queen/index.html">Queen</a></li>
-            <li><a class="trait" href="../Projets/passage-secret/index.html">Passage Secret</a></li>
-            <li><a class="trait" href="../Projets/relay/index.html">Relay</a></li>
-            <li><a class="trait" href="../Projets/hecto/index.html">Hecto</a></li>
-            </ul>
-          </div>
-          <div class="groupe">
-            <h2 class="pastille pastille-outils">Outils</h2>
-            <ul aria-label="Outils">
-            <li>Claude Code</li>
-            <li>Cowork</li>
-            <li>cmux</li>
-            <li>Figma</li>
-            <li>Notion</li>
-            <li>Trello</li>
-            <li>Google Analytics 4</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="rangee documents">
-          <h2 class="pastille">Documents</h2>
-          <dl class="paire">
-            <dt>Certification</dt>
-            <dd>Google Analytics 4</dd>
-          </dl>
-          <dl class="paire">
-            <dt>CV</dt>
-            <dd><a class="trait" href="./CV-Clement-Gosselin.pdf" download aria-label="Télécharger mon CV en PDF">Télécharger<svg class="link-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 4V13M10 13L6 9M10 13L14 9M4 16H16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></dd>
-          </dl>
-        </div>
-
-        <div class="contacts">
-          <a class="gros" href="https://www.linkedin.com/in/clementgosselin" target="_blank" rel="noopener"><span>LinkedIn</span><svg class="link-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2 18L18 2M18 2H5M18 2V15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a class="gros" id="gros-mail" href="mailto:clement.gosselin27@gmail.com"><span>E-mail</span><svg class="link-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2 18L18 2M18 2H5M18 2V15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-
-        <p class="pied"><span>Mise à jour&nbsp;:<br class="br-mobile"> octobre 2026</span></p>
+    <div class="bottom a-rv" style="--i: 2">
+      <p class="available">Disponible dès maintenant.</p>
+      <div class="contact-grid">
+        <p class="contact-value">
+          <a href="mailto:clement.gosselin27@gmail.com" class="contact-link">clement.gosselin27@gmail.com</a>
+          <button type="button" class="copier-lien" data-copy="clement.gosselin27@gmail.com" data-copied="copié">copier</button>
+        </p>
+        <a href="https://www.linkedin.com/in/clementgosselin" target="_blank" rel="noopener" class="contact-value contact-link">
+          LinkedIn
+          <svg class="link-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="./CV-Clement-Gosselin.pdf" download class="contact-value contact-link" aria-label="Télécharger mon CV en PDF">
+          Mon CV
+          <svg class="link-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 4V13M10 13L6 9M10 13L14 9M4 16H16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
       </div>
-    </section>
+    </div>
+
   </main>
 
-  <script src="../shared.js?v=20261102a"></script>
-  <script src="lenis.min.js?v=20261031a"></script>
-  <script src="about.js?v=20261101b"></script>
-  <script src="points.js?v=20261101d"></script>
+  <script src="../shared.js?v=20261027a"></script>
+  <script src="about.js?v=20261007d"></script>
+  <script src="side-grid.js?v=20261007d"></script>
 </body>
 </html>

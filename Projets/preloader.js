@@ -1,18 +1,17 @@
-// Preloader Works « Mise au point » (v2, validé par Clément le 2026-10-02).
-// Référence : .portfolio/2026-10-02-preloader-profondeur/direction-v2.md
-// Les 25 vraies cases visibles de la grille flottent détachées, floues, à des
-// profondeurs différentes, puis se collent une à une pour former la grille.
-// Le lien WORKS sert de compteur 000 → 100, puis se déroule en menu à rouleaux.
-// Une fois par session. Nécessite window.Works (script.js, chargé avant).
-// Raccourci de moitié le 2026-10-25 (2026-10-25-preloader-court, demande de Clément :
-// « on veut arriver directement sur le vif du sujet ») : apparition 250 ms, départs
-// étalés sur 1,4 s, vols de 700 ms, tenue à 100 de 120 ms, rouleaux de 450 ms. Il
-// n'attend toujours pas plus que le chargement réel des visuels. L'icône grille / liste
-// (.vue-toggle) monte au même instant que les rouleaux de WORKS, même durée, même easing.
+// Preloader Works, version épurée (2026-11-24-accueil-epure, direction.md « Mouvement »).
+// Les images visibles de la grille entrent une à une, dans l'ordre de lecture (rangée puis
+// colonne), 50 ms entre deux : chaque image se découvre par le bas (clip-path inset(100% 0 0 0)
+// vers inset(0)) pendant que l'image elle-même passe de scale(1.2) à 1, 900 ms ; le numéro et
+// le nom arrivent 150 ms après (opacity et translateY(4px)). Une image n'entre que si elle est
+// chargée : l'avancée est liée au chargement réel, comme avant.
+// Le lien WORKS sert de compteur 000 à 100 (comme avant la refonte), puis se déroule en menu
+// à rouleaux ; l'icône grille / liste monte au même instant. En-tête inchangé.
+// Une fois par session, jamais en vue liste. Nécessite window.Works (script.js, chargé avant).
+// Mouvement réduit : toutes les images en fondu de 200 ms, le menu apparaît en fondu.
 (function () {
   if (!window.Works) return;
 
-  // Une seule fois par session : au retour sur Works, grille et menu tout de suite.
+  // Une seule fois par session : au retour sur Works, grille et en-tête tout de suite.
   // Jamais en vue liste (2026-10-23-accueil-liste, décision 22) : elle ne peut être
   // mémorisée qu'après le preloader, et elle se montre sans lui.
   try {
@@ -20,35 +19,23 @@
     if (sessionStorage.getItem('vue') === 'liste') return;
   } catch (e) { /* stockage indisponible : on joue le preloader */ }
 
-  const { grid, projects, cells, imageDe, caseW, caseH } = window.Works;
+  const { projects, cells, imageDe } = window.Works;
   const reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const mobile = window.innerWidth < 768;
   const speedBlur = document.getElementById('speedBlur');
   const W = window.innerWidth, H = window.innerHeight;
-  const CW = caseW(), CH = caseH();   // cases au ratio de l'image (script.js)
+  const OUT = 'cubic-bezier(.16, 1, .3, 1)';
 
   document.body.classList.add('is-loading', 'is-assembling', 'menu-en-cours');
   window.Works.figer();
   if (speedBlur) speedBlur.style.setProperty('--edge-blur', '0px');
 
-  // Un seul message pour les lecteurs d'écran (décision 23)
+  // Un seul message pour les lecteurs d'écran
   const statut = document.createElement('p');
   statut.className = 'sr-only';
   statut.setAttribute('role', 'status');
   statut.textContent = 'Chargement des projets';
   document.body.appendChild(statut);
-
-  // ---------- Les 25 cases visibles en 0,0 ; les 200 autres attendent (décision 2) ----------
-  const medias = projects.map(() => []);
-  const visibles = [];
-  cells.forEach(c => {
-    if (c.projet !== null) medias[c.projet].push(c.el.firstChild);
-    if (c.row * CH < H && c.col * CW < W) {   // les cases qui touchent l'écran en 0,0
-      visibles.push({ el: c.el, row: c.row, col: c.col, pi: c.projet, media: c.el.firstChild, pret: c.projet === null });
-    } else {
-      c.el.style.visibility = 'hidden';
-    }
-  });
 
   // ---------- Menu : mesures prises sur le vrai rendu, avant les rouleaux ----------
   const [lienWorks, lienAbout, lienContact] = document.querySelectorAll('header nav a');
@@ -118,142 +105,90 @@
     });
   }
 
-  // ---------- Cases : état de départ (décisions 3 à 7) ----------
-  const P = mobile ? 900 : 1400;
-  if (!reduit) {
-    grid.style.perspective = P + 'px';
-    grid.style.perspectiveOrigin = '50vw 50vh';
-  }
-  const alea = (a, b) => a + Math.random() * (b - a);
-
-  visibles.forEach(c => {
-    const ddx = (c.col + 0.5) * CW - W / 2;
-    const ddy = (c.row + 0.5) * CH - H / 2;
-    c.dist = Math.hypot(ddx / CW, ddy / CH) + alea(-0.6, 0.6);
-    c.opPose = c.pi === null ? 0.15 : 0.55;
-    c.opVol  = c.pi === null ? 0.35 : 1;
-    if (c.pi !== null) c.el.style.background = 'var(--case-pre)';
-
-    if (reduit) { c.el.style.opacity = '0'; return; }
-
-    const z = mobile ? alea(-1400, -600) : alea(-2400, -1000);
-    const k = 1.15 * (P - z) / P - 1;
-    const tx = ddx * k + alea(-0.08, 0.08) * CW;
-    const ty = ddy * k + alea(-0.08, 0.08) * CH;
-    const r = alea(-2.5, 2.5);
-    c.depart = `translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, ${z.toFixed(0)}px) rotateZ(${r.toFixed(2)}deg)`;
-    c.flou = mobile ? 1 + (-z - 600) / 800 * 3 : 2 + (-z - 1000) / 1400 * 6;
-
-    c.el.style.transform = c.depart;
-    c.el.style.filter = `blur(${c.flou.toFixed(2)}px)`;
-    c.el.style.opacity = c.opVol;
-    c.el.style.borderColor = 'transparent';
-    c.el.style.willChange = 'transform, filter, opacity';
-    // Apparition de toutes les cases en même temps, 250 ms (décision 6, 400 avant le raccourci)
-    c.el.animate([{ opacity: 0 }, { opacity: c.opVol }], { duration: 250, easing: 'ease' });
+  // ---------- Les éléments à l'écran en 0,0, dans l'ordre de lecture ----------
+  const visibles = [];
+  cells.forEach(k => {
+    const r = k.el.getBoundingClientRect();
+    if (r.right > 0 && r.left < W && r.bottom > 0 && r.top < H) visibles.push({ k, dispo: false, lance: false });
   });
+  visibles.sort((a, b) => ((a.k.ty * 8 + a.k.r) - (b.k.ty * 8 + b.k.r)) || (a.k.el.offsetLeft - b.k.el.offsetLeft));
+  const N = visibles.length;
 
-  // Ordre : du centre vers les bords, la case centrale (index 12) en premier (décision 9)
-  const ordre = visibles.slice().sort((a, b) => a.dist - b.dist);
-  const centre = ordre.findIndex(c => c.row === 2 && c.col === 2);
-  ordre.unshift(ordre.splice(centre, 1)[0]);
-
-  // ---------- Vol et collage (décisions 7, 8, 31, 38) ----------
+  // ---------- Entrée d'un élément ----------
+  const anims = [];
   let poses = 0;
-  let ligneFinie = false;
   let assemblage = true;
 
-  function lancer(c, duree) {
-    if (c.lance) return;
-    c.lance = true;
-    const el = c.el;
+  function lancer(v) {
+    if (v.lance) return;
+    v.lance = true;
+    const { el, vignette, media, etq } = v.k;
+    el.classList.add('entre');
 
     if (reduit) {
-      const a = el.animate([{ opacity: 0 }, { opacity: c.opPose }], { duration: 150, easing: 'ease', fill: 'forwards' });
-      a.onfinish = () => { el.style.removeProperty('opacity'); a.cancel(); poser(); };
+      const a = el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: 'ease', fill: 'both' });
+      anims.push(a);
+      a.finished.then(poser, poser);
       return;
     }
 
-    const a = el.animate([
-      { transform: c.depart, filter: `blur(${c.flou.toFixed(2)}px)`, opacity: c.opVol },
-      { transform: 'none',   filter: 'blur(0px)',                   opacity: c.opPose },
-    ], { duration: duree, easing: 'cubic-bezier(.16, 1, .3, 1)', fill: 'forwards' });
-
-    a.onfinish = () => {
-      // Posée : plus aucun style inline, ce sont les règles .cell / .project-cell qui s'appliquent
-      ['transform', 'filter', 'opacity', 'border-color', 'will-change'].forEach(p => el.style.removeProperty(p));
-      a.cancel();
-      // Le filet se dessine au contact (décision 7)
-      el.animate([{ borderColor: 'transparent' }, { borderColor: 'rgba(' + getComputedStyle(document.documentElement).getPropertyValue('--fg-rgb').trim() + ', 0.15)' }], { duration: 200, easing: 'ease' });
-      poser();
-    };
+    const d = mobile ? 700 : 900;
+    const a = vignette.animate(
+      [{ clipPath: 'inset(100% 0px 0px 0px)' }, { clipPath: 'inset(0px 0px 0px 0px)' }],
+      { duration: d, easing: OUT, fill: 'both' }
+    );
+    anims.push(a,
+      media.animate([{ transform: 'scale(1.2)' }, { transform: 'none' }], { duration: d, easing: OUT, fill: 'both' }),
+      etq.animate([{ opacity: 0, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }],
+        { duration: 400, delay: 150, easing: OUT, fill: 'both' })
+    );
+    a.finished.then(poser, poser);
   }
 
   function poser() {
     poses++;
-    compte = poses * 4;
+    compte = Math.round(poses / N * 100);
     afficherCompte(compte);
-    if (poses === visibles.length) finAssemblage();
+    if (poses >= N) finAssemblage();
   }
 
-  // ---------- Ligne de temps minimale (décisions 14, 15, 38) ----------
-  // Départs étalés de 150 ms à 1550 ms (300 à 3500 avant le raccourci), vols de 700 ms
-  // (1100), 600 pour les retardataires (900) : dernière case posée vers 2,3 s au lieu de 4,6
-  const N = ordre.length;
-  const VOL = 700, VOL_COURT = 600;
-  const depart = i => reduit ? 150 + 40 * i : 150 + 1400 * Math.pow(i / (N - 1), 0.85);
+  // ---------- Ligne de temps : un élément toutes les 50 ms (40 sur téléphone) ----------
+  // Un élément dont l'image n'est pas encore arrivée attend ; il part dès qu'elle l'est.
+  const prets = projects.map(() => false);
+  const essayer = v => { if (!v.lance && v.dispo && prets[v.k.projet]) lancer(v); };
 
-  function creneau(k) {
-    // Première case prête dans l'ordre ; celles qui ne le sont pas sont « sautées »
-    for (const c of ordre) {
-      if (c.lance) continue;
-      if (c.pret) { lancer(c, VOL); break; }
-      c.saute = true;
-    }
-    if (k === N - 1) {
-      ligneFinie = true;
-      ordre.forEach(c => { if (!c.lance && c.pret) lancer(c, VOL_COURT); });
-    }
-  }
-  for (let k = 0; k < N; k++) setTimeout(() => creneau(k), depart(k));
+  visibles.forEach((v, i) => setTimeout(() => {
+    v.dispo = true;
+    essayer(v);
+  }, reduit ? 0 : 150 + (mobile ? 40 : 50) * i));
 
-  // Vrai chargement des vitrines (variante d'orientation courante) (décisions 10, 11)
+  // Vrai chargement des vitrines (variante d'orientation courante)
   projects.forEach((p, pi) => {
     const img = new Image();
-    const fini = ok => {
-      if (!assemblage) return; // arrivée après la fin : la grille est déjà normale
-      medias[pi].forEach(m => m.classList.add('pret'));
-      visibles.filter(c => c.pi === pi).forEach(c => {
-        if (c.pret) return;
-        c.pret = true;
-        if (ok) {
-          // L'image apparaît en fondu dans la case encore floue
-          c.media.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250, easing: 'ease' });
-          c.el.style.removeProperty('background');
-        }
-        if (c.saute || ligneFinie) lancer(c, ligneFinie ? VOL_COURT : VOL);
-      });
+    const fini = () => {
+      prets[pi] = true;
+      if (!assemblage) return;
+      visibles.forEach(v => { if (v.k.projet === pi) essayer(v); });
     };
-    img.onload = () => fini(true);
-    img.onerror = () => fini(false);
+    img.onload = fini;
+    img.onerror = fini;
     img.src = imageDe(p);
   });
 
-  // Plafond 6 s (9 avant le raccourci) : tout ce qui attend part ensemble (décision 16)
-  setTimeout(() => { ordre.forEach(c => { if (!c.lance) { c.pret = true; lancer(c, VOL_COURT); } }); }, 6000);
+  // Plafond 6 s : tout ce qui attend part ensemble
+  setTimeout(() => { visibles.forEach(v => lancer(v)); }, 6000);
 
-  // ---------- Fin de l'assemblage (décision 13) ----------
+  if (!N) finAssemblage();
+
+  // ---------- Fin de l'entrée : la dérive reprend, puis le compteur se déroule en menu ----------
   function finAssemblage() {
-    grid.style.removeProperty('perspective');
-    grid.style.removeProperty('perspective-origin');
-    cells.forEach(c => c.el.style.removeProperty('visibility'));
-    visibles.forEach(c => { if (c.pi !== null) c.el.style.removeProperty('background'); });
-    medias.flat().forEach(m => m.classList.remove('pret'));
+    if (!assemblage) return;
     assemblage = false;
     document.body.classList.remove('is-loading', 'is-assembling');
+    anims.forEach(a => a.cancel());   // l'état final est celui des règles CSS : rien ne saute
     try { sessionStorage.setItem('preloaderShown', '1'); } catch (e) { /* rien */ }
     window.Works.reprendre();
-    setTimeout(chiffreVersMenu, 120); // tenue à 100 (décision 25 ; 250 avant le raccourci)
+    setTimeout(chiffreVersMenu, 120); // tenue à 100
   }
 
   // ---------- Transition chiffre → menu, compteur mécanique D1 (décisions 26 à 29) ----------

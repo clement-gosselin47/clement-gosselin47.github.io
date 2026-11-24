@@ -30,57 +30,189 @@ html.vue-bascule .vue-toggle {
 }
 
 .wrapper {
+  position: relative;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   user-select: none;
 }
 
+.nom-fond {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);   /* centré dans la fenêtre, ne suit ni parallaxe, ni glisser, ni molette */
+  z-index: 0;                         /* derrière la grille (.wrapper vient après dans le document) */
+  font-family: 'Archivo Black', sans-serif;   /* police des titres du site (déjà appelée dans index.html) */
+  font-weight: 400;
+  font-size: 6.75vw;                  /* une ligne d'environ 75 % de la largeur de la fenêtre (reprise 16) */
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #111;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 0.4s ease;
+}
+
+/* Caché, avec le fondu de la grille : vue liste, preloader, ouverture d'un projet, Contact */
+body.vue-liste .nom-fond,
+body.is-loading .nom-fond,
+body.ouvre .nom-fond,
+html.contact-ouvert .nom-fond {
+  opacity: 0;
+}
+
+/* Refonte épurée de l'accueil (2026-11-24-accueil-epure) : la grille est une tuile de
+   8 colonnes × 8 rangées répétée 3 × 3, chaque projet un élément posé en pixels entiers par
+   script.js (dimensionner). Variables posées par script.js sur <html> :
+   --img-w --img-h --etq --etq-lh --etq-fs --tuile-w --tuile-h. Images pleine opacité,
+   fond blanc, ni filet ni ombre ni arrondi. */
 .grid {
-  display: grid;
-  grid-template-columns: repeat(15, var(--cw, calc(100vw / 5)));
-  grid-template-rows: repeat(15, var(--ch, calc(100vw / 8)));
-  width: calc(15 * var(--cw, 20vw));
-  height: calc(15 * var(--ch, 12.5vw));
-  background: var(--bg);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(3 * var(--tuile-w, 100vw));
+  height: calc(3 * var(--tuile-h, 100vh));   /* sans fond : le nom en arrière-plan doit rester visible entre les cartes */
   will-change: transform;
 }
 
-.cell {
-  position: relative;
-  overflow: hidden;
-  /* Pas de filet : les cases se touchent à 100 % (retour de Clément) */
-  opacity: 0.15;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+.projet {
+  position: absolute;
+  /* Prêt pour l'attirance au curseur (retouche 1) : script.js poserait --ax / --ay en px */
+  translate: var(--ax, 0px) var(--ay, 0px);
+  width: var(--img-w);
+  font-family: 'DM Mono', ui-monospace, Menlo, monospace;
+  font-weight: 400;
+  font-size: var(--etq-fs, 11px);
+  line-height: var(--etq-lh, 14px);
+  letter-spacing: 0;
+  color: #111;
+  transition: opacity 0.3s ease;
 }
 
-.cell-media {
+/* Étiquette : le numéro calé sur le bord gauche de l'image, le nom sur le bord droit. Jamais
+   de coupe : un nom plus long que l'image dépasse à droite, dans le blanc. */
+.etq {
+  display: flex;
+  justify-content: space-between;
+  gap: 1ch;
+  min-width: 100%;
+  width: max-content;
+  height: var(--etq-lh, 14px);
+  margin-bottom: 8px;
+  white-space: nowrap;
+}
+
+.etq .num,
+.etq .nom {
+  display: block;
+}
+
+.vignette {
+  position: relative;
+  width: var(--img-w);
+  height: var(--img-h);
+  overflow: hidden;
+  /* Gris clair tant que l'image n'est pas arrivée */
+  background-color: var(--case);
+}
+
+.media {
   position: absolute;
   inset: 0;
-  /* Capture entière : la case a le ratio de l'image (script.js), cover ne
-     coupe donc rien. Gris clair tant que l'image n'est pas arrivée. */
-  background-color: var(--case);
+  /* La boîte a le ratio exact de la capture : cover ne coupe rien */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 
-.cell:hover {
-  opacity: 1;
-  transform: scale(1.05);
-  z-index: 1;
+/* Survol (retouche 1, retouche-1.md 11 et 12) : la carte entière, étiquette comprise, grandit de
+   8 % depuis son centre en 500 ms, au-dessus de ses voisines. L'échelle est sur .carte et non
+   sur .projet, qui garde left / top et le quinconce. Pointeur fin, 768px et plus, mouvement
+   non réduit seulement. */
+.carte {
+  transform-origin: 50% 50%;
+  transition: transform 0.5s cubic-bezier(0, 0, .2, 1);
 }
 
-.project-cell {
-  opacity: 0.55;
+@media (hover: hover) and (pointer: fine) and (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .projet:hover {
+    z-index: 2;
+  }
+
+  .projet:hover .carte {
+    transform: scale(1.08);
+  }
 }
 
-.project-cell:hover {
-  opacity: 1;
+/* Couche intermédiaire entre .wrapper (qui rogne) et .grid : elle recule à 80 % pendant un
+   glisser à la souris (script.js pose .recul), comme la référence. */
+.couche {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  transform-origin: 50% 50%;
+  transition: transform 0.4s cubic-bezier(.45, 0, .55, 1);
 }
 
+.couche.recul {
+  transform: scale(0.8);
+  transition-timing-function: cubic-bezier(.25, .46, .45, .94);
+}
+
+/* Entrée des images (preloader.js) : cachées jusqu'à leur tour, le clip-path et l'échelle
+   sont animés par script (WAAPI) ; le nom et le numéro arrivent 150 ms après */
+body.is-assembling .projet:not(.entre) .vignette {
+  clip-path: inset(100% 0 0 0);
+}
+
+body.is-assembling .projet:not(.entre) .etq {
+  opacity: 0;
+}
+
+body.is-assembling .projet {
+  transition: none;
+}
+
+body.is-assembling .carte {
+  transition: none;
+}
+
+.menu-blanc {
+  position: fixed;
+  inset: 0;
+  z-index: 101;                /* au-dessus de l'en-tête (100), qui reste noir partout ailleurs */
+  pointer-events: none;
+  clip-path: inset(100% 0 0 0);
+}
+
+.menu-blanc[hidden] {
+  display: none;
+}
+
+.menu-blanc :is(header, .vue-nav, nav a, .vue-toggle) {
+  color: #fff !important;
+  transition: transform 0.2s ease !important;
+}
+
+.menu-blanc header {
+  pointer-events: none;
+}
+
+.menu-blanc .vue-nav {
+  z-index: 100;
+}
+
+.menu-blanc :is(nav a, .vue-toggle).survol {
+  transform: scale(1.12);
+}
 
 .speed-blur {
+  display: none;               /* retouche 1 : plus de flou pendant le défilement */
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -144,9 +276,9 @@ html.vue-bascule .vue-toggle {
   display: block;
 }
 
-body.ouvre .cell {
+body.ouvre .projet {
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s ease;
 }
 
 body.ouvre .wrapper {

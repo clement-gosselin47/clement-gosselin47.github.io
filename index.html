@@ -36,11 +36,11 @@
   <script src="passage.js?v=20261102a"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Archivo Black pour le site ; Archivo ExtraBold (800) pour les noms de la vue liste seulement (septième retour, 2026-10-23) -->
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@800&display=swap" rel="stylesheet">
+  <!-- Archivo Black pour le site ; Archivo ExtraBold (800) pour les noms de la vue liste seulement (septième retour, 2026-10-23) ; DM Mono 400 pour les étiquettes de la grille (2026-11-24) -->
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@800&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="shared.css?v=20261102a">
-  <link rel="stylesheet" href="Projets/style.css?v=20261102a">
-  <link rel="stylesheet" href="Projets/preloader.css?v=20261007d">
+  <link rel="stylesheet" href="Projets/style.css?v=20261124o">
+  <link rel="stylesheet" href="Projets/preloader.css?v=20261124o">
 </head>
 <body>
   <div class="cursor" id="cursor"></div>
@@ -76,8 +76,11 @@
     <a href="Projets/relay/">Relay</a>
     <a href="Projets/hecto/">Hecto</a>
   </nav>
-  <div class="wrapper">
-    <div class="grid" id="grid"></div>
+  <!-- Nom en grand, fixe, derrière la grille (reprise 11) : les images passent par-dessus. Le h1 caché porte déjà le nom pour les lecteurs d'écran. -->
+  <div class="nom-fond" aria-hidden="true">Clément Gosselin</div>
+  <!-- La grille est décorative pour les lecteurs d'écran : les projets s'atteignent par la liste .projets-clavier ci-dessus -->
+  <div class="wrapper" aria-hidden="true">
+    <div class="couche"><div class="grid" id="grid"></div></div>
   </div>
   <div class="speed-blur" id="speedBlur">
     <div class="blur-edge blur-left"></div>
@@ -103,8 +106,8 @@
     </ul>
     <div class="liste-cadre" data-cur="Voir"></div>
   </section>
-  <script src="Projets/script.js?v=20261102a"></script>
-  <script src="Projets/preloader.js?v=20261025"></script>
+  <script src="Projets/script.js?v=20261124o"></script>
+  <script src="Projets/preloader.js?v=20261124o"></script>
   <script src="shared.js?v=20261102a"></script>
 </body>
 </html>

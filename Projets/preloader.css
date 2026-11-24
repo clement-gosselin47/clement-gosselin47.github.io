@@ -1,24 +1,14 @@
-/* Preloader Works « Mise au point » (v2) : seules règles ajoutées à celles du site.
-   Pas de calque par-dessus la grille : ce sont les vraies cases qui s'assemblent
-   (preloader.js), et le compteur occupe le lien WORKS du vrai header. */
+/* Preloader Works (refonte épurée 2026-11-24) : pas de calque par-dessus la grille, ce sont
+   les vraies images qui entrent une à une (preloader.js ; règles d'attente dans style.css).
+   Le lien WORKS sert de compteur 000 à 100 puis se déroule en menu (rouleaux), comme avant. */
 
-/* Pendant l'assemblage : grille inerte, transitions CSS des cases coupées,
-   flou de bord masqué (direction-v2 décisions 13 et 32) */
+/* Pendant l'assemblage : grille inerte, flou de bord masqué */
 body.is-loading .wrapper {
   pointer-events: none;
 }
 
-body.is-assembling .cell {
-  transition: none;
-}
-
 body.is-assembling .speed-blur {
   display: none;
-}
-
-/* Image d'une case projet masquée tant qu'elle n'est pas chargée (décision 10) */
-body.is-assembling .cell-media:not(.pret) {
-  opacity: 0;
 }
 
 /* Menu inactif tant que le compteur n'est pas redevenu WORKS / ABOUT / CONTACT :

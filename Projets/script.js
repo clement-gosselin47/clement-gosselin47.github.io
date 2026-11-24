@@ -1,12 +1,6 @@
-const colors = [
-  '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
-  '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
-  '#F1948A', '#82E0AA', '#F8C471', '#AED6F1', '#A9CCE3',
-  '#D7BDE2', '#A3E4D7', '#FAD7A0', '#A9DFBF', '#FADBD8',
-  '#D5D8DC', '#7FB3D3', '#76D7C4', '#F9E79F', '#E59866',
-];
-
-// Projets : patternIndexes = positions dans la tuile 5×5 (row%5 * 5 + col%5)
+// Projets, dans l'ordre du circuit (le numéro de l'étiquette est leur rang + 1). Refonte épurée
+// (2026-11-24) : plus de cases pastel, chaque projet est un élément de la tuile 8 × 8.
+//   nom           écrit comme dans la liste cachée et la vue liste (jamais coupé)
 // Chaque case montre une capture plein cadre du projet (plus de mockup) :
 //   image         paysage 1600×1000 (16:10), pour les fenêtres plus larges que hautes
 //   imagePortrait 740×1600, pour les fenêtres nettement plus hautes que larges (ratio ≤ 3/5, téléphone ; une tablette garde les cases paysage)
@@ -21,62 +15,62 @@ const colors = [
 //   position      cadrage optionnel de cover (défaut : center)
 const projects = [
   {
-    patternIndexes: [1, 13, 24],
     // Logo noir sur crème (2026-10-25-ethikwear-logo), comme Dugos, Relay et Hecto ;
     // les captures du site restent dans web/ et sur la page projet
     image: 'Projets/Ethikwear/web/ethikwear-logo-vitrine-plein.jpg',
     imagePortrait: 'Projets/Ethikwear/web/ethikwear-logo-vitrine-portrait.jpg',
     ton: 'clair',
+    nom: 'Ethikwear',
     url: 'Projets/Ethikwear/'
   },
   {
-    patternIndexes: [5, 19, 22],
     image: 'Projets/redstone/web/redstone-vitrine-plein.jpg',
     imagePortrait: 'Projets/redstone/web/redstone-vitrine-portrait.jpg',
     ton: 'clair',
     tonPortrait: 'sombre',   // le haut de la capture portrait est noir (mesuré)
+    nom: 'Redstone',
     url: 'Projets/redstone/'
   },
   {
-    patternIndexes: [3, 10, 18],
     image: 'Projets/Unik/web/unik-vitrine-plein.jpg',
     imagePortrait: 'Projets/Unik/web/unik-vitrine-portrait.jpg',
     ton: 'clair',
+    nom: 'Unik',
     url: 'Projets/Unik/'
   },
   {
-    patternIndexes: [2, 9, 16],
     image: 'Projets/dugos-photographie/web/dugos-logo-vitrine-plein.jpg',
     imagePortrait: 'Projets/dugos-photographie/web/dugos-logo-vitrine-portrait.jpg',
     ton: 'sombre',
+    nom: 'Dugos Photographie',
     url: 'Projets/dugos-photographie/'
   },
   {
-    patternIndexes: [7, 11, 20],
     image: 'Projets/Queen/web/queen-vitrine-plein.jpg',
     imagePortrait: 'Projets/Queen/web/queen-vitrine-portrait.jpg',
     ton: 'sombre',
+    nom: 'Queen',
     url: 'Projets/Queen/'
   },
   {
-    patternIndexes: [0, 12, 23],
     image: 'Projets/passage-secret/web/passage-secret-hero.jpg',
     imagePortrait: 'Projets/passage-secret/web/passage-secret-mobile.jpg',
     ton: 'sombre',
+    nom: 'Passage Secret',
     url: 'Projets/passage-secret/'
   },
   {
-    patternIndexes: [4, 6, 15],
     image: 'Projets/relay/web/relay-vitrine-plein.jpg',
     imagePortrait: 'Projets/relay/web/relay-vitrine-portrait.jpg',
     ton: 'sombre',           // vitrine : aplat noir avec logo, header blanc
+    nom: 'Relay',
     url: 'Projets/relay/'
   },
   {
-    patternIndexes: [8, 14, 21],
     image: 'Projets/hecto/web/hecto-vitrine-plein.jpg',
     imagePortrait: 'Projets/hecto/web/hecto-vitrine-portrait.jpg',
     ton: 'sombre',           // logo sur aplat nuit (mesuré 48 et 55) : header blanc
+    nom: 'Hecto',
     url: 'Projets/hecto/'
   },
 ];
@@ -87,55 +81,121 @@ const projects = [
 const portraitMQ = window.matchMedia('(max-aspect-ratio: 3/5)');
 function imageDe(p) { return portraitMQ.matches ? p.imagePortrait : p.image; }
 function tonDe(p) { return (portraitMQ.matches && p.tonPortrait) || p.ton; }
-const projectMap = {};
-projects.forEach(p => p.patternIndexes.forEach(idx => { projectMap[idx] = p; }));
-
 const grid    = document.getElementById('grid');
 const wrapper = document.querySelector('.wrapper');
+const mqReduit = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-// Toutes les cases, avec leur position et l'index de leur projet (null = case pastel).
-// Le preloader s'en sert pour assembler les 25 cases visibles en 0,0.
+/* ── La tuile (refonte épurée, direction.md 13 à 22) ──
+   8 colonnes × 8 rangées, répétée 3 × 3 pour la boucle sans fin. Le projet de la colonne c,
+   rangée r est (c + 3r) mod 8 : deux voisins ne montrent jamais le même. Chaque rangée est
+   décalée de DECALAGE[r] colonne vers la droite (bureau et tablette), les colonnes impaires
+   descendent de la moitié d'un élément (quinconce). Chaque rangée a une période de 8 colonnes :
+   la tuile se raccorde sans couture. Tout est en pixels entiers. */
+const TUILE = 8;
+const DECALAGE = [0, .38, .76, .14, .52, .90, .28, .66];
+
+// Mesures selon la fenêtre (direction.md 13, 20, 21). Largeur de l'image, hauteur au ratio
+// exact de la capture (16:10 en paysage, 740:1600 en portrait : jamais rognée), blanc entre
+// deux images, étiquette (ligne + 8px d'air)
+function mesures() {
+  const W = window.innerWidth;
+  const portrait = portraitMQ.matches;
+  let imgW, blanc, ligne, corps, decale = true;
+  if (portrait || W < 768) {          // téléphone (et fenêtre étroite : mêmes mesures)
+    imgW = W * 0.413; blanc = W * 0.177; ligne = 14; corps = 11; decale = false;
+  } else if (W < 1100) {              // tablette
+    imgW = W * 0.226; blanc = W * 0.1505; ligne = 14; corps = 11;
+  } else {                            // bureau
+    imgW = W * 0.155; blanc = W * 0.1207; ligne = 14; corps = 11;
+  }
+  imgW = Math.round(imgW);
+  blanc = Math.round(blanc);
+  const imgH = Math.round(imgW * (portrait ? 1600 / 740 : 10 / 16));
+  const etq = ligne + 8;
+  const col = imgW + blanc;
+  const rang = etq + imgH + blanc;
+  return { imgW, imgH, blanc, ligne, corps, etq, col, rang, decale,
+           quinconce: Math.round((etq + imgH) / 2), tuileW: TUILE * col, tuileH: TUILE * rang };
+}
+let M = mesures();
+
+// Tous les éléments : position dans la tuile, tuile (tx, ty) et index du projet.
+// Le preloader s'en sert pour faire entrer ceux qui sont à l'écran en 0,0.
 const cells = [];
 
-for (let row = 0; row < 15; row++) {
-  for (let col = 0; col < 15; col++) {
-    const cell = document.createElement('div');
-    const patternIndex = (row % 5) * 5 + (col % 5);
-    const project = projectMap[patternIndex] ?? null;
+for (let ty = 0; ty < 3; ty++) {
+  for (let tx = 0; tx < 3; tx++) {
+    for (let r = 0; r < TUILE; r++) {
+      for (let c = 0; c < TUILE; c++) {
+        const pi = (c + 3 * r) % projects.length;
+        const project = projects[pi];
 
-    cell.className = 'cell';
+        const el = document.createElement('div');
+        el.className = 'projet project-cell';
+        el.dataset.url = project.url;
+        el.dataset.cur = 'Voir';              // mot du curseur contextuel (shared.js)
 
-    cells.push({ el: cell, row, col, projet: project ? projects.indexOf(project) : null });
+        const etq = document.createElement('div');
+        etq.className = 'etq';
+        const num = document.createElement('span');
+        num.className = 'num';
+        num.textContent = '';   // numéros retirés à la demande de Clément (reprise 10) ; le span reste pour que le nom garde sa place à droite
+        const nom = document.createElement('span');
+        nom.className = 'nom';
+        nom.textContent = project.nom;
+        etq.append(num, nom);
 
-    if (project) {
-      const media = document.createElement('div');
-      media.className = 'cell-media';
-      media.style.backgroundImage = `url('${imageDe(project)}')`;
-      media.style.backgroundPosition = project.position ?? 'center';
-      cell.appendChild(media);
-      cell.dataset.url = project.url;
-      cell.dataset.cur = 'Voir';            // mot du curseur contextuel (shared.js)
-      cell.classList.add('project-cell');
-    } else {
-      cell.style.background = colors[patternIndex];
+        const vignette = document.createElement('div');
+        vignette.className = 'vignette';
+        const media = document.createElement('div');
+        media.className = 'media';
+        media.style.backgroundImage = `url('${imageDe(project)}')`;
+        media.style.backgroundPosition = project.position ?? 'center';
+        vignette.appendChild(media);
+
+        // .carte : l'étiquette et l'image dans un enveloppant, l'échelle du survol est sur lui
+        const carte = document.createElement('div');
+        carte.className = 'carte';
+        carte.append(etq, vignette);
+        el.append(carte);
+        grid.appendChild(el);
+        cells.push({ el, vignette, media, etq, tx, ty, r, c, projet: pi });
+      }
     }
-
-    grid.appendChild(cell);
   }
 }
 
-// Changement d'orientation (rotation de la tablette, redimensionnement) : les
-// cases reprennent la variante qui convient
-portraitMQ.addEventListener('change', () => {
-  dimensionnerCases(); normalize(); render();
-  cells.forEach(c => {
-    if (c.projet === null) return;
-    c.el.firstChild.style.backgroundImage = `url('${imageDe(projects[c.projet])}')`;
+// Pose chaque élément en pixels entiers et met les variables à jour
+function dimensionner() {
+  M = mesures();
+  const st = document.documentElement.style;
+  st.setProperty('--img-w', M.imgW + 'px');
+  st.setProperty('--img-h', M.imgH + 'px');
+  st.setProperty('--etq', M.etq + 'px');
+  st.setProperty('--etq-lh', M.ligne + 'px');
+  st.setProperty('--etq-fs', M.corps + 'px');
+  st.setProperty('--tuile-w', M.tuileW + 'px');
+  st.setProperty('--tuile-h', M.tuileH + 'px');
+  cells.forEach(k => {
+    const decalage = M.decale ? Math.round(DECALAGE[k.r] * M.col) : 0;
+    const x = k.tx * M.tuileW + k.c * M.col + decalage;
+    const y = k.ty * M.tuileH + k.r * M.rang + (k.c % 2 ? M.quinconce : 0);
+    k.x = x; k.y = y;
+    k.el.style.left = x + 'px';
+    k.el.style.top = y + 'px';
   });
+}
+
+// Changement d'orientation (rotation de la tablette, redimensionnement) : les
+// éléments reprennent la variante qui convient
+portraitMQ.addEventListener('change', () => {
+  dimensionner(); normalize(); render();
+  cells.forEach(k => { k.media.style.backgroundImage = `url('${imageDe(projects[k.projet])}')`; });
 });
 
 let posX = 0, posY = 0;
-let enPause = false;     // grille figée en 0,0 pendant l'assemblage du preloader
+let parX = 0, parY = 0;  // décalage de parallaxe au curseur (retouche 1, posé par Works.parallaxe), en plus de la position
+let enPause = false;     // grille figée en 0,0 pendant l'entrée du preloader
 let rampeDebut = null;   // reprise de la dérive : 0 → 0,6 px/frame en 800 ms
 let isDragging = false;
 let lastX = 0, lastY = 0;
@@ -145,34 +205,168 @@ let freinage = false;    // ouverture d'un projet : la dérive s'arrête (vitess
 let dragStartX = 0, dragStartY = 0, dragDistance = 0;
 
 const FRICTION    = 0.92;
-const DRIFT_SPEED = 0.6;
+const DRIFT_SPEED = 0;   // retouche 1 : plus de dérive automatique (0,6 avant), la grille ne bouge qu'au glisser, à la molette, au doigt
 
-// Direction aléatoire à chaque chargement
+// Direction aléatoire à chaque chargement. Mouvement réduit : pas de dérive automatique,
+// la grille ne bouge qu'au glisser, à la molette et au doigt.
 const angle = Math.random() * Math.PI * 2;
 let driftNX = Math.cos(angle), driftNY = Math.sin(angle);
-let velX = driftNX * DRIFT_SPEED;
-let velY = driftNY * DRIFT_SPEED;
+let velX = mqReduit.matches ? 0 : driftNX * DRIFT_SPEED;
+let velY = mqReduit.matches ? 0 : driftNY * DRIFT_SPEED;
 
-// Cases en pixels entiers (arrondi au-dessus) : aucun sous-pixel, donc aucun
-// trait entre deux cases. La tuile fait 5 cases, au moins un écran.
-// Image entière, sans coupe (décision de Clément, 2026-10-05) : la case a le
-// ratio de la capture, 16:10 en paysage, 740:1600 en portrait. La largeur suit
-// la fenêtre (1/5), la hauteur en découle ; la tuile 5×5 n'a donc plus la
-// hauteur de l'écran (62,5 % de la largeur en paysage).
-function caseW() { return Math.ceil(window.innerWidth / 5); }
-function caseH() {
-  return Math.round(caseW() * (portraitMQ.matches ? 1600 / 740 : 10 / 16));
-}
-function tileW() { return 5 * caseW(); }
-function tileH() { return 5 * caseH(); }
-function dimensionnerCases() {
-  const r = document.documentElement.style;
-  r.setProperty('--cw', `${caseW()}px`);
-  r.setProperty('--ch', `${caseH()}px`);
-}
-dimensionnerCases();
-window.addEventListener('resize', () => { dimensionnerCases(); normalize(); render(); });
+/* ── Mouvement au curseur (retouche-1.md) ──
+   Toute la grille glisse à l'opposé de la souris, lissée à 8 % par image (cadence corrigée pour
+   que l'effet soit le même à 60 et 120 Hz) : décalage = -(s - .5) × taille d'un élément × 1,6.
+   Souris seulement ; coupé au tactile et en mouvement réduit ; figé à l'ouverture d'un projet ;
+   rien en vue liste ni pendant l'entrée du preloader. posX / posY restent au glisser et à la molette. */
+const AIMANT = false;   // Q1 : pas d'attraction par proximité (la référence n'en a pas) ; valeurs prêtes dans retouche-1.md
+const mqTactile = window.matchMedia('(hover: none), (pointer: coarse)');
+let cibleSX = 0.5, cibleSY = 0.5;   // position de la souris, 0 à 1
+let sx = 0.5, sy = 0.5;             // position lissée
+let gelePar = false;                // ouverture d'un projet : le décalage ne bouge plus
+let dernierT = 0;
+window.addEventListener('pointermove', (e) => {
+  if (e.pointerType !== 'mouse') return;
+  cibleSX = e.clientX / window.innerWidth;
+  cibleSY = e.clientY / window.innerHeight;
+});
 
+// Un pas par image ; renvoie vrai si le décalage a changé
+function majParallaxe(t) {
+  const dt = Math.min(64, Math.max(1, t - (dernierT || t - 16.667)));
+  dernierT = t;
+  if (mqTactile.matches || mqReduit.matches) {
+    const change = parX !== 0 || parY !== 0;
+    parX = 0; parY = 0; sx = cibleSX = 0.5; sy = cibleSY = 0.5;
+    return change;
+  }
+  if (isDragging) return false;    // glisser en cours : la parallaxe est suspendue, elle reprend en douceur au lâcher
+  if (gelePar || enPause || document.body.classList.contains('vue-liste')) return false;
+  const k = 1 - Math.pow(1 - 0.08, dt / 16.667);
+  sx += (cibleSX - sx) * k;
+  sy += (cibleSY - sy) * k;
+  const nx = -(sx - 0.5) * M.imgW * 1.6;
+  const ny = -(sy - 0.5) * (M.etq + M.imgH) * 1.6;
+  const change = Math.abs(nx - parX) > 0.05 || Math.abs(ny - parY) > 0.05;
+  parX = nx; parY = ny;
+  return change;
+}
+
+/* ── Menu blanc sur les images (reprise 9) ──
+   Le menu (icône + WORKS ABOUT CONTACT) reste noir sur le fond blanc et devient blanc franc
+   exactement là où une image passe dessous : une copie blanche du menu, superposée, découpée par
+   un clip-path en rectangles (les images, pas les étiquettes) recalculé dans la boucle rAF
+   quand la grille a bougé. La copie est décorative (aria-hidden, inert, sans événements) ;
+   elle prend en compte la parallaxe, le survol ×1,08 et le recul au glisser (rectangles lus
+   sur les images proches du menu, transformations comprises). Éteinte, comme à HEAD, pendant
+   le preloader, la vue liste, l'ouverture d'un projet, Contact et les passages. */
+let mb = null;
+let mbCle = '', mbSurvolJusqua = 0;
+function creerMenuBlanc() {
+  const h = document.querySelector('header'), v = document.querySelector('.vue-nav');
+  if (!h || !v || !window.ResizeObserver) return;
+  const racine = document.createElement('div');
+  racine.className = 'menu-blanc';
+  racine.setAttribute('aria-hidden', 'true');
+  racine.inert = true;
+  const ch = h.cloneNode(true), cv = v.cloneNode(true);
+  [ch, cv].forEach(c => c.querySelectorAll('[data-dest], [aria-haspopup]').forEach(e => { e.removeAttribute('data-dest'); e.removeAttribute('aria-haspopup'); }));
+  racine.append(cv, ch);
+  document.body.appendChild(racine);
+  // Le survol agrandit les liens et l'icône de 12 % : la copie fait de même
+  const paires = [
+    ...Array.from(h.querySelectorAll('nav a')).map((a, i) => [a, ch.querySelectorAll('nav a')[i]]),
+    [v.querySelector('.vue-toggle'), cv.querySelector('.vue-toggle')],
+  ];
+  paires.forEach(([o, c]) => {
+    if (!o || !c) return;
+    o.addEventListener('mouseenter', () => c.classList.add('survol'));
+    o.addEventListener('mouseleave', () => c.classList.remove('survol'));
+  });
+  mb = { racine, h, v, zones: [] };
+  mesurerMenuBlanc();
+  window.addEventListener('resize', mesurerMenuBlanc);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(mesurerMenuBlanc);
+}
+// Zones du menu : le bloc des liens et l'icône, élargis de 10 px (agrandissement au survol)
+function mesurerMenuBlanc() {
+  if (!mb) return;
+  if (document.body.classList.contains('menu-en-cours')) return;   // pendant le preloader le menu est un compteur
+  mb.zones = [mb.h.querySelector('nav'), mb.v.querySelector('.vue-toggle')].filter(Boolean).map(e => {
+    const r = e.getBoundingClientRect();
+    return { l: r.left - 10, t: r.top - 10, r: r.right + 10, b: r.bottom + 10 };
+  });
+  mbCle = '';
+}
+function majMenuBlanc(t, parChange) {
+  const b = document.body, d = document.documentElement;
+  const eteint = b.classList.contains('menu-en-cours') || b.classList.contains('vue-liste') || b.classList.contains('ouvre')
+    || d.classList.contains('contact-ouvert') || /passage-/.test(d.className);
+  // La copie est faite une fois le menu en place (après le preloader, où WORKS est un compteur)
+  if (!mb && !eteint) creerMenuBlanc();
+  if (!mb) return;
+  if (eteint) { if (!mb.racine.hidden) { mb.racine.hidden = true; mbCle = ''; } return; }
+  if (mb.racine.hidden) { mb.racine.hidden = false; mesurerMenuBlanc(); }
+  const px = Math.round(posX + parX), py = Math.round(posY + parY);
+  const recul = couche && couche.classList.contains('recul');
+  const cle = px + ',' + py + ',' + recul + ',' + M.imgW + ',' + mb.zones.map(z => z.l + z.t).join();
+  if (cle !== mbCle) mbSurvolJusqua = t + 700;   // la grille a bougé : un survol peut commencer ou finir
+  const encore = t < mbSurvolJusqua || performance.now() < reculJusqua;
+  if (cle === mbCle && !encore) return;
+  mbCle = cle;
+  const W = window.innerWidth, H = window.innerHeight;
+  const lireTout = performance.now() < reculJusqua;     // recul en cours : on relit tout près du menu
+  const rects = [];
+  cells.forEach(k => {
+    let x = k.x + px - M.tuileW, y = k.y + py - M.tuileH + M.etq, w = M.imgW, h = M.imgH;
+    if (recul) { x = (x - W / 2) * 0.8 + W / 2; y = (y - H / 2) * 0.8 + H / 2; w *= 0.8; h *= 0.8; }
+    if (projects[k.projet].clair !== false) return;   // image claire (ou clarté inconnue) : le menu reste noir
+    const marge = lireTout ? 400 : 40;      // survol (×1,08) ou recul qui change d'échelle
+    if (!mb.zones.some(z => x - marge < z.r && x + w + marge > z.l && y - marge < z.b && y + h + marge > z.t)) return;
+    const r = k.vignette.getBoundingClientRect();   // rectangle réel, parallaxe, survol et recul compris
+    mb.zones.forEach(z => {
+      const l = Math.max(r.left, z.l), tt = Math.max(r.top, z.t), rr = Math.min(r.right, z.r), bb = Math.min(r.bottom, z.b);
+      if (rr > l && bb > tt) rects.push([l, tt, rr - l, bb - tt]);
+    });
+  });
+  if (!rects.length) { mb.racine.style.clipPath = 'inset(100% 0 0 0)'; return; }
+  mb.racine.style.clipPath = 'path("' + rects.map(([l, tt, w, h]) => `M${l.toFixed(2)} ${tt.toFixed(2)}h${w.toFixed(2)}v${h.toFixed(2)}h${(-w).toFixed(2)}z`).join('') + '")';
+}
+
+/* ── Clarté des images (reprise 10, option A) ──
+   Le menu blanc ne se découpe que sur les images sombres. La clarté est la moyenne de luminance
+   d'un canvas de 16 × 16, calculée une fois par projet au chargement (jamais dans la boucle) ;
+   si le canvas est bloqué, on retombe sur le ton écrit dans la liste des projets. */
+projects.forEach(p => {
+  p.clair = undefined;       // inconnu : le menu reste noir en attendant
+  const img = new Image();
+  img.onload = () => {
+    try {
+      const c = document.createElement('canvas');
+      c.width = c.height = 16;
+      const g = c.getContext('2d', { willReadFrequently: true });
+      g.drawImage(img, 0, 0, 16, 16);
+      const d = g.getImageData(0, 0, 16, 16).data;
+      let somme = 0;
+      for (let i = 0; i < d.length; i += 4) somme += 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
+      p.lum = somme / (256 * 255);
+      p.clair = p.lum > 0.6;
+    } catch (e) { p.clair = p.ton === 'clair'; }
+    mbCle = '';
+  };
+  img.onerror = () => { p.clair = p.ton === 'clair'; };
+  img.src = imageDe(p);
+});
+
+function tileW() { return M.tuileW; }
+function tileH() { return M.tuileH; }
+function caseW() { return M.col; }
+function caseH() { return M.rang; }
+dimensionner();
+window.addEventListener('resize', () => { dimensionner(); normalize(); render(); });
+
+// posX et posY restent dans ]-tuile, 0] ; la grille de 3 × 3 tuiles est décalée d'une tuile
+// vers le haut et la gauche, l'écran voit donc toujours la tuile du milieu et ses voisines
 function normalize() {
   posX = posX % tileW(); if (posX > 0) posX -= tileW();
   posY = posY % tileH(); if (posY > 0) posY -= tileH();
@@ -181,12 +375,12 @@ function normalize() {
 const speedBlur = document.getElementById('speedBlur');
 
 function updateBlur(speed) {
-  const blur = Math.min(speed * 0.28, 7);
-  speedBlur.style.setProperty('--edge-blur', `${blur.toFixed(2)}px`);
+  // retouche 1 : plus de flou lié à la vitesse (le calque .speed-blur est masqué en CSS)
+  speedBlur.style.setProperty('--edge-blur', '0px');
 }
 
 function render() {
-  grid.style.transform = `translate3d(${Math.round(posX)}px, ${Math.round(posY)}px, 0)`;
+  grid.style.transform = `translate3d(${Math.round(posX + parX) - M.tuileW}px, ${Math.round(posY + parY) - M.tuileH}px, 0)`;
   updateBlur(Math.hypot(velX, velY));
 }
 
@@ -199,7 +393,9 @@ function driftMin() {
   return DRIFT_SPEED * t * t;
 }
 
-(function loop() {
+function loop(t) {
+  const parChange = majParallaxe(t);
+  majMenuBlanc(t, parChange);
   if (freinage) {
     velX *= 0.8;
     velY *= 0.8;
@@ -218,7 +414,7 @@ function driftMin() {
     velX *= FRICTION;
     velY *= FRICTION;
 
-    const min = driftMin();
+    const min = mqReduit.matches ? 0 : driftMin();
     if (Math.hypot(velX, velY) < min) {
       velX = driftNX * min;
       velY = driftNY * min;
@@ -228,12 +424,33 @@ function driftMin() {
     posY += velY;
     normalize();
     render();
+  } else if (parChange) {
+    render();     // glisser en cours ou grille figée : seule la parallaxe a bougé
   }
   requestAnimationFrame(loop);
-})();
+}
+requestAnimationFrame(loop);
 
 // Mouse drag
+let reculJusqua = 0;     // la couche change d'échelle pendant 400 ms : le menu blanc relit les rectangles
+const couche = document.querySelector('.couche');
+let reculTimer = null, aRecule = false;
+const reculPossible = () => window.innerWidth >= 768 && !mqTactile.matches && !mqReduit.matches;
+function reculer() {
+  reculJusqua = performance.now() + 500;
+  if (!reculPossible() || !couche) return;
+  couche.classList.add('recul');
+  aRecule = true;
+}
+function relever() {
+  reculJusqua = performance.now() + 500;
+  clearTimeout(reculTimer);
+  if (couche) couche.classList.remove('recul');
+}
 wrapper.addEventListener('mousedown', (e) => {
+  aRecule = false;
+  clearTimeout(reculTimer);
+  reculTimer = setTimeout(reculer, 300);   // appui de 300 ms sans bouger
   isDragging = true;
   lastX = e.clientX;
   lastY = e.clientY;
@@ -247,26 +464,35 @@ wrapper.addEventListener('mousedown', (e) => {
 window.addEventListener('mousemove', (e) => {
   if (!isDragging) return;
   dragDistance = Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY);
-  velX = (e.clientX - lastX) * 0.15;
-  velY = (e.clientY - lastY) * 0.15;
-  posX += velX;
-  posY += velY;
+  if (dragDistance > 8 && !aRecule) reculer();   // seuil de 8 px franchi
+  // Glisser 1:1 : la grille suit la main pixel pour pixel (compensé pendant le recul à 80 %, où
+  // la couche est réduite). La vitesse du dernier mouvement devient l'élan du lâcher.
+  const ech = couche && couche.classList.contains('recul') ? 0.8 : 1;
+  const dx = (e.clientX - lastX) / ech, dy = (e.clientY - lastY) / ech;
+  velX = Math.max(-60, Math.min(60, dx));
+  velY = Math.max(-60, Math.min(60, dy));
+  dernierMouvement = performance.now();
+  posX += dx;
+  posY += dy;
   lastX = e.clientX;
   lastY = e.clientY;
   normalize();
   render();
 });
 
+let dernierMouvement = 0;
 window.addEventListener('mouseup', () => {
+  relever();
   if (!isDragging) return;
   isDragging = false;
+  if (performance.now() - dernierMouvement > 80) { velX = 0; velY = 0; }   // main arrêtée avant le lâcher : pas d'élan
   started = true;
   wrapper.classList.remove('dragging');
 });
 
 // Clic sur cellule projet (seulement si pas un drag)
 wrapper.addEventListener('click', (e) => {
-  if (dragDistance > 8) return;
+  if (dragDistance > 8 || aRecule) return;   // le clic qui suit un glisser (ou un appui long) est annulé
   const cell = e.target.closest('.project-cell');
   if (cell && cell.dataset.url) {
     ouvrirProjet(cell);
@@ -340,6 +566,7 @@ function ouvrirProjet(cell, srcForcee) {
   try { sessionStorage.setItem('_t', '1'); sessionStorage.removeItem('_t'); } catch (e) { stockage = false; }
   if (!stockage || !Element.prototype.animate) { window.location.href = url; return; }
   ouvertureEnCours = true;
+  gelePar = true;      // le décalage de parallaxe est gelé dès le clic : la mesure du rectangle reste juste
 
   // Mouvement réduit : fondu de 200 ms vers le blanc, sans découpe
   if (reduit) {
@@ -349,7 +576,7 @@ function ouvrirProjet(cell, srcForcee) {
   }
 
   // On mesure au clic : la grille bouge
-  const r = cell.getBoundingClientRect();
+  const r = (cell.querySelector('.vignette') || cell).getBoundingClientRect();   // l'image de l'élément, pas son étiquette
   const W = window.innerWidth, H = window.innerHeight;
   const projet = projects.find(p => p.url === url);
   // Résolu sur l'adresse de base du document (l'accueil est servi à /)
@@ -384,9 +611,9 @@ function ouvrirProjet(cell, srcForcee) {
     Object.assign(img.style, { width: w0 + 'px', height: h0 + 'px', transformOrigin: '0 0' });
     document.body.appendChild(calque);
 
-    // Profondeur : le calque part à .55 comme la case au repos et monte à 1
-    // (sur tactile, le clic est le passage au premier plan)
-    calque.animate([{ opacity: 0.55 }, { opacity: 1 }], { duration: 250, easing: 'ease', fill: 'forwards' });
+    // Depuis la liste, le calque monte de .55 à 1 sur le cadre ; depuis la grille les images
+    // sont déjà pleine opacité (refonte épurée), rien à monter
+    calque.animate([{ opacity: scene === wrapper ? 1 : 0.55 }, { opacity: 1 }], { duration: 250, easing: 'ease', fill: 'forwards' });
 
     // Capture sombre en haut à droite : le header passe en blanc à mi-course. Capture
     // claire : le header est déjà noir (l'accueil est blanc dans les deux vues), rien à poser.
@@ -428,7 +655,7 @@ document.querySelectorAll('.projets-clavier a').forEach(lien => {
     let meilleure = null, distance = Infinity;
     document.querySelectorAll('.project-cell').forEach(c => {
       if (new URL(c.dataset.url, document.baseURI).href !== cible) return;
-      const r = c.getBoundingClientRect();
+      const r = c.querySelector('.vignette').getBoundingClientRect();
       if (r.left < 0 || r.top < 0 || r.right > W || r.bottom > H) return;
       const d = Math.hypot(r.left + r.width / 2 - W / 2, r.top + r.height / 2 - H / 2);
       if (d < distance) { distance = d; meilleure = c; }
@@ -447,6 +674,8 @@ window.addEventListener('pageshow', (e) => {
   document.documentElement.classList.remove('passage-sombre', 'passage-clair');
   wrapper.getAnimations().forEach(a => a.cancel());
   freinage = false;
+  gelePar = false;
+  sx = sy = cibleSX = cibleSY = 0.5; parX = parY = 0;   // retour par le navigateur : on repart de 0,5
   ouvertureEnCours = false;
   if (window.Liste) window.Liste.rafraichir();   // vue liste : nom actif et cadre recalculés (décision 24)
 });
@@ -459,6 +688,9 @@ window.Works = {
   imageDe,
   caseW,
   caseH,
+  mesures: () => M,
+  // Prises pour le mouvement au curseur (retouche 1) : décalage de parallaxe de toute la grille
+  parallaxe(x, y) { parX = x; parY = y; },
   figer() {
     enPause = true;
     posX = 0; posY = 0;
